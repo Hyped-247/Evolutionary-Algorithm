@@ -11,7 +11,7 @@ public class IndividualTest {
     // we can test these but it does not make sense since they are all random.
     @Test
     public void getFitness_level() throws Exception {
-
+        
     }
 
     @Test
