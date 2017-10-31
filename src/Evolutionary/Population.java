@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Random;
 
 /**
- * @author Mo
+ *
  * @see Individual : in the Individual class is where everything is created.
  *
  **/
@@ -18,10 +18,10 @@ class Population {
      * @param population_number take the number of Individual objects that you want to create.
      *
      **/
-    Population(Integer population_number){
-        while (population_number!=0){
+    Population(Integer populationNumber){
+        while (populationNumber!=0){
             individualLinkedList.add(new Individual());
-            population_number--;
+            populationNumber--;
         }
     }
     /**
@@ -41,21 +41,21 @@ class Population {
      * 1) select a given number of random Individual.
      * 2) add the best fitness level to survivesLinkedList.
      **/
-     void survive(int number_of_individuals, int number_of_generations){
-        while (number_of_generations != 0){
+     void survive(int numOfIndividuals, int numOfGenerations){
+        while (numOfGenerations != 0){
             LinkedList<Individual> survive = new LinkedList<>();
-            LinkedList<Double> best_fitness_level = new LinkedList<>();
+            LinkedList<Double> bestFitLevel = new LinkedList<>();
             Individual winner;
-            for (int i = 0; i < number_of_individuals; i++) {
+            for (int i = 0; i < numOfIndividuals; i++) {
                 int rn = new Random().nextInt(getIndividuals().size());
                 survive.add(getIndividuals().get(rn));
-                best_fitness_level.add((getIndividuals().get(rn).getFitness_level()));
+                bestFitLevel.add((getIndividuals().get(rn).getFitLevel()));
             }
             // Todo: what if there are tIndividuals with the same fitness level.
-            winner = survive.get(best_fitness_level.indexOf(Collections.max(best_fitness_level)));
+            winner = survive.get(bestFitLevel.indexOf(Collections.max(bestFitLevel)));
             getIndividuals().remove(winner);
             getSurvivesLinkedList().add(winner);
-            number_of_generations--;
+            numOfGenerations--;
         }
      }
 

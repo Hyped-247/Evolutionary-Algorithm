@@ -10,22 +10,22 @@ import static org.junit.Assert.*;
 public class IndividualTest {
     // we can test these but it does not make sense since they are all random.
     @Test
-    public void getFitness_level() throws Exception {
+    public void getFitnessLevel() throws Exception {
 
     }
 
     @Test
-    public void getIndividual_id() throws Exception {
+    public void getIndividualId() throws Exception {
 
     }
 
     @Test
-    public void getGenetic_makeup_string() throws Exception {
+    public void getGeneticMkupString() throws Exception {
 
     }
 
     @Test
-    public void getGenetic_makeup_list() throws Exception {
+    public void getGeneticMkupList() throws Exception {
 
     }
 

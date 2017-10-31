@@ -5,70 +5,73 @@ import java.util.LinkedList;
 
 
 /**
- * @author Mo
  * This class is going to create an id, genetic_makeup, and fitness_level for each Individual.
+ * The id is the name of the individual shown by a number. The genetic makeup is an 8 bit
+ * binary linked list, and the fitness level is a number with a higher fitness being a bigger
+ * number.
  **/
 class Individual {
-    private LinkedList<String> genetic_makeup_list = new LinkedList<>();
-    private static int id_generator=0;
-    private String genetic_makeup;
-    private double fitness_level;
-    private int individual_id;
+    private LinkedList<String> geneticMkup = new LinkedList<>();
+    private static int idGenerator = 0;
+    private String geneticMkup;
+    private double fitnessLevel;
+    private int id;
 
     /**
      * This constructor is going to call all the methods that will create:
-     * 1) id,
-     * 2) genetic_makeup,
-     * 3) fitness_level
+     * 1) id (number),
+     * 2) geneticMkup (linked list),
+     * 3) fitnessLevel (number)
      **/
     Individual(){
-        set_getIndividual_id_per_individual();
-        set_genetic_makeup_per_individual();
-        setGenetic_makeup_list();
-        set_fitness_level_per_individual();
+        setIndividualId();
+        setGeneticMkup();
+        setGeneticMkupList();
+        setFitnessLevel();
     }
     /**
-     * create an id
+     * Creates the id for this individual as one more than the last created individual
      **/
-    private void  set_getIndividual_id_per_individual(){
-        individual_id = id_generator++;
+    private void  setIndividualId(){
+        id = idGenerator++;
     }
     /**
-     * create genetic_makeup
+     * Creates the genetic makeup for this individual which is a random string that is
+     * 8 digits long of binary numbers.
      **/
-    // This method is going to create a random string that is 8 digits long of 0's and 1's.
-    private String set_genetic_makeup_per_individual(){
-        genetic_makeup =  Integer.toBinaryString(128 + (int) (127 * Math.random()));
-        return genetic_makeup;
+    private String setGeneticMkup(){
+        geneticMkup =  Integer.toBinaryString(128 + (int) (127 * Math.random()));
+        return geneticMkup;
     }
 
     /**
-     * create a fitness level
+     * Returns the fitness for this individual. setFitnessLevel is determined by the
+     * fitness algorithm that is given to us by a user input. This means that we have
+     * to calculate it based on what they give us.
      **/
-    // Todo: you might wanna fix the math.
-    private double set_fitness_level_per_individual(){
-        fitness_level =  Collections.frequency(getGenetic_makeup_list(), "1");
-        return fitness_level / 8.0;
+    // Todo: revisit how we represent fitness.
+    // Talk about how we are going to accept user inputs and how that is then passed to here.
+    private double setFitnessLevel(){
+        double fitnessLevel =  Collections.frequency(getGeneticMkupList(), "1") / 8.0;
+        return fitnessLevel;
     }
     /**
-     * @author Mo
-     * turn the genetic_makeup string to an LinkedList in such each chat is an holds one index.
+     * Make the geneticMkup into a linked list so that we can access and work with individual
+     * parts of the geneticMKup. This will be helpful when we are working on reproduction.
      **/
-    private void setGenetic_makeup_list(){
-        Collections.addAll(genetic_makeup_list, getGenetic_makeup_string().split(""));
+    private void setGeneticMkupList(){
+        Collections.addAll(geneticMkupList, getGeneticMkupString().split(""));
     }
 
-    double getFitness_level(){
-        return fitness_level;
+    double getFitnessLevel(){ return fitnessLevel; }
+    int getId(){
+        return id;
     }
-    int getIndividual_id(){
-        return individual_id;
+    String getGeneticMkupString(){
+        return geneticMkup;
     }
-    String getGenetic_makeup_string(){
-        return genetic_makeup;
-    }
-    LinkedList<String> getGenetic_makeup_list(){
-        return genetic_makeup_list;
+    LinkedList<String> getGeneticMkupList(){
+        return geneticMkupList;
     }
 
 }
