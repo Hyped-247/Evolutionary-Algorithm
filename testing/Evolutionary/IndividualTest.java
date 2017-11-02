@@ -9,6 +9,10 @@ import static org.junit.Assert.*;
  */
 public class IndividualTest {
     // we can test these but it does not make sense since they are all random.
+
+    Population population = new Population(34);
+
+
     @Test
     public void getFitness_level() throws Exception {
 
@@ -16,7 +20,10 @@ public class IndividualTest {
 
     @Test
     public void getIndividual_id() throws Exception {
-
+        for (int i = 0; i < population.getIndividuals().size(); i++) {
+            System.out.println( population.getIndividuals().get(i).getIndividual_id());
+        }
+        System.out.println("test pass");
     }
 
     @Test

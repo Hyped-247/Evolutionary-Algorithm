@@ -12,7 +12,6 @@ import java.util.Random;
 class Population {
     private  LinkedList<Individual> individualLinkedList = new LinkedList<>();
     private  LinkedList<Individual> survivesLinkedList = new LinkedList<>();
-
     /**
      * Based on a given number this constructor is going to create Individual objects.
      * @param population_number take the number of Individual objects that you want to create.
@@ -41,6 +40,7 @@ class Population {
      * 1) select a given number of random Individual.
      * 2) add the best fitness level to survivesLinkedList.
      **/
+     // Todo: the survive method is going to take only how many are going to survive.
      void survive(int number_of_individuals, int number_of_generations){
         while (number_of_generations != 0){
             LinkedList<Individual> survive = new LinkedList<>();
@@ -58,6 +58,10 @@ class Population {
             number_of_generations--;
         }
      }
-
     // Todo: create a method that will do something with survivesLinkedList.
+
+    // Todo: create a reproduce method that will do something.
+    // Todo:
+
+
 }

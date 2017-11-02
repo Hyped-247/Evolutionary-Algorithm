@@ -37,11 +37,11 @@ class Individual {
      * create genetic_makeup
      **/
     // This method is going to create a random string that is 8 digits long of 0's and 1's.
+    // Todo: the len is an argument.
     private String set_genetic_makeup_per_individual(){
         genetic_makeup =  Integer.toBinaryString(128 + (int) (127 * Math.random()));
         return genetic_makeup;
     }
-
     /**
      * create a fitness level
      **/
@@ -51,13 +51,11 @@ class Individual {
         return fitness_level / 8.0;
     }
     /**
-     * @author Mo
      * turn the genetic_makeup string to an LinkedList in such each chat is an holds one index.
      **/
     private void setGenetic_makeup_list(){
         Collections.addAll(genetic_makeup_list, getGenetic_makeup_string().split(""));
     }
-
     double getFitness_level(){
         return fitness_level;
     }
