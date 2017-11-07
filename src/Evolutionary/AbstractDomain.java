@@ -8,12 +8,12 @@ package Evolutionary;
 
 public abstract class AbstractDomain {
 
-    private int bitLength;
-    private int popSize;
-    private int crossNum;
-    private int genNum;
-    private double surRatio;
-    private double mutationRate;
+    private static int bitLength;
+    private static int popSize;
+    private static int crossNum;
+    private static int genNum;
+    private static double surRatio;
+    private static double mutationRate;
 
 
     /*
