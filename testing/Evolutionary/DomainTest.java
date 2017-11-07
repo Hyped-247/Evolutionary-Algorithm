@@ -16,6 +16,11 @@ public class DomainTest {
 
     }
     
+<<<<<<< HEAD
+=======
+ 
+
+>>>>>>> Mo
 	@Test
 	public void testInitializeDomain() {
 		fail("Not yet implemented");
