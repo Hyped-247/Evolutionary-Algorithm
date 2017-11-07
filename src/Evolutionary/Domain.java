@@ -10,43 +10,68 @@ public class Domain extends AbstractDomain{
     public static int popSize = 100; // The number of individuals in the population
     public static int crossNum = 3; // The number of crossover location to be used in reproduction
     public static int genNum = 100; // The number of generations the test should run for
+    public static int tournamentSize = 5; // The number of individuals in each survival tournament
     
     public static double surRatio = 0.2; // The percentage of individuals who will survive to the next generation
     public static double mutRate = 0.02; // The percentage of individuals who will undergo a mutation between generations
     
     /**
      * getBitLength returns the length of the string representing the genome of an individual
-     * @param 
+     * @return int - the length of the bit string
      */
-    public int getBitLength(int i){
+    public int getBitLength(){
         return bitLength;
     }
     
-    public int getPopSize(int i){
+    /**
+     * getPPopSize returns the size of the population
+     * @return int - the size of population
+     */
+    public int getPopSize(){
         return popSize;
     }
     
-    public int getCrossNum(int i){
+    /**
+     * getCrossNum returns the number of crossovers that should be used in reproduction
+     * @return int - the number of crossovers
+     */
+    public int getCrossNum(){
         return crossNum;
     }
     
-    public int getGenNum(int i){
+    /**
+     * getGenNum return the number of generations to be run
+     * @return int - the number of generations
+     */
+    public int getGenNum(){
         return genNum;
     }
     
-    public double getSurRatio(double d){
+    /**
+     * getSurRatio returns the ratio of the population that will survive to the next generation
+     * @return double - the percentage of the population that will survive
+     **/
+    public double getSurRatio(){
         return surRatio;
     }
     
-    public double getMutRate(double d){
+    /**
+     * getMutRate will return the percentage of people that will undergo mutations between generations
+     * @return double - the percentage of the population that will undergo mutations
+     */
+    public double getMutRate(){
         return mutRate;
     }
     
-    public void initializeDomain(int bitLength, int popSize, int crossNum, int genNum, double surRatio, double mutationRate){
+    /**
+     * initializeDomain will set all of the 
+     */
+    public void initializeDomain(int bitLength, int popSize, int crossNum, int genNum, int tournamentSize, double surRatio, double mutationRate){
         this.bitLength = bitLength;
         this.popSize = popSize;
         this.crossNum = crossNum;
         this.genNum = genNum;
+        this.tournamentSize = tournamentSize;
         this.surRatio = surRatio;
         this.mutationRate = mutationRate;
         
