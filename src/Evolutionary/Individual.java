@@ -52,7 +52,6 @@ class Individual {
             }
         }
     }
-
     /**
      * create a fitness level
      **/
@@ -65,6 +64,7 @@ class Individual {
      */
     double getFitness(){
         return fitness;
+
     }
     int getId(){
         return id;
