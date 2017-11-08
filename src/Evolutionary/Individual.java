@@ -1,7 +1,5 @@
 package Evolutionary;
 
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -41,8 +39,9 @@ class Individual {
     // This method is going to create a random string that is 8 digits long of 0's and 1's.
     private void setGenMak(){
         String s = "";
-        x = Random();
+        Random x = new  Random();
         for(mo.getBitLength()){
+
             float y = x.nextFloat();
             if(y > 0.5){
                 s = s + "0";
@@ -58,9 +57,9 @@ class Individual {
     private setFitness(double d){
         fitness = d;
     }
-    
+
     /**
-     * getFitness return 
+     * getFitness return
      */
     double getFitness(){
         return fitness;

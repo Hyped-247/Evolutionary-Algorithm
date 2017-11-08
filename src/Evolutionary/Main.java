@@ -1,15 +1,14 @@
 package Evolutionary;
 
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
 public class Main {
     /**
      * The method whoLives calculates the survivors based on a tournament selection algorithm
-     * @param Array<Individual> - an array of individuals, representing the population
+     * @param <Individual> - an array of individuals, representing the population
      * @return Array<Individual> - the individuals that have been chosen to survive
      */
-    public Array<Individual> whoLives(Array<Individual> population){
+    public Individual[] whoLives(Individual[]  population){
         // TODO
     }
     
@@ -25,9 +24,9 @@ public class Main {
         if(x >= y-1){
             throw Exception("crossNum cannot be larger than bitLength");
         }
-        Set<int> crossSpots = new Set<int>();
-        List<int> crossSpotsList = new List<int>();
-        z = Random();
+        Set<Integer> crossSpots = new TreeSet<>();
+        List<Integer> crossSpotsList = new ArrayList<>();
+        Random z = new  Random();
         while(crossSpots.size() < x){
             crossSpots.add(z.nextInt(y-1) + 1);
         }
@@ -47,9 +46,10 @@ public class Main {
         }
         System.out.println(kid1);
         System.out.println(kid2);
+        // Mo: I added new..
         ArrayList<Individual> kids = new ArrayList<Individual>();
-        kids.add(Individual(kid1));
-        kids.add(Individual(kid2));
+        kids.add(new Individual(kid1));
+        kids.add(new Individual(kid2));
         return kids;
     }
     
@@ -59,7 +59,7 @@ public class Main {
      * @param popSize - the population size, as set in the Domain.java class
      * @return Array<Individual> - the initial population representing the first generation of the test
      */
-    public Array<Individual> createInitPop(int popSize){
+    public Individual[]  createInitPop(int popSize){
         // TODO
     }
     
@@ -71,13 +71,14 @@ public class Main {
     public ArrayList<Individual> mutate(ArrayList<Individual> population){
         // TODO
     }
-    
-    public static void main(String[] args) {
+
+    // Mo: I removed static.
+    public void main(String[] args) throws Exception {
         // TODO
 //        for(int i = 0 ; i < popSize-1 ; i++){
 //            population[i].setFitness(domain.computeFitness(population[i]));
 //        }
-        reproduce(Individual(),Individual());
+        reproduce(new Individual(), new Individual());
 //         Compute fitness and store
 //         Compute the standard diviation over fitness and store
 //         Select for survival
