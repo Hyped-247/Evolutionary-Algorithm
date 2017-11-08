@@ -1,12 +1,13 @@
 package Evolutionary;
 
-/*
+/**
  * This is the abstract for the Domain class which holds the
  * data and compute fitness method which are subject to change
  * based the how the user wants the simulation implemented
- */
+ **/
 
 public abstract class AbstractDomain {
+
 
     private static int bitLength;
     private static int popSize;
@@ -22,7 +23,6 @@ public abstract class AbstractDomain {
      * @return the double fitness level between 0-1
      */
     public abstract double computeFitness(Individual i);
-
 
 
 	/*
