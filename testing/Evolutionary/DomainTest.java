@@ -9,13 +9,14 @@ import static org.junit.Assert.*;
  */
 public class DomainTest {
     Domain d = new Domain();
+    double EPSILON = 0.000000001;
     
     
     @Test
     public void testComputeFitness() {
     	d.initializeDomain(8,10000,2,5,0.002,0.001);
         Individual i = new Individual("01010101");
-        assertEquals(String.valueOf(d.computeFitness(i)), "0.5");
+        assertEquals(d.computeFitness(i), 0.5, EPSILON);
 
     }
 
