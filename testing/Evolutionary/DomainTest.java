@@ -48,12 +48,12 @@ public class DomainTest {
 
 	@Test
 	public void testGetSurRatio() {
-		assertEquals(String.valueOf(d.getSurRatio()),"0.002");
+		assertEquals(d.getSurRatio(),0.002,EPSILON);
 	}
 
 	@Test
 	public void testGetMutationRate() {
-		assertEquals(String.valueOf(d.getMutationRate()),"0.001");
+		assertEquals(d.getMutationRate(),0.001, EPSILON);
 	}
 
 
