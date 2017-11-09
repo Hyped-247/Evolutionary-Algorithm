@@ -1,6 +1,8 @@
-package testing.Evolutionary;
+package Evolutionary;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
 
 import org.junit.Test;
 
@@ -17,8 +19,7 @@ public class IndividualTest {
 
 	@Test
 	public void testGetFitness_level() {
-		assertEquals(i.getFitness_level(), d.computeFitness(i),EPSILON);
-		
+		assertEquals(i.getFitness(), d.computeFitness(i),EPSILON);
 	}
 
 	@Test
@@ -31,21 +32,14 @@ public class IndividualTest {
 	    	ArrayList<Individual> iList = new ArrayList<Individual>();
 	    	for(int i = 0; i < 500; i++){
 	    		iList.add(new Individual());
-	    		assertEquals(i, iList.get(i).getID());
-	    		
+	    		assertEquals(i, iList.get(i).getId());
 	    	}
-	    	
-	    	
-
 	}
 
 	@Test
 	public void testGetGenetic_makeup_string() {
-		assertTrue(i.getGenetic_makeup_string() instanceof String);
-		assertTrue(i.getGenetic_makeup_string().length() == 8);
-		assertTrue(j.getGenetic_makeup_string() == genCode);
+		assertTrue(i.getGenMak() instanceof String);
+		assertTrue(i.getGenMak().length() == 8);
+		assertTrue(j.getGenMak() == genCode);
 	}
-
-	
-
 }
