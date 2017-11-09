@@ -4,9 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by mohammad on 11/2/17.
- */
+
 public class DomainTest {
     Domain d = new Domain();
     @Test
