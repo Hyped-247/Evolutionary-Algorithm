@@ -115,7 +115,7 @@ public class Main {
     }
     
     /**
-     * The method createInitPop creates an Array<Individual> that represents the population. These individuals
+     * The method createInitPop creates an ArrayList<Individual> that represents the population. These individuals
      * are created randomly.
      * @param popSize - the population size, as set in the Domain.java class
      * @return Array<Individual> - the initial population representing the first generation of the test
