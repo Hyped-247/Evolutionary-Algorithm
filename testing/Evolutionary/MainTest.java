@@ -17,7 +17,7 @@ public class MainTest {
       int i = rand.nextInt(1000);
       Array<Individual> population = createInitPop(i);
       Array<Individual> survivors = whoLives(population);
-      assertEquals(survivors.length(), 0.2*population.length;
+      assertEquals(survivors.length, 0.2*population.length());
     }
   }
 
