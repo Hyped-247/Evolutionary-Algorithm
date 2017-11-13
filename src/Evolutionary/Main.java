@@ -10,7 +10,7 @@ public class Main {
     
     /**
      * The method whoLives calculates the survivors based on a tournament selection algorithm
-     * @param <Individual> - an array of individuals, representing the population
+     * @param population - an array of individuals, representing the population
      * @return Array<Individual> - the individuals that have been chosen to survive
      */
     public static ArrayList<Individual> whoLives(ArrayList<Individual>  population){
@@ -35,7 +35,7 @@ public class Main {
     
     /**
      * selectParticipants randomly chooses participants from a population to compete in a tournament
-     * @param ArrayList<Individual> the population from which the participants are being chosen
+     * @param population the population from which the participants are being chosen
      * @return ArrayList<Individual> the participants selected for the tournament
      */
     public static ArrayList<Individual> selectParticipants(ArrayList<Individual> population){
@@ -50,7 +50,7 @@ public class Main {
     
     /**
      * selectWinner chooses a winner based on highest fitness out of a tournament of Individuals
-     * @param ArrayList<Individual> the participants in the tournament
+     * @param participants <Individual> the participants in the tournament
      * @return Individual - the winner of the tournament
      */
     public static Individual selectWinner(ArrayList<Individual> participants){
@@ -68,8 +68,8 @@ public class Main {
     
     /**
      * removeWinner removes a tournament winner from the population
-     * @param ArrayList<Individual> the population to remove the Individual from
-     * @param int - the ID of the winner
+     * @param population <Individual> the population to remove the Individual from
+     * @param winnerId - the ID of the winner
      */
     public static void removeWinner(ArrayList<Individual> population , int winnerId){
         int removed=0;
@@ -186,8 +186,9 @@ public class Main {
      * @param max: max number
      * @return : a random nummber given a range of maz and min
      */
-    private int random(int min, int max){
-       return ThreadLocalRandom.current().nextInt(min, max + 1);
+    private int random(int min, int max) {
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
+    }
 
     
     /**
