@@ -3,6 +3,7 @@ package Evolutionary;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.junit.Test;
 

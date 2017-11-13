@@ -18,7 +18,7 @@ class Domain extends AbstractDomain {
     public double computeFitness(Individual i){
         String gen = i.getGenMak();
         int ones = gen.length() - gen.replaceAll("1", "").length();
-        return ones / 8.0;
+        return ones / Domain.getBitLength();
 
     }
 }
