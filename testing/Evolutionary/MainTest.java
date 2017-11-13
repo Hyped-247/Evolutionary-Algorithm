@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -80,11 +79,13 @@ public class MainTest {
    */
   @Test
   public void testReproduce() throws Exception{
-      Individual indi1 = new Individual();
-      Individual indi2 = new Individual();
-      ArrayList<Individual> kids = Main.reproduce(indi1 , indi2);
-      assertEquals(Domain.getBitLength() , kids.get(0).getGenMak().length()); // Checks if kid0 has the correct length genMak
-      assertEquals(Domain.getBitLength() , kids.get(1).getGenMak().length()); // Checks if kid1 has the correct length genMak
+      for(int i = 0 ; i < 10 ; i++){
+          Individual indi1 = new Individual();
+          Individual indi2 = new Individual();
+          ArrayList<Individual> kids = Main.reproduce(indi1 , indi2);
+          assertEquals(Domain.getBitLength() , kids.get(0).getGenMak().length()); // Checks if kid0 has the correct length genMak
+          assertEquals(Domain.getBitLength() , kids.get(1).getGenMak().length()); // Checks if kid1 has the correct length genMak
+      }
   }
 
   /**
