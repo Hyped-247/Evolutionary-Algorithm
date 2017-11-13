@@ -13,6 +13,7 @@ public abstract class AbstractDomain {
     private static int popSize;
     private static int crossNum;
     private static int genNum;
+    private static int tSize;
     private static double surRatio;
     private static double mutationRate;
 
@@ -35,37 +36,42 @@ public abstract class AbstractDomain {
 	 * @param mutationRate	the mutation rate for the simulation 0-1
 	 */
 
-    public void initializeDomain(int bitLength, int popSize, int crossNum, int genNum, double surRatio, double mutationRate){
-        this.bitLength = bitLength;
-        this.popSize = popSize;
-        this.crossNum = crossNum;
-        this.genNum = genNum;
-        this.surRatio = surRatio;
-        this.mutationRate = mutationRate;
+    public static void initializeDomain(int bitLength1, int popSize1, int crossNum1, int genNum1, int tSize1, double surRatio1, double mutationRate1){
+        bitLength = bitLength1;
+        popSize = popSize1;
+        crossNum = crossNum1;
+        genNum = genNum1;
+        tSize = tSize1;
+        surRatio = surRatio1;
+        mutationRate = mutationRate1;
 
     }
 
-    public int getBitLength() {
+    public static int getBitLength() {
         return bitLength;
     }
 
-    public int getPopSize() {
+    public static int getPopSize() {
         return popSize;
     }
 
-    public int getCrossNum() {
+    public static int getCrossNum() {
         return crossNum;
     }
 
-    public int getGenNum() {
+    public static int getGenNum() {
         return genNum;
     }
+    
+    public static int getTSize() {
+        return tSize;
+    }
 
-    public double getSurRatio() {
+    public static double getSurRatio() {
         return surRatio;
     }
 
-    public double getMutationRate() {
+    public static double getMutationRate() {
         return mutationRate;
     }
 

@@ -1,52 +1,113 @@
 package Evolutionary;
 
 import java.util.*;
-
+import java.lang.Math;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 public class Main {
+    
+    // Make an init method that instantiates a domain object
+    
     /**
      * The method whoLives calculates the survivors based on a tournament selection algorithm
      * @param <Individual> - an array of individuals, representing the population
      * @return Array<Individual> - the individuals that have been chosen to survive
      */
-    public Individual[] whoLives(Individual[]  population){
-        // TODO
+    public static ArrayList<Individual> whoLives(ArrayList<Individual>  population){
+        ArrayList<Individual> tempList = new ArrayList<Individual>();
+        int denominator = 0;
+        for(int i = Domain.getTSize(); i > 0; i--)
+        {
+            denominator += i;
+        }
+        while(tempList.size() < Math.floor(Domain.getSurRatio() * population.size())){
+            ArrayList<Individual> tParticipants = new ArrayList<Individual>();
+            Random x = new  Random();
+            for(int i = 0 ; i < Domain.getTSize() ; i++){
+                int y = x.nextInt(population.size());
+                tParticipants.add(population.get(y));
+            }
+            // Select Winner
+            ArrayList<Individual> weightedList = new ArrayList<Individual>();
+
+            //sorting algorithm modified from https://www.cs.cmu.edu/`adamchik/15-121/lectures/sorting%20algorithms/sorting.html
+            for(int i = 0; i < tParticipants.size(); i++)
+            {
+                for(int j = 1; j <= i; j++)
+                {
+                    if(tParticipants.get(j-1).getFitness() > tParticipants.get(j).getFitness())
+                    {
+                        Individual temp = tParticipants.get(j-1);
+                        tParticipants.set(j-1 , tParticipants.get(j));
+                        tParticipants.set(j , temp);
+                    }
+                }  
+            }
+            for(int i = 0; i < Domain.getTSize(); i++)
+            {
+                for(int j = 0; j <= i; j++)
+                {
+                    weightedList.add(tParticipants.get(i));
+                }
+            } 
+            
+            Individual tWinner = weightedList.get(x.nextInt(weightedList.size()));
+            tempList.add(tWinner);
+            int winnerId = tWinner.getId();
+            int removed=0;
+            boolean found = false;
+            for(int i = 0 ; i < population.size() ; i++){
+                if(population.get(i).getId() == winnerId){
+                    removed = i;
+                    found = true;
+                }
+                else{
+                    found = false;
+                }
+            }
+            if(found){
+                population.remove(removed);
+            }
+        }
+
+        return tempList;
     }
     
     // On the board we have crossNum being a parameter but that is not needed as a param
     /**
      * The method reproduce constructs an array of individuals representing the children of two individuals
-     * @param Individual - The first parent
-     * @param Individual - The second parent
+     * @param indi2 - The first parent
+     * @param indi2 - The second parent
+     * @return ArrayList<Individual> - the two children
      */
-    public ArrayList<Individual> reproduce(Individual indi1 , Individual indi2) throws Exception{
-        int x = Domain.get(crossNum);
-        int y = Domain.get(bitLength);
+    public static ArrayList<Individual> reproduce(Individual indi1 , Individual indi2) throws Exception{
+        int x = Domain.getCrossNum();
+        int y = Domain.getBitLength();
         if(x >= y-1){
-            throw Exception("crossNum cannot be larger than bitLength");
+            throw new Exception("crossNum cannot be larger than bitLength");
         }
-        Set<Integer> crossSpots = new TreeSet<>();
-        List<Integer> crossSpotsList = new ArrayList<>();
+        Set<Integer> crossSpots = new TreeSet<Integer>();
+        ArrayList<Integer> crossSpotsList = new ArrayList<>();
         Random z = new  Random();
         while(crossSpots.size() < x){
             crossSpots.add(z.nextInt(y-1) + 1);
         }
         crossSpotsList.addAll(crossSpots);
-        crossSpotsList.sort();
-        crossSpotsList.addFirst(0);
-        crossSpotsList.addLast(bitLength-1);
+        Collections.sort(crossSpotsList);
+        crossSpotsList.add(0 , 0);
+        crossSpotsList.add(y-1);
         String kid1 = "";
         String kid2 = "";
         String temp;
-        for(int i = 1 ; i < crossSpotsList.size() ; i++){
-            kid1 = kid1 + indi1.getGenMak().substring(crossSpotList.get(i-1) , crossSpotList.get(i)+1);
-            kid2 = kid2 + indi2.getGenMak().substring(crossSpotList.get(i-1) , crossSpotList.get(i)+1);
+        for(int i = 1 ; i < crossSpotsList.size()-1 ; i++){
+            kid1 = kid1 + indi1.getGenMak().substring(crossSpotsList.get(i-1) , crossSpotsList.get(i)+1);
+            kid2 = kid2 + indi2.getGenMak().substring(crossSpotsList.get(i-1) , crossSpotsList.get(i)+1);
             temp = kid1;
             kid1 = kid2;
             kid2 = temp;
         }
-        System.out.println(kid1);
-        System.out.println(kid2);
-        // Mo: I added new..
+//        System.out.println(kid1);
+//        System.out.println(kid2);
         ArrayList<Individual> kids = new ArrayList<Individual>();
         kids.add(new Individual(kid1));
         kids.add(new Individual(kid2));
@@ -59,16 +120,13 @@ public class Main {
      * @param popSize - the population size, as set in the Domain.java class
      * @return Array<Individual> - the initial population representing the first generation of the test
      */
-    public Individual[]  createInitPop(int popSize){
+    public static ArrayList<Individual>  createInitPop(int popSize){
         ArrayList<Individual> population = new ArrayList<Individual>();
-        for (i = 0; i < popSize, i++)
+        for (int i = 0 ; i < popSize ; i++)
         {
             population.add(new Individual());
         }
-
         return population;
-
-
     }
     
     /**
@@ -76,17 +134,101 @@ public class Main {
      * @param population - an ArrayList<Individual> representing the entire population
      * @return ArrayList<Individual> - the new population after mutations have occurred
      */
-    public ArrayList<Individual> mutate(ArrayList<Individual> population){
-        // TODO
+    public static ArrayList<Individual> mutate(ArrayList<Individual> population){
+        Random darwin = new Random();
+        for (int i = 0; i < population.size() - 1 ; i++){
+            double y = darwin.nextDouble() * 1;
+            if (y <= Domain.getMutationRate()) {
+                population.get(i).flipBit();
+            }
+        }
+        return population;
     }
 
-    // Mo: I removed static.
-    public void main(String[] args) throws Exception {
+    /**
+     *
+     * @param father: first parent
+     * @param mother: second parent
+     * @return an ArrayList that has two new children.
+     *
+     */
+    private ArrayList<Individual> split(Individual father, Individual mother){
+        String fatherGenMak = father.getGenMak();
+        String motherGenMak = mother.getGenMak();
+        random(1,  motherGenMak.length() - 1); // generate a number from 1 to len of the father or the mother - 1
+
+        
+
+
+
+
+
+        return new ArrayList<>();
+    }
+
+    /**
+     * @param min: min number
+     * @param max: max number
+     * @return : a random nummber given a range of maz and min
+     */
+    private int random(int min, int max){
+       return ThreadLocalRandom.current().nextInt(min, max + 1);
+    }
+
+    /**
+     * @param : take a string of 0's and 1's.
+     * @return : A string of the oppsitie string of 0's and 1's. Ex.
+     * If the input is: "10001", then the output is: "01110"
+     */
+    private String flipBit(String genMak){
+        String binaryString = "";
+        for(int i = 0; i <= genMak.length(); i++) {
+            if(genMak.charAt(i) == '0') {
+                binaryString += '1';
+            } else {
+                binaryString += '0';
+            }
+        }
+        return binaryString;
+    }
+    public static void main(String[] args) throws Exception {
         // TODO
 //        for(int i = 0 ; i < popSize-1 ; i++){
 //            population[i].setFitness(domain.computeFitness(population[i]));
 //        }
-        reproduce(new Individual(), new Individual());
+        Domain.initializeDomain(8,1000,2,5,5,0.2,0.001);
+        Random x = new  Random();
+        
+        ArrayList<Individual> firstGen = createInitPop(100); // Creates an initial population
+        System.out.println("First Generation:");
+        for(int i = 0 ; i < firstGen.size() ; i++){
+           System.out.print(firstGen.get(i).getId() + " ");
+        }
+        
+        ArrayList<Individual> survivors = whoLives(firstGen); // Calculates the individuals that survive
+        int numOfKids = firstGen.size() - survivors.size(); // The number of children to finish out the population
+        ArrayList<Individual> children = new ArrayList<Individual>();
+        while(children.size() < numOfKids){
+            int a = x.nextInt(firstGen.size());
+            int b = x.nextInt(firstGen.size());
+            while(a == b){
+                b = x.nextInt(firstGen.size());
+            }
+//            System.out.println(firstGen.get(a).getGenMak());
+//            System.out.println(firstGen.get(b).getGenMak());
+            children.addAll(reproduce(firstGen.get(a),firstGen.get(b)));
+        }
+        ArrayList<Individual> nextGen = new ArrayList<Individual>();
+        nextGen.addAll(survivors);
+        nextGen.addAll(children);
+        nextGen = mutate(nextGen);
+        System.out.println();
+        System.out.println();
+        System.out.println("Second Generation:");
+        for(int i = 0 ; i < nextGen.size() ; i++){
+            System.out.print(nextGen.get(i).getId() + " ");
+        }
+        
 //         Compute fitness and store
 //         Compute the standard diviation over fitness and store
 //         Select for survival
