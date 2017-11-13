@@ -10,7 +10,6 @@ class Individual {
     private String genMak;
     private double fitness = 0.0;
     private int id;
-    private Domain mo = new Domain(); 
 
     /**
      * This constructor is going to call all the methods that will create:
@@ -43,10 +42,10 @@ class Individual {
         for(int i=0 ; i < Domain.getBitLength() ; i++){
             float y = x.nextFloat();
             if(y > 0.5){
-                s = s + "0";
+                s += "0";
             }
             else{
-                s = s + "1";
+                s += "1";
             }
         }
         genMak = s;
