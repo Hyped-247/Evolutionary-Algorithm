@@ -7,6 +7,9 @@ import java.util.Random;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class IndividualTest {
 	
 	Individual i = new Individual();

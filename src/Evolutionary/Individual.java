@@ -54,12 +54,10 @@ class Individual {
  // This is going to randomly flip one bit if it is chosen to be mutated
     public void flipBit(){
         Random charles = new Random();
-        int pos = charles.nextInt() * Domain.getBitLength();
+        int pos = charles.nextInt(Domain.getBitLength());
         String second = "0";
-        if (genMak.substring(pos,pos).equals("0")){
+        if (genMak.charAt(pos)=='0'){
             second = "1";
-        }else {
-            second = "0";
         }
         String first = genMak.substring(0, pos - 1);
         String third = genMak.substring(pos + 1);
@@ -85,6 +83,13 @@ class Individual {
     }
     String getGenMak(){
         return genMak;
+    }
+    
+    public static void main(String[] a){
+        Individual i = new Individual();
+        System.out.println(i.getGenMak());
+        i.flipBit();
+        System.out.println(i.getGenMak());
     }
 
 }
