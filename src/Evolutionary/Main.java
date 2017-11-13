@@ -144,7 +144,49 @@ public class Main {
         }
         return population;
     }
-
+    
+    /**
+     * This method takes a population and returns the average fitness
+     * @param pop the population; an ArrayList of Individuals
+     * @return the average fitness as a double
+     */
+    public static double avgFitness(ArrayList<Individual> pop) {
+        double sum = 0;
+        for(int i = 0; i < pop.size(); i++) {
+            sum += pop.get(i).getFitness();
+        }
+        return sum/pop.size();
+    }
+    
+    /**
+     * This method returns the max fitness in the population
+     * @param pop the population; an ArrayList of Individuals
+     * @return the max fithess as a double
+     */
+    public static double maxFitness(ArrayList<Individual> pop) {
+        double max = Double.NEGATIVE_INFINITY;
+        for(int i = 0; i < pop.size(); i++) {
+            if(pop.get(i).getFitness() > max) {
+                max = pop.get(i).getFitness();
+            }
+        }
+        return max;
+    }
+    
+    /**
+     * This method returns the min fitness in the population
+     * @param pop the population; an ArrayList of Individuals
+     * @return the min fithess as a double
+     */
+    public static double minFitness(ArrayList<Individual> pop) {
+        double min = Double.POSITIVE_INFINITY;
+        for(int i = 0; i < pop.size(); i++) {
+            if(pop.get(i).getFitness() < min) {
+                min = pop.get(i).getFitness();
+            }
+        }
+        return min;
+    }
 
     public static void main(String[] args) throws Exception {
         // TODO
@@ -152,7 +194,41 @@ public class Main {
 //            population[i].setFitness(domain.computeFitness(population[i]));
 //        }
         Domain.initializeDomain(8,1000,2,5,5,0.2,0.001);
-        Random x = new  Random();
+        int gen = Domain.getGenNum();
+        ArrayList<Individual> x = createInitPop(Domain.getPopSize());
+        ArrayList<Individual> kids = new ArrayList<>();
+        ArrayList<Individual> adults = new ArrayList<>();
+       
+        while (gen != 0) {
+            adults = whoLives(x);
+            int aSize = adults.size();
+            while ( aSize < Domain.getPopSize()) {
+               Random par = new Random();
+               int p1 = par.nextInt((adults.size()+1));
+               int p2 = par.nextInt((adults.size()+1));
+                
+                kids.addAll(reproduce(adults.get(p1),adults.get(p2)));
+                 
+                aSize= aSize + 2; 
+            }
+            if (kids.size()-adults.size() != Domain.getPopSize()) {
+                kids.remove((kids.size()-1));
+            }
+            ArrayList<Individual> newGen = new ArrayList<>();
+            newGen.addAll(adults);
+            newGen.addAll(kids);
+           
+            x = mutate(newGen);
+            
+            // print average fitness , max fitness , worst fitness
+            System.out.println(avgFitness(x));
+            System.out.println(maxFitness(x));
+            System.out.println(minFitness(x));
+            gen--;
+        }
+        
+        
+        /** Random x = new  Random();
         
         ArrayList<Individual> firstGen = createInitPop(100); // Creates an initial population
         System.out.println("First Generation:");
@@ -182,7 +258,7 @@ public class Main {
         System.out.println("Second Generation:");
         for(int i = 0 ; i < nextGen.size() ; i++){
             System.out.print(nextGen.get(i).getId() + " ");
-        }
+        } **/
         
 //         Compute fitness and store
 //         Compute the standard diviation over fitness and store
