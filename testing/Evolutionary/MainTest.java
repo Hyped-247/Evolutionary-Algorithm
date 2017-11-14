@@ -37,7 +37,7 @@ public class MainTest {
        * setUp is the fixture that sets up the variables to be used throughout the test
        */
     @Before
-    public void setUp(){
+    public void setUp() throws Exception {
         Domain.initializeDomain(8,10000,2,5,5,0.002,0.001);
     }
 

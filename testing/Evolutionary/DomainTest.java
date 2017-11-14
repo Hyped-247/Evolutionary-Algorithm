@@ -11,7 +11,7 @@ public class DomainTest {
     
 
     @Test
-    public void testComputeFitness() {
+    public void testComputeFitness() throws Exception {
         d.initializeDomain(8,10000,2,5,5,0.002,0.001);
         Individual i = new Individual("01010101");
         assertEquals(d.computeFitness(i), 0.5, EPSILON);

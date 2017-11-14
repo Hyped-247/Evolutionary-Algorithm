@@ -5,8 +5,8 @@ import java.lang.Math;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 public class Main {
-    private  int splitNum = 4;
-    
+    private int splitNum = Domain.getCrossNum();
+
     // Make an init method that instantiates a domain object
     
     /**
@@ -89,7 +89,7 @@ public class Main {
         }
     }
     
-    
+
     // On the board we have crossNum being a parameter but that is not needed as a param
     /**
      * The method reproduce constructs an array of individuals representing the children of two individuals
@@ -128,7 +128,7 @@ public class Main {
         kids.add(new Individual(kid2));
         return kids;
     }
-    
+
     /**
      * The method createInitPop creates an ArrayList<Individual> that represents the population. These individuals
      * are created randomly.
@@ -169,14 +169,14 @@ public class Main {
      */
     private ArrayList<Individual> split(Individual father, Individual mother){
         LinkedList<Integer> splitsIndexes = new LinkedList<>();
-        while (splitNum-1 != 0){
+        while (splitNum != 0){
             //Todo: What if random generated the same number twice, then what?
             //Todo: Make sure that if it did happen it choses something different
                 // generate a number from 1 to len of the father or the mother - 1
                 int randomSplit = random(father.getGenMak().length() - 1);
                 splitsIndexes.add(randomSplit);
-            }
             splitNum--;
+        }
         return getKids(splitsIndexes, father.getGenMak(), mother.getGenMak());
     }
 

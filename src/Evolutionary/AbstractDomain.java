@@ -36,7 +36,8 @@ public abstract class AbstractDomain {
 	 * @param mutationRate	the mutation rate for the simulation 0-1
 	 */
 
-    public static void initializeDomain(int bitLength1, int popSize1, int crossNum1, int genNum1, int tSize1, double surRatio1, double mutationRate1){
+    public static void initializeDomain(int bitLength1, int popSize1, int crossNum1, int genNum1, int tSize1,
+                                        double surRatio1, double mutationRate1) throws Exception {
         bitLength = bitLength1;
         popSize = popSize1;
         crossNum = crossNum1;
@@ -44,7 +45,13 @@ public abstract class AbstractDomain {
         tSize = tSize1;
         surRatio = surRatio1;
         mutationRate = mutationRate1;
-
+        correctInput(crossNum, bitLength); // check if the num of splits is not greater than the len of GenMak
+    }
+    private static void correctInput(int crossNum, int bitLength) throws Exception{
+        if(crossNum >= bitLength || crossNum <= 0 || bitLength <= 0){
+            // throw an error iff the num of number of splits is greater than the bit length
+            throw new Exception("crossNum cannot be larger than bitLength or less than 1");
+        }
     }
 
     public static int getBitLength() {
