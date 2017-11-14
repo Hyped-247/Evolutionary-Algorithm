@@ -1,5 +1,6 @@
 package Evolutionary;
 
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Random;
 class Individual {
     private static int idGenerator = 0;
     private String genMak;
-    private double fitness = 0.0;
+    private Double fitness = 0.0;
     private int id;
 
     /**
@@ -20,9 +21,9 @@ class Individual {
         genMak = s;
         setId();
     }
-    Individual(){
+    Individual(Domain domain){
         setId();
-        setGenMak();
+        setGenMak(domain);
     }
     
     /**
@@ -35,10 +36,10 @@ class Individual {
      * create genMak
      **/
     // This method is going to create a random string that is 8 digits long of 0's and 1's.
-    private void setGenMak(){
+    private void setGenMak(Domain domain){
         String s = "";
         Random x = new Random();
-        for(int i=0 ; i < Domain.getBitLength() ; i++){
+        for(int i=0 ; i < domain.getBitLength() ; i++){
             float y = x.nextFloat();
             if(y > 0.5){
                 s += "0";
@@ -51,9 +52,9 @@ class Individual {
     }
     
     // This is going to randomly flip one bit if it is chosen to be mutated
-    public void flipBit(){
+    void flipBit(Domain domain){
         Random charles = new Random();
-        int pos = charles.nextInt(Domain.getBitLength());
+        int pos = charles.nextInt(domain.getBitLength());
         String second = "0";
         if (genMak.charAt(pos)=='0'){
             second = "1";
@@ -62,13 +63,11 @@ class Individual {
         String third = genMak.substring(pos + 1);
         genMak = first + second + third;
     }
-    
     /**
      * getFitness return
      */
-    double getFitness(){
+    Double getFitness(){
         return fitness;
-
     }
     int getId(){
         return id;
@@ -76,11 +75,11 @@ class Individual {
     String getGenMak(){
         return genMak;
     }
-    public static void main(String[] a){
-        Individual i = new Individual();
-        System.out.println(i.getGenMak());
-        i.flipBit();
-        System.out.println(i.getGenMak());
-    }
-
 }
+class IndividualComp implements Comparator<Individual> {
+    @Override
+    public int compare(Individual e1, Individual e2) {
+        return e1.getFitness().compareTo(e2.getFitness());
+    }
+}
+

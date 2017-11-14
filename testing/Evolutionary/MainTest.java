@@ -31,7 +31,8 @@ public class MainTest {
        */
     @Before
     public void setUp() throws Exception {
-        domain.initializeDomain(8,10000,2,5,5,0.002,0.001);
+        domain.initializeDomain(8,10000,2,5,
+                5,0.002,0.001);
     }
 
     /**
@@ -42,9 +43,9 @@ public class MainTest {
       Random rand = new Random();
       for (int k=0; k<100; k++) {
         int i = rand.nextInt(1000);
-        ArrayList<Individual> population = Main.createInitPop(i);
+        ArrayList<Individual> population = Main.createInitPop(i, domain);
         ArrayList<Individual> survivors = Main.whoLives(population, domain);
-        assertEquals(survivors.size(), Math.floor(Domain.getSurRatio()*population.size()) , EPSILON);
+        assertEquals(survivors.size(), Math.floor(domain.getSurRatio()*population.size()) , EPSILON);
       }
     }
 
@@ -109,7 +110,7 @@ public class MainTest {
     Random rand = new Random();
     for (int j=0; j<100; j++) {
       int i = rand.nextInt(1000);
-      ArrayList<Individual> population = Main.createInitPop(i);
+      ArrayList<Individual> population = Main.createInitPop(i, domain);
       assertEquals(population.size(), i);
     }
   }

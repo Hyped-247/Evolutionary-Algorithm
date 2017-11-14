@@ -72,10 +72,10 @@ public class Main {
      * @param popSize - the population size, as set in the Domain.java class
      * @return Array<Individual> - the initial population representing the first generation of the test
      */
-    public static ArrayList<Individual>  createInitPop(int popSize){
+    public static ArrayList<Individual>  createInitPop(int popSize, Domain domain){
         ArrayList<Individual> population = new ArrayList<Individual>();
         for (int i = 0 ; i < popSize ; i++) {
-            population.add(new Individual());
+            population.add(new Individual(domain));
         }
         return population;
     }
@@ -90,7 +90,7 @@ public class Main {
         for (int i = 0; i < population.size() - 1 ; i++){
             double y = darwin.nextDouble() * 1; // Todo: This can throw an erorr.
             if (y <= domain.getMutationRate()) {
-                population.get(i).flipBit();
+                population.get(i).flipBit(domain);
             }
         }
         return population;
@@ -196,38 +196,28 @@ public class Main {
         for(int i = 0; i < pop.size(); i++) {
             sum += pop.get(i).getFitness();
         }
-        return sum/pop.size();
+        return sum / pop.size();
     }
-    
+
     /**
      * This method returns the max fitness in the population
      * @param pop the population; an ArrayList of Individuals
      * @return the max fithess as a double
      */
     public static double maxFitness(ArrayList<Individual> pop) {
-        double max = Double.NEGATIVE_INFINITY;
-        for(int i = 0; i < pop.size(); i++) {
-            if(pop.get(i).getFitness() > max) {
-                max = pop.get(i).getFitness();
-            }
-        }
-        return max;
+        Individual maxfit = Collections.max(pop, new IndividualComp());
+        return maxfit.getFitness();
     }
-    
+
+
     /**
      * This method returns the min fitness in the population
      * @param pop the population; an ArrayList of Individuals
      * @return the min fithess as a double
      */
     public static double minFitness(ArrayList<Individual> pop) {
-        double min = Double.POSITIVE_INFINITY;
-        for(int i = 0; i < pop.size(); i++) {
-            if(pop.get(i).getFitness() < min) {
-                min = pop.get(i).getFitness();
-            }
-        }
-        return min;
-
+        Individual minfit = Collections.max(pop, new IndividualComp());
+        return minfit.getFitness();
     }
 
     /**
@@ -242,9 +232,10 @@ public class Main {
     }
     public static void main(String[] args) throws Exception {
         Domain domain = new Domain();
-        domain.initializeDomain(8,1000,2,5,5,0.2,0.001);
+        domain.initializeDomain(4,20,2,5,5,
+                0.2,0.001);
         int gen = domain.getGenNum();
-        ArrayList<Individual> initPop = createInitPop(domain.getPopSize());
+        ArrayList<Individual> initPop = createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
         ArrayList<Individual> adults = new ArrayList<>();
         ArrayList<Individual> kids = new ArrayList<>();
 
@@ -253,12 +244,12 @@ public class Main {
             int aSize = adults.size();
             while ( aSize < domain.getPopSize()) {
                Random par = new Random(); // get Random number.
-               int p1 = par.nextInt((adults.size()+1)); // chose random father.
-               int p2 = par.nextInt((adults.size()+1));// chose random mother.
+               int p1 = par.nextInt((adults.size())); // chose random father.
+               int p2 = par.nextInt((adults.size()));// chose random mother.
 
-                // Todo: check if this is going what it should be doing.
                 kids.addAll(reproduce(adults.get(p1), adults.get(p2), domain));
                 aSize+= 2;
+
             }
             if (kids.size()-adults.size() != domain.getPopSize()) {
                 kids.remove((kids.size()-1)); // remove the last kid.
@@ -270,46 +261,12 @@ public class Main {
             initPop = mutate(newGen, domain);
             
             // print average fitness , max fitness , worst fitness
-            System.out.println(avgFitness(initPop));
-            System.out.println(maxFitness(initPop));
-            System.out.println(minFitness(initPop));
+            System.out.println("This is the data for genration num: "+gen);
+            System.out.println("This is the avgFitness "+avgFitness(initPop));
+            System.out.println("This is the maxFitness "+maxFitness(initPop));
+            System.out.println("This is the minFitness "+minFitness(initPop));
             gen--;
         }
-        
-        
-        /** Random x = new  Random();
-        
-        ArrayList<Individual> firstGen = createInitPop(100); // Creates an initial population
-        System.out.println("First Generation:");
-        for(int i = 0 ; i < firstGen.size() ; i++){
-           System.out.println(firstGen.get(i).getGenMak());
-        }
-        
-        ArrayList<Individual> survivors = whoLives(firstGen); // Calculates the individuals that survive
-        int numOfKids = firstGen.size() - survivors.size(); // The number of children to finish out the population
-        ArrayList<Individual> children = new ArrayList<Individual>();
-        while(children.size() < numOfKids){
-            int a = x.nextInt(firstGen.size());
-            int b = x.nextInt(firstGen.size());
-            while(a == b){
-                b = x.nextInt(firstGen.size());
-            }
-//            System.out.println(firstGen.get(a).getGenMak());
-//            System.out.println(firstGen.get(b).getGenMak());
-            children.addAll(reproduce(firstGen.get(a),firstGen.get(b)));
-        }
-        ArrayList<Individual> nextGen = new ArrayList<Individual>();
-        nextGen.addAll(survivors);
-        nextGen.addAll(children);
-        nextGen = mutate(nextGen);
-        System.out.println();
-        System.out.println();
-        System.out.println("Second Generation:");
-        for(int i = 0 ; i < nextGen.size() ; i++);
-            System.out.println(nextGen.get(i).getGenMak());
-        } **/
-
-           
 //         Compute fitness and store
 //         Compute the standard diviation over fitness and store
 //         Select for survival

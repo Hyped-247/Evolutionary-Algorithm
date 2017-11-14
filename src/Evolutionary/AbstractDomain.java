@@ -9,13 +9,13 @@ package Evolutionary;
 public abstract class AbstractDomain {
 
 
-    private static int bitLength;
-    private static int popSize;
-    private static int crossNum;
-    private static int genNum;
-    private static int tSize;
-    private static double surRatio;
-    private static double mutationRate;
+    private int bitLength;
+    private int popSize;
+    private int crossNum;
+    private int genNum;
+    private int tSize;
+    private double surRatio;
+    private double mutationRate;
 
 
     /*
@@ -36,7 +36,7 @@ public abstract class AbstractDomain {
 	 * @param mutationRate	the mutation rate for the simulation 0-1
 	 */
 
-    public static void initializeDomain(int bitLength1, int popSize1, int crossNum1, int genNum1, int tSize1,
+    public  void initializeDomain(int bitLength1, int popSize1, int crossNum1, int genNum1, int tSize1,
                                         double surRatio1, double mutationRate1) throws Exception {
         bitLength = bitLength1;
         popSize = popSize1;
@@ -47,7 +47,7 @@ public abstract class AbstractDomain {
         mutationRate = mutationRate1;
         correctInput(crossNum, bitLength); // check if the num of splits is not greater than the len of GenMak
     }
-    private static void correctInput(int crossNum, int bitLength) throws Exception{
+    private void correctInput(int crossNum, int bitLength) throws Exception{
         if(crossNum >= bitLength || crossNum <= 0 || bitLength <= 0){
             // throw an error iff the num of number of splits is greater than the bit length
             throw new Exception("crossNum cannot be larger than bitLength or less than 1");

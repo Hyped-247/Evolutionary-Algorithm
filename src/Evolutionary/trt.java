@@ -1,27 +1,17 @@
 package Evolutionary;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.*;
 
 public class trt {
     public static void main(String[] args) throws Exception {
-        LinkedList<Integer> splitsIndexes = new LinkedList<>();
-        int splitNum = 3;
-        String father = "111111111111";
-        while (splitNum != 0){
-            // generate a number from 1 to len of the father or the mother - 1
-            int randomSplit = random(father.length() - 1);
-            if (!splitsIndexes.contains(randomSplit)){
-                splitsIndexes.add(randomSplit);
-                splitNum--;
-            }
-        }
-        Collections.sort(splitsIndexes);
-        System.out.println(splitsIndexes);
+        List<Empy> emps = new ArrayList<Empy>();
+        emps.add(new Empy(10, "Raghu", 25000.0));
+        emps.add(new Empy(120, "Krish", 45000.0));
+        emps.add(new Empy(210, "John", 14000.0));
+        emps.add(new Empy(150, "Kishore", 24000.0));
+        Empy maxSal = Collections.min(emps, new EmpyComp());
+        System.out.println("Employee with max salary: "+maxSal);
     }
-    private static int random(int max) {
-        return ThreadLocalRandom.current().nextInt(1, max + 1);
-    }
+
 
     }
