@@ -279,10 +279,10 @@ public class Main {
             int aSize = adults.size();
             while ( aSize < Domain.getPopSize()) {
                Random par = new Random();
-               int p1 = par.nextInt((adults.size()+1));
-               int p2 = par.nextInt((adults.size()+1));
+               int p1 = par.nextInt((adults.size()-1));
+               int p2 = par.nextInt((adults.size()-1));
                 
-                kids.addAll(reproduce(adults.get(p1),adults.get(p2)));
+               kids.addAll(reproduce(adults.get(p1),adults.get(p2)));
                  
                 aSize= aSize + 2; 
             }
