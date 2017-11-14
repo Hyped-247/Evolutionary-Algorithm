@@ -23,7 +23,7 @@ public abstract class AbstractDomain {
      * @param i an Individual object
      * @return the double fitness level between 0-1
      */
-    public abstract double computeFitness(Individual i);
+    public abstract double computeFitness(Individual i, Domain d);
 
 
 	/*
@@ -54,31 +54,31 @@ public abstract class AbstractDomain {
         }
     }
 
-    public static int getBitLength() {
+    int getBitLength() {
         return bitLength;
     }
 
-    public static int getPopSize() {
+    int getPopSize() {
         return popSize;
     }
 
-    public static int getCrossNum() {
+    int getCrossNum() {
         return crossNum;
     }
 
-    public static int getGenNum() {
+    int getGenNum() {
         return genNum;
     }
     
-    public static int getTSize() {
+    int getTSize() {
         return tSize;
     }
 
-    public static double getSurRatio() {
+    double getSurRatio() {
         return surRatio;
     }
 
-    public static double getMutationRate() {
+    double getMutationRate() {
         return mutationRate;
     }
 

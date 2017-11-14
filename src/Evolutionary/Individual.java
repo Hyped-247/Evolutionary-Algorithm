@@ -31,7 +31,6 @@ class Individual {
     private void  setId(){
         id = idGenerator++;
     }
-    
     /**
      * create genMak
      **/

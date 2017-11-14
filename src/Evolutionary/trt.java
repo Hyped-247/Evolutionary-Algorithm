@@ -17,7 +17,6 @@ public class trt {
                 splitNum--;
             }
         }
-        // Todo: Sort the Array:
         Collections.sort(splitsIndexes);
         System.out.println(splitsIndexes);
     }

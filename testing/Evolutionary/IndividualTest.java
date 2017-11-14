@@ -7,9 +7,6 @@ import java.util.Random;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 public class IndividualTest {
 	
 	private Individual i = new Individual();
@@ -23,7 +20,7 @@ public class IndividualTest {
 
 	@Test
 	public void testGetFitness_level() {
-		assertEquals(i.getFitness(), d.computeFitness(i),EPSILON);
+		assertEquals(i.getFitness(), d.computeFitness(i, d),EPSILON);
 	}
 
 	@Test

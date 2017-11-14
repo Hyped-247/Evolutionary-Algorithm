@@ -5,30 +5,29 @@ import java.lang.Math;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 public class Main {
-    private static int splitNum = Domain.getCrossNum();
 
     // Make an init method that instantiates a domain object
     
     /**
      * The method whoLives calculates the survivors based on a tournament selection algorithm
      * @param population - an array of individuals, representing the population
+     * @param domain
      * @return Array<Individual> - the individuals that have been chosen to survive
      */
-    public static ArrayList<Individual> whoLives(ArrayList<Individual>  population){
+    public static ArrayList<Individual> whoLives(ArrayList<Individual> population, Domain domain){
         ArrayList<Individual> tempList = new ArrayList<Individual>();
-        while(tempList.size() < Math.floor(Domain.getSurRatio() * population.size())){
+        while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())){
             // Randomly select participants for the tournament
-            ArrayList<Individual> participants = selectParticipants(population);
+            ArrayList<Individual> participants = selectParticipants(population, domain);
             
             // Select Winner
             Individual winner = selectWinner(participants);
             
             //Add winner to list of winners
             tempList.add(winner);
-            int winnerId = winner.getId();
-            
+
             // Remove the winner from the population list
-            removeWinner(population , winnerId);
+            population.remove(winner);
         }
         return tempList;
     }
@@ -39,10 +38,10 @@ public class Main {
      * @param population the population from which the participants are being chosen
      * @return ArrayList<Individual> the participants selected for the tournament
      */
-    public static ArrayList<Individual> selectParticipants(ArrayList<Individual> population){
+    public static ArrayList<Individual> selectParticipants(ArrayList<Individual> population,  Domain domain){
         ArrayList<Individual> tParticipants = new ArrayList<Individual>();
         Random x = new  Random();
-        for(int i = 0 ; i < Domain.getTSize() ; i++){
+        for(int i = 0 ; i < domain.getTSize() ; i++){
             int y = x.nextInt(population.size());
             tParticipants.add(population.get(y));
         }
@@ -68,29 +67,6 @@ public class Main {
     }
     
     /**
-     * removeWinner removes a tournament winner from the population
-     * @param population <Individual> the population to remove the Individual from
-     * @param winnerId - the ID of the winner
-     */
-    public static void removeWinner(ArrayList<Individual> population , int winnerId){
-        int removed=0;
-        boolean found = false;
-        for(int i = 0 ; i < population.size() ; i++){
-            if(population.get(i).getId() == winnerId){
-                removed = i;
-                found = true;
-            }
-            else{
-                found = false;
-            }
-        }
-        if(found){
-            population.remove(removed);
-        }
-    }
-    
-
-    /**
      * The method createInitPop creates an ArrayList<Individual> that represents the population. These individuals
      * are created randomly.
      * @param popSize - the population size, as set in the Domain.java class
@@ -109,11 +85,11 @@ public class Main {
      * @param population - an ArrayList<Individual> representing the entire population
      * @return ArrayList<Individual> - the new population after mutations have occurred
      */
-    public static ArrayList<Individual> mutate(ArrayList<Individual> population){
+    public static ArrayList<Individual> mutate(ArrayList<Individual> population, Domain domain){
         Random darwin = new Random();
         for (int i = 0; i < population.size() - 1 ; i++){
-            double y = darwin.nextDouble() * 1;
-            if (y <= Domain.getMutationRate()) {
+            double y = darwin.nextDouble() * 1; // Todo: This can throw an erorr.
+            if (y <= domain.getMutationRate()) {
                 population.get(i).flipBit();
             }
         }
@@ -127,8 +103,9 @@ public class Main {
      * @param mother: second parent
      * @return an ArrayList that has two new children.
      */
-    private static ArrayList<Individual> reproduce(Individual father, Individual mother){
-        LinkedList<Integer> splitsIndexes = new LinkedList<>();
+    private static ArrayList<Individual> reproduce(Individual father, Individual mother, Domain domain){
+        LinkedList<Integer> splitsIndexes = new LinkedList<>(); // all the splits indexes.
+        int splitNum = domain.getCrossNum();
         while (splitNum != 0){
             // generate a number from 1 to len of the father or the mother - 1
             int randomSplit = random(father.getGenMak().length() - 1);
@@ -264,41 +241,38 @@ public class Main {
                 .replaceAll("x", "1");
     }
     public static void main(String[] args) throws Exception {
-        // TODO
-//        for(int i = 0 ; i < popSize-1 ; i++){
-//            population[i].setFitness(domain.computeFitness(population[i]));
-//        }
-        Domain.initializeDomain(8,1000,2,5,5,0.2,0.001);
-        int gen = Domain.getGenNum();
-        ArrayList<Individual> x = createInitPop(Domain.getPopSize());
-        ArrayList<Individual> kids = new ArrayList<>();
+        Domain domain = new Domain();
+        domain.initializeDomain(8,1000,2,5,5,0.2,0.001);
+        int gen = domain.getGenNum();
+        ArrayList<Individual> initPop = createInitPop(domain.getPopSize());
         ArrayList<Individual> adults = new ArrayList<>();
-       
+        ArrayList<Individual> kids = new ArrayList<>();
+
         while (gen != 0) {
-            adults = whoLives(x);
+            adults = whoLives(initPop, domain);
             int aSize = adults.size();
-            while ( aSize < Domain.getPopSize()) {
-               Random par = new Random();
-               int p1 = par.nextInt((adults.size()+1));
-               int p2 = par.nextInt((adults.size()+1));
-                
-                kids.addAll(reproduce(adults.get(p1),adults.get(p2)));
-                 
-                aSize= aSize + 2; 
+            while ( aSize < domain.getPopSize()) {
+               Random par = new Random(); // get Random number.
+               int p1 = par.nextInt((adults.size()+1)); // chose random father.
+               int p2 = par.nextInt((adults.size()+1));// chose random mother.
+
+                // Todo: check if this is going what it should be doing.
+                kids.addAll(reproduce(adults.get(p1), adults.get(p2), domain));
+                aSize+= 2;
             }
-            if (kids.size()-adults.size() != Domain.getPopSize()) {
-                kids.remove((kids.size()-1));
+            if (kids.size()-adults.size() != domain.getPopSize()) {
+                kids.remove((kids.size()-1)); // remove the last kid.
             }
             ArrayList<Individual> newGen = new ArrayList<>();
             newGen.addAll(adults);
             newGen.addAll(kids);
-           
-            x = mutate(newGen);
+
+            initPop = mutate(newGen, domain);
             
             // print average fitness , max fitness , worst fitness
-            System.out.println(avgFitness(x));
-            System.out.println(maxFitness(x));
-            System.out.println(minFitness(x));
+            System.out.println(avgFitness(initPop));
+            System.out.println(maxFitness(initPop));
+            System.out.println(minFitness(initPop));
             gen--;
         }
         
