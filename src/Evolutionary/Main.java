@@ -5,7 +5,7 @@ import java.lang.Math;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 public class Main {
-    private int splitNum = Domain.getCrossNum();
+    private static int splitNum = Domain.getCrossNum();
 
     // Make an init method that instantiates a domain object
     
@@ -90,45 +90,6 @@ public class Main {
     }
     
 
-    // On the board we have crossNum being a parameter but that is not needed as a param
-    /**
-     * The method reproduce constructs an array of individuals representing the children of two individuals
-     * @param indi2 - The first parent
-     * @param indi2 - The second parent
-     * @return ArrayList<Individual> - the two children
-     */
-    public static ArrayList<Individual> reproduce(Individual indi1 , Individual indi2) throws Exception{
-        int x = Domain.getCrossNum();
-        int y = Domain.getBitLength();
-        if(x >= y-1){
-            throw new Exception("crossNum cannot be larger than bitLength");
-        }
-        Set<Integer> crossSpots = new TreeSet<Integer>();
-        ArrayList<Integer> crossSpotsList = new ArrayList<>();
-        Random z = new  Random();
-        while(crossSpots.size() < x){
-            crossSpots.add(z.nextInt(y-1) + 1);
-        }
-        crossSpotsList.addAll(crossSpots);
-        Collections.sort(crossSpotsList);
-        crossSpotsList.add(0 , 0);
-        crossSpotsList.add(y-1);
-        String kid1 = "";
-        String kid2 = "";
-        String temp;
-        for(int i = 1 ; i < crossSpotsList.size()-1 ; i++){
-            kid1 = kid1 + indi1.getGenMak().substring(crossSpotsList.get(i-1) , crossSpotsList.get(i)+1);
-            kid2 = kid2 + indi2.getGenMak().substring(crossSpotsList.get(i-1) , crossSpotsList.get(i)+1);
-            temp = kid1;
-            kid1 = kid2;
-            kid2 = temp;
-        }
-        ArrayList<Individual> kids = new ArrayList<Individual>();
-        kids.add(new Individual(kid1));
-        kids.add(new Individual(kid2));
-        return kids;
-    }
-
     /**
      * The method createInitPop creates an ArrayList<Individual> that represents the population. These individuals
      * are created randomly.
@@ -137,8 +98,7 @@ public class Main {
      */
     public static ArrayList<Individual>  createInitPop(int popSize){
         ArrayList<Individual> population = new ArrayList<Individual>();
-        for (int i = 0 ; i < popSize ; i++)
-        {
+        for (int i = 0 ; i < popSize ; i++) {
             population.add(new Individual());
         }
         return population;
@@ -167,16 +127,17 @@ public class Main {
      * @param mother: second parent
      * @return an ArrayList that has two new children.
      */
-    private ArrayList<Individual> split(Individual father, Individual mother){
+    private static ArrayList<Individual> reproduce(Individual father, Individual mother){
         LinkedList<Integer> splitsIndexes = new LinkedList<>();
         while (splitNum != 0){
-            //Todo: What if random generated the same number twice, then what?
-            //Todo: Make sure that if it did happen it choses something different
-                // generate a number from 1 to len of the father or the mother - 1
-                int randomSplit = random(father.getGenMak().length() - 1);
+            // generate a number from 1 to len of the father or the mother - 1
+            int randomSplit = random(father.getGenMak().length() - 1);
+            if (!splitsIndexes.contains(randomSplit)){
                 splitsIndexes.add(randomSplit);
-            splitNum--;
+                splitNum--;
+            }
         }
+        Collections.sort(splitsIndexes);
         return getKids(splitsIndexes, father.getGenMak(), mother.getGenMak());
     }
 
@@ -188,14 +149,15 @@ public class Main {
      * @param mother : mother indeviual object
      * @return
      */
-    ArrayList<Individual> getKids(LinkedList allIndexes, String father, String mother){
+    static ArrayList<Individual> getKids(LinkedList allIndexes, String father, String mother){
         int index = 0;
         Boolean allowfather = false;
         Boolean allowmother = false;
         String firstKid = "";
-        int counter = allIndexes.size();
-        int genMakLen = father.length();
+        int counter = allIndexes.size(); // how many times I am going to split.
+        int genMakLen = father.length(); // how is the bit len.
         while (counter >= -1){
+            // Add all the bits for the father's part.
             while ((!allIndexes.contains(index) && (genMakLen != index)) ||  (allowfather && (genMakLen != index))){
                 firstKid += father.charAt(index);
                 allowfather = false;
@@ -203,6 +165,7 @@ public class Main {
                 index++;
             }
             counter--;
+            // Add all the bits for the mother's part.
             while ((!allIndexes.contains(index) && (genMakLen != index)) || (allowmother && (genMakLen != index))){
                 firstKid += mother.charAt(index);
                 allowfather = true;
@@ -215,28 +178,20 @@ public class Main {
     }
 
     /**
+     * This method is going to create a second kid by fliping all the bits of the first kid.
      * @param firstKid : genMak for the first kid.
      * @return an ArrayList of two new born kids.
      */
-    private ArrayList<Individual> createSecondKid(String firstKid) {
-        String secondKid = "";
-        for(int i = 0; i <= firstKid.length() - 1; i++) {
-            if(firstKid.charAt(i) == '0') {
-                secondKid += '1';
-            } else {
-                secondKid += '0';
-            }
-        }
-        return twoKids(firstKid, secondKid);
+    private static ArrayList<Individual> createSecondKid(String firstKid) {
+        return twoKids(firstKid, flipBit(firstKid));
     }
 
     /**
-     *
      * @param firstKid
      * @param secondKid
-     * @return a list of two new individual objects.
+     * @return @return an ArrayList of two new born kids.
      */
-    private ArrayList<Individual> twoKids(String firstKid, String secondKid) {
+    private static ArrayList<Individual> twoKids(String firstKid, String secondKid) {
         ArrayList<Individual> newKids = new ArrayList<>();
         newKids.add(new Individual(firstKid));
         newKids.add(new Individual(secondKid));
@@ -246,9 +201,10 @@ public class Main {
 
     /**
      * @param max: max number
-     * @return : a random nummber given a range of maz and min
+     * @return : a random nummber from 1 to the a max number. Ex.
+     * If max is = to 5, then numbers that will be generaged are : 1, 2, 3, 4, 5
      */
-    private int random(int max) {
+    private static int random(int max) {
         return ThreadLocalRandom.current().nextInt(1, max + 1);
     }
 
@@ -302,16 +258,10 @@ public class Main {
      * @return : A string of the oppsitie string of 0's and 1's. Ex.
      * If the input is: "10001", then the output is: "01110"
      */
-    private String flipBit(String genMak){
-        String binaryString = "";
-        for(int i = 0; i <= genMak.length(); i++) {
-            if(genMak.charAt(i) == '0') {
-                binaryString += '1';
-            } else {
-                binaryString += '0';
-            }
-        }
-        return binaryString;
+    private static String flipBit(String genMak){
+        return genMak.replaceAll("0", "x").
+                replaceAll("1", "0")
+                .replaceAll("x", "1");
     }
     public static void main(String[] args) throws Exception {
         // TODO

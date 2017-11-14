@@ -20,8 +20,7 @@ import org.junit.Test;
 public class MainTest {
 
   private static final double EPSILON = 0.0002;
-
-  /*
+    /*
     @Test
     public void testWhoLives(){
       Random rand = new Random();
@@ -30,9 +29,7 @@ public class MainTest {
         ArrayList<Individual> population = createInitPop(i);
         Array<Individual> survivors = whoLives(population);
         assertEquals(survivors.length, 0.2*population.length);
-  =======
-      double EPSILON;
-
+       */
       /**
        * setUp is the fixture that sets up the variables to be used throughout the test
        */
@@ -117,8 +114,4 @@ public class MainTest {
       assertEquals(population.size(), i);
     }
   }
-
-
-
-
 }

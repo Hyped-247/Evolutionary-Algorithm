@@ -1,14 +1,14 @@
 package Evolutionary;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
-
 
 public class trt {
     public static void main(String[] args) throws Exception {
         LinkedList<Integer> splitsIndexes = new LinkedList<>();
         int splitNum = 3;
-        String father = "1111";
+        String father = "111111111111";
         while (splitNum != 0){
             // generate a number from 1 to len of the father or the mother - 1
             int randomSplit = random(father.length() - 1);
@@ -17,6 +17,9 @@ public class trt {
                 splitNum--;
             }
         }
+        // Todo: Sort the Array:
+        Collections.sort(splitsIndexes);
+        System.out.println(splitsIndexes);
     }
     private static int random(int max) {
         return ThreadLocalRandom.current().nextInt(1, max + 1);

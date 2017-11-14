@@ -51,7 +51,7 @@ class Individual {
         genMak = s;
     }
     
- // This is going to randomly flip one bit if it is chosen to be mutated
+    // This is going to randomly flip one bit if it is chosen to be mutated
     public void flipBit(){
         Random charles = new Random();
         int pos = charles.nextInt(Domain.getBitLength());
@@ -65,13 +65,6 @@ class Individual {
     }
     
     /**
-     * create a fitness level
-     **/
-    private void setFitness(double d){
-        fitness = d;
-    }
-
-    /**
      * getFitness return
      */
     double getFitness(){
@@ -84,7 +77,6 @@ class Individual {
     String getGenMak(){
         return genMak;
     }
-    
     public static void main(String[] a){
         Individual i = new Individual();
         System.out.println(i.getGenMak());
