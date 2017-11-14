@@ -242,6 +242,7 @@ public class Main {
         while (gen != 0) {
             adults = whoLives(initPop, domain);
             int aSize = adults.size();
+
             while ( aSize < domain.getPopSize()) {
                Random par = new Random(); // get Random number.
                int p1 = par.nextInt((adults.size())); // chose random father.
