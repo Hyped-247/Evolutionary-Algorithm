@@ -8,7 +8,7 @@ import java.util.Random;
  **/
 class Individual {
     private static int idGenerator = 0;
-    private String genMak;
+    private String genMak = "";
     private Double fitness = 0.0;
     private int id;
 
@@ -17,40 +17,38 @@ class Individual {
      * 1) id
      * 2) genMak,
      **/
-    Individual(String s){
+    Individual(String s) {
         genMak = s;
         setId();
+        // Todo: call computeFitness
     }
-    Individual(Domain domain){
+
+    Individual(Domain domain) {
         setId();
         setGenMak(domain);
     }
-    
+
     /**
      * create an id
      **/
-    private void  setId(){
+    private void setId() {
         id = idGenerator++;
     }
+
     /**
      * create genMak
      **/
     // This method is going to create a random string that is 8 digits long of 0's and 1's.
-    private void setGenMak(Domain domain){
-        String s = "";
-        Random x = new Random();
-        for(int i=0 ; i < domain.getBitLength() ; i++){
-            float y = x.nextFloat();
-            if(y > 0.5){
-                s += "0";
-            }
-            else{
-                s += "1";
-            }
+    private void setGenMak(Domain domain) {
+        int bitLen = domain.getBitLength();
+        Random random = new Random();
+        while (bitLen != 0) {
+            genMak+=random.nextInt(2);
+            bitLen--;
+
         }
-        genMak = s;
     }
-    
+
     // This is going to randomly flip one bit if it is chosen to be mutated
     void flipBit(Domain domain){
         Random charles = new Random();
