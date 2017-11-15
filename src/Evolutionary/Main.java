@@ -268,6 +268,9 @@ public class Main {
             System.out.println("This is the minFitness "+minFitness(initPop));
             gen--;
         }
+        // Todo: fix the bit for the second child.
+        // Todo: compute the fitness for each ind
+        // Todo:
 //         Compute fitness and store
 //         Compute the standard diviation over fitness and store
 //         Select for survival

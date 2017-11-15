@@ -45,7 +45,6 @@ class Individual {
         while (bitLen != 0) {
             genMak+=random.nextInt(2);
             bitLen--;
-
         }
     }
 
@@ -54,7 +53,7 @@ class Individual {
         Random charles = new Random();
         int pos = charles.nextInt(domain.getBitLength());
         String second = "0";
-        if (genMak.charAt(pos)=='0'){
+        if (genMak.charAt(pos) == '0'){
             second = "1";
         }
         String first = genMak.substring(0, pos - 1);
