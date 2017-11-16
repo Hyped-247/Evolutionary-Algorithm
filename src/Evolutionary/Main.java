@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 public class Main {
 
+    public static Domain domain;
     // Make an init method that instantiates a domain object
     
     /**
@@ -115,7 +116,7 @@ public class Main {
             }
         }
         Collections.sort(splitsIndexes);
-        return getKids(splitsIndexes, father.getGenMak(), mother.getGenMak());
+        return getKids(splitsIndexes, father.getGenMak(), mother.getGenMak(), domain);
     }
 
 
@@ -126,7 +127,7 @@ public class Main {
      * @param mother : mother indeviual object
      * @return
      */
-    static ArrayList<Individual> getKids(ArrayList allIndexes, String father, String mother){
+    static ArrayList<Individual> getKids(ArrayList allIndexes, String father, String mother, Domain domain){
         int index = 0;
         ArrayList<Individual> kids = new ArrayList<Individual>();
         Boolean allowfather = false;
@@ -155,8 +156,8 @@ public class Main {
             }
             counter--;
         }
-        kids.add(new Individual(firstKid));
-        kids.add(new Individual(secondKid));
+        kids.add(new Individual(firstKid, domain));
+        kids.add(new Individual(secondKid, domain));
         return kids;
     }
 
@@ -224,7 +225,7 @@ public class Main {
      * @return the min fithess as a double
      */
     public static double minFitness(ArrayList<Individual> pop) {
-        Individual minfit = Collections.max(pop, new IndividualComp());
+        Individual minfit = Collections.min(pop, new IndividualComp());
         return minfit.getFitness();
     }
 
@@ -239,8 +240,8 @@ public class Main {
                 .replaceAll("x", "1");
     }
     public static void main(String[] args) throws Exception {
-        Domain domain = new Domain();
-        domain.initializeDomain(4,20,2,5,5,
+        domain = new Domain();
+        domain.initializeDomain(8,20,2,5,5,
                 0.2,0.001);
         int gen = domain.getGenNum();
         ArrayList<Individual> initPop = createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.

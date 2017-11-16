@@ -17,13 +17,19 @@ class Individual {
      * 1) id
      * 2) genMak,
      **/
-    Individual(String s){
+    Individual(String s, Domain domain){
         genMak = s;
         setId();
+        fitness = domain.computeFitness(this, domain);
+        System.out.println("FitnessNew: " + fitness);
+        System.out.println("genMakNew: " + genMak);
     }
     Individual(Domain domain){
         setId();
         setGenMak(domain);
+        fitness = domain.computeFitness(this, domain);
+        System.out.println("FitnessOriginal: " + fitness);
+        System.out.println("genMakOriginal: " + genMak);
     }
     
     /**
