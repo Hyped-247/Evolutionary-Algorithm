@@ -48,6 +48,8 @@ public class MainTest {
         assertEquals(survivors.size(), Math.floor(domain.getSurRatio()*population.size()) , EPSILON);
       }
     }
+    
+    runGeneration()
 
 
 //  @Test
@@ -114,4 +116,6 @@ public class MainTest {
       assertEquals(population.size(), i);
     }
   }
+  
+  
 }

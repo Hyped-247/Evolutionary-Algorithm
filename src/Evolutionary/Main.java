@@ -276,12 +276,13 @@ public class Main {
         domain.initializeDomain(4,20,2,5,5, 0.2,0.001);
         
         int gen = domain.getGenNum();
+        int count = 0;
         
         ArrayList<Individual> initPop = createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
         ArrayList<Individual> adults = new ArrayList<>();
         ArrayList<Individual> kids = new ArrayList<>();
 
-        while (gen != 0) {
+        while (count < gen) {
             
         	adults = whoLives(initPop, domain);
             
@@ -294,9 +295,9 @@ public class Main {
 
             initPop = mutate(combineLists(adults,kids), domain);
             
-            printStats(gen, initPop);
+            printStats(count, initPop);
             
-            gen--;
+            count++;
         }
         
     }
