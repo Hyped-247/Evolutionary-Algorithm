@@ -104,7 +104,7 @@ public class Main {
      * @return an ArrayList that has two new children.
      */
     private static ArrayList<Individual> reproduce(Individual father, Individual mother, Domain domain){
-        LinkedList<Integer> splitsIndexes = new LinkedList<>(); // all the splits indexes.
+        ArrayList<Integer> splitsIndexes = new ArrayList<>(); // all the splits indexes.
         int splitNum = domain.getCrossNum();
         while (splitNum != 0){
             // generate a number from 1 to len of the father or the mother - 1
@@ -126,39 +126,46 @@ public class Main {
      * @param mother : mother indeviual object
      * @return
      */
-    static ArrayList<Individual> getKids(LinkedList allIndexes, String father, String mother){
+    static ArrayList<Individual> getKids(ArrayList allIndexes, String father, String mother){
         int index = 0;
+        ArrayList<Individual> kids = new ArrayList<Individual>();
         Boolean allowfather = false;
         Boolean allowmother = false;
         String firstKid = "";
+        String secondKid = "";
         int counter = allIndexes.size(); // how many times I am going to split.
         int genMakLen = father.length(); // how is the bit len.
         while (counter >= -1){
-            // Add all the bits for the father's part.
+            // start adding bits to both children/ adding bits after split
             while ((!allIndexes.contains(index) && (genMakLen != index)) ||  (allowfather && (genMakLen != index))){
                 firstKid += father.charAt(index);
+                secondKid += mother.charAt(index);
                 allowfather = false;
                 allowmother = true;
                 index++;
             }
             counter--;
-            // Add all the bits for the mother's part.
+            // adding bits after split
             while ((!allIndexes.contains(index) && (genMakLen != index)) || (allowmother && (genMakLen != index))){
                 firstKid += mother.charAt(index);
+                secondKid += father.charAt(index);
                 allowfather = true;
                 allowmother = false;
                 index++;
             }
             counter--;
         }
-        return createSecondKid(firstKid);
+        kids.add(new Individual(firstKid));
+        kids.add(new Individual(secondKid));
+        return kids;
     }
 
+    /* obsolete
     /**
      * This method is going to create a second kid by fliping all the bits of the first kid.
      * @param firstKid : genMak for the first kid.
      * @return an ArrayList of two new born kids.
-     */
+     *
     private static ArrayList<Individual> createSecondKid(String firstKid) {
         return twoKids(firstKid, flipBit(firstKid));
     }
@@ -167,13 +174,14 @@ public class Main {
      * @param firstKid
      * @param secondKid
      * @return @return an ArrayList of two new born kids.
-     */
+     *
     private static ArrayList<Individual> twoKids(String firstKid, String secondKid) {
         ArrayList<Individual> newKids = new ArrayList<>();
         newKids.add(new Individual(firstKid));
         newKids.add(new Individual(secondKid));
         return newKids;
     }
+    */
 
 
     /**

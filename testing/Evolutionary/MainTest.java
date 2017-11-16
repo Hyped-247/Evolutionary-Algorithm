@@ -3,6 +3,7 @@ package Evolutionary;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 import org.junit.Before;
@@ -49,6 +50,36 @@ public class MainTest {
       }
     }
 
+    @Test
+    public void testGetKids()
+    {
+        Individual mother = new Individual("00000000");
+        Individual father = new Individual("11111111");
+        ArrayList<Individual> kids;
+        ArrayList<Integer> positions = new ArrayList<Integer>();
+        
+        positions.add(2);
+        positions.add(5);
+        positions.add(6);
+        
+        kids = Main.getKids(positions, father.getGenMak(), mother.getGenMak());
+        
+        assertEquals("11000100", kids.get(0).getGenMak());
+        assertEquals("00111011", kids.get(1).getGenMak());
+        
+        mother = new Individual("10010101");
+        father = new Individual("00111000");
+        positions.set(0, 1);
+        positions.set(1, 3);
+        positions.set(2, 6);
+        
+        kids = Main.getKids(positions,  father.getGenMak(), mother.getGenMak());
+        
+        assertEquals("00011001", kids.get(0).getGenMak());
+        assertEquals("10110100", kids.get(1).getGenMak());
+        
+        
+    }
 
 //  @Test
 //  public void testReproduce1() {
