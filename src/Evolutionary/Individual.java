@@ -35,6 +35,8 @@ class Individual {
         id = idGenerator++;
     }
 
+
+    
     /**
      * create genMak
      **/
