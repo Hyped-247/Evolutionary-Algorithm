@@ -8,6 +8,7 @@ import java.util.Random;
  **/
 class Individual {
     private static int idGenerator = 0;
+    private Random rand = new Random();
     private String genMak = "";
     private Double fitness = 0.0;
     private int id;
@@ -20,12 +21,13 @@ class Individual {
     Individual(String s) {
         genMak = s;
         setId();
-        // Todo: call computeFitness
+
     }
 
     Individual(Domain domain) {
         setId();
         setGenMak(domain);
+        domain.computeFitness(this, domain);
     }
 
     /**
@@ -35,25 +37,21 @@ class Individual {
         id = idGenerator++;
     }
 
-
-    
     /**
      * create genMak
      **/
     // This method is going to create a random string that is 8 digits long of 0's and 1's.
     private void setGenMak(Domain domain) {
         int bitLen = domain.getBitLength();
-        Random random = new Random();
         while (bitLen != 0) {
-            genMak+=random.nextInt(2);
+            genMak+=rand.nextInt(2);
             bitLen--;
         }
     }
 
     // This is going to randomly flip one bit if it is chosen to be mutated
     void flipBit(Domain domain){
-        Random charles = new Random();
-        int pos = charles.nextInt(domain.getBitLength());
+        int pos = rand.nextInt(domain.getBitLength());
         String second = "0";
         if (genMak.charAt(pos) == '0'){
             second = "1";
@@ -74,6 +72,7 @@ class Individual {
     String getGenMak(){
         return genMak;
     }
+    int getGenMakLen(){ return getGenMak().length(); }
 }
 class IndividualComp implements Comparator<Individual> {
     @Override

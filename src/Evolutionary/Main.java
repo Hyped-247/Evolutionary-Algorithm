@@ -4,8 +4,9 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.lang.Math;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+
 public class Main {
+    private static Random rand = new Random();
 
     // Make an init method that instantiates a domain object
     
@@ -18,6 +19,7 @@ public class Main {
     public static ArrayList<Individual> whoLives(ArrayList<Individual> population, Domain domain){
         ArrayList<Individual> tempList = new ArrayList<Individual>();
         while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())){
+
             // Randomly select participants for the tournament
             ArrayList<Individual> participants = selectParticipants(population, domain);
             
@@ -41,9 +43,8 @@ public class Main {
      */
     public static ArrayList<Individual> selectParticipants(ArrayList<Individual> population,  Domain domain){
         ArrayList<Individual> tParticipants = new ArrayList<Individual>();
-        Random x = new  Random();
         for(int i = 0 ; i < domain.getTSize() ; i++){
-            int y = x.nextInt(population.size());
+            int y = rand.nextInt(population.size());
             tParticipants.add(population.get(y));
         }
         return tParticipants;
@@ -87,9 +88,8 @@ public class Main {
      * @return ArrayList<Individual> - the new population after mutations have occurred
      */
     public static ArrayList<Individual> mutate(ArrayList<Individual> population, Domain domain){
-        Random darwin = new Random();
         for (int i = 0; i < population.size() - 1 ; i++){
-            double y = darwin.nextDouble() * 1; // Todo: This can throw an erorr.
+            double y = rand.nextDouble(); // Todo: This can throw an erorr.
             if (y <= domain.getMutationRate()) {
                 population.get(i).flipBit(domain);
             }
@@ -104,21 +104,28 @@ public class Main {
      * @param mother: second parent
      * @return an ArrayList that has two new children.
      */
-    private static ArrayList<Individual> reproduce(Individual father, Individual mother, Domain domain){
-        LinkedList<Integer> splitsIndexes = new LinkedList<>(); // all the splits indexes.
+    private  ArrayList<Individual> reproduce(Individual father, Individual mother, Domain domain){
+
+        getKids(gitSplits(father, mother, domain), father.getGenMak(), mother.getGenMak());
+
+
+        return getKids(splitsIndexes, father.getGenMak(), mother.getGenMak());
+    }
+
+    private ArrayList<Integer> gitSplits(Individual father, Individual mother, Domain domain){
+        ArrayList<Integer> splitsIndexes = new ArrayList<>(); // all the splits indexes.
         int splitNum = domain.getCrossNum();
         while (splitNum != 0){
             // generate a number from 1 to len of the father or the mother - 1
-            int randomSplit = random(father.getGenMak().length() - 1);
+            int randomSplit = rand.nextInt( father.getGenMakLen() - 1) + 1;
             if (!splitsIndexes.contains(randomSplit)){
                 splitsIndexes.add(randomSplit);
                 splitNum--;
             }
         }
         Collections.sort(splitsIndexes);
-        return getKids(splitsIndexes, father.getGenMak(), mother.getGenMak());
+        return splitsIndexes;
     }
-
 
     /**
      * This method is going to create the first kid.
@@ -127,7 +134,7 @@ public class Main {
      * @param mother : mother indeviual object
      * @return
      */
-    static ArrayList<Individual> getKids(LinkedList allIndexes, String father, String mother){
+    static ArrayList<Individual> getKids(ArrayList allIndexes, String father, String mother){
         int index = 0;
         Boolean allowfather = false;
         Boolean allowmother = false;
@@ -176,16 +183,6 @@ public class Main {
         return newKids;
     }
 
-
-    /**
-     * @param max: max number
-     * @return : a random nummber from 1 to the a max number. Ex.
-     * If max is = to 5, then numbers that will be generaged are : 1, 2, 3, 4, 5
-     */
-    private static int random(int max) {
-        return ThreadLocalRandom.current().nextInt(1, max + 1);
-    }
-
     
     /**
      * This method takes a population and returns the average fitness
@@ -231,6 +228,7 @@ public class Main {
                 replaceAll("1", "0")
                 .replaceAll("x", "1");
     }
+
     public static void main(String[] args) throws Exception {
         Domain domain = new Domain();
         domain.initializeDomain(4,20,2,5,5,
@@ -245,11 +243,10 @@ public class Main {
             int aSize = adults.size();
 
             while ( aSize < domain.getPopSize()) {
-               Random par = new Random(); // get Random number.
-               int p1 = par.nextInt((adults.size())); // chose random father.
-               int p2 = par.nextInt((adults.size()));// chose random mother.
+               int p1 = rand.nextInt((adults.size())); // chose random father.
+               int p2 = rand.nextInt((adults.size()));// chose random mother.
 
-                kids.addAll(reproduce(adults.get(p1), adults.get(p2), domain));
+              //  kids.addAll(reproduce(adults.get(p1), adults.get(p2), domain));
                 aSize+= 2;
 
             }
@@ -272,16 +269,6 @@ public class Main {
         // Todo: fix the bit for the second child.
         // Todo: compute the fitness for each ind
         // Todo:
-//         Compute fitness and store
-//         Compute the standard diviation over fitness and store
-//         Select for survival
-//         Select for reproduction
-//         Mutate
-//         Create a population from these individuals
-//         Compute maximum fitness and store
-//         Compute minimum fitness and store
-//         Print this for every generation: genNum_k_avgFit_ft_stdv_f2_maxFit_f3_minFit_f4
-//         Restart
         
     }
 }

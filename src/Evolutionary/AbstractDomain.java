@@ -1,5 +1,5 @@
 package Evolutionary;
-
+import java.util.Random;
 /**
  * This is the abstract for the Domain class which holds the
  * data and compute fitness method which are subject to change
@@ -7,7 +7,6 @@ package Evolutionary;
  **/
 
 public abstract class AbstractDomain {
-
 
     private int bitLength;
     private int popSize;

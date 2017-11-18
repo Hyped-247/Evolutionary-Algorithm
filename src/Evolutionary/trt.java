@@ -1,7 +1,7 @@
 package Evolutionary;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
+import java.util.Random;
 import java.util.List;
 
 /**
@@ -9,12 +9,13 @@ import java.util.List;
  */
 public class trt {
     public static void main(String[] args) throws Exception {
-        List<Integer> intList = Arrays.asList(1, 2, 2, 3, 1, 5);
-
-        Double average = intList.stream().mapToInt(val -> val).average().getAsDouble();
-        new DecimalFormat("0.00").format(average);
-        System.out.println(new DecimalFormat("0.00").format(average));
-
-
+        Random rand = new Random();
+        for (int i = 0; i < 1000000; i++) {
+            int randomSplit = rand.nextInt( 5 - 1) + 1;
+            if (randomSplit <= 0 || randomSplit == 5){
+                System.out.println("Fail.. "+randomSplit);
+            }
+        }
+        System.out.println("pass all");
     }
 }
