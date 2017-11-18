@@ -1,5 +1,6 @@
 package Evolutionary;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,7 +12,8 @@ public class trt {
         List<Integer> intList = Arrays.asList(1, 2, 2, 3, 1, 5);
 
         Double average = intList.stream().mapToInt(val -> val).average().getAsDouble();
-        System.out.println(average);
+        new DecimalFormat("0.00").format(average);
+        System.out.println(new DecimalFormat("0.00").format(average));
 
 
     }

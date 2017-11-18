@@ -1,5 +1,6 @@
 package Evolutionary;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.lang.Math;
 import java.util.Random;
@@ -196,7 +197,7 @@ public class Main {
         for(int i = 0; i < pop.size(); i++) {
             sum += pop.get(i).getFitness();
         }
-        return sum / pop.size();
+        return Double.parseDouble(new DecimalFormat("0.00").format(sum / pop.size()));
     }
 
     /**
