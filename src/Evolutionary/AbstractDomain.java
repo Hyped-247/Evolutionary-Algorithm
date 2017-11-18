@@ -1,5 +1,5 @@
 package Evolutionary;
-import java.util.Random;
+
 /**
  * This is the abstract for the Domain class which holds the
  * data and compute fitness method which are subject to change
@@ -30,17 +30,17 @@ public abstract class AbstractDomain {
 	 * @param bitLength 	length of the genetic makeup's string
 	 * @param popSize 		amount of individuals in a population
 	 * @param crossNum 		amount of crosses in the reproduction process
-	 * @param genNum 		amount of generations for the simulation to run
+	 * @param numGen 		amount of generations for the simulation to run
 	 * @param surRatio		the survival rate of a generation between 0-1
 	 * @param mutationRate	the mutation rate for the simulation 0-1
 	 */
 
-    public  void initializeDomain(int bitLength1, int popSize1, int crossNum1, int genNum1, int tSize1,
+    public  void initializeDomain(int bitLength1, int popSize1, int crossNum1, int numGen, int tSize1,
                                         double surRatio1, double mutationRate1) throws Exception {
         bitLength = bitLength1;
         popSize = popSize1;
         crossNum = crossNum1;
-        genNum = genNum1;
+        genNum = numGen;
         tSize = tSize1;
         surRatio = surRatio1;
         mutationRate = mutationRate1;

@@ -19,6 +19,10 @@ class Domain extends AbstractDomain {
         String gen = i.getGenMak();
         int ones = gen.length() - gen.replaceAll("1", "").length();
         return ones / d.getBitLength();
-
     }
+
+
+
+
+
 }

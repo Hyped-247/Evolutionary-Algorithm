@@ -6,7 +6,7 @@ import java.lang.Math;
 import java.util.Random;
 
 public class Main {
-    private static Random rand = new Random();
+    private Random rand = new Random();
 
     // Make an init method that instantiates a domain object
     
@@ -16,7 +16,7 @@ public class Main {
      * @param domain
      * @return Array<Individual> - the individuals that have been chosen to survive
      */
-    public static ArrayList<Individual> whoLives(ArrayList<Individual> population, Domain domain){
+    public ArrayList<Individual> whoLives(ArrayList<Individual> population, Domain domain){
         ArrayList<Individual> tempList = new ArrayList<Individual>();
         while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())){
 
@@ -41,7 +41,7 @@ public class Main {
      * @param population the population from which the participants are being chosen
      * @return ArrayList<Individual> the participants selected for the tournament
      */
-    public static ArrayList<Individual> selectParticipants(ArrayList<Individual> population,  Domain domain){
+    public ArrayList<Individual> selectParticipants(ArrayList<Individual> population,  Domain domain){
         ArrayList<Individual> tParticipants = new ArrayList<Individual>();
         for(int i = 0 ; i < domain.getTSize() ; i++){
             int y = rand.nextInt(population.size());
@@ -55,7 +55,7 @@ public class Main {
      * @param participants <Individual> the participants in the tournament
      * @return Individual - the winner of the tournament
      */
-    public static Individual selectWinner(ArrayList<Individual> participants){
+    public Individual selectWinner(ArrayList<Individual> participants){
         Individual winner = participants.get(0);
         double winnerFitness = winner.getFitness();
         for(int i = 1 ; i < participants.size() ; i++){
@@ -74,7 +74,7 @@ public class Main {
      * @param popSize - the population size, as set in the Domain.java class
      * @return Array<Individual> - the initial population representing the first generation of the test
      */
-    public static ArrayList<Individual>  createInitPop(int popSize, Domain domain){
+    public ArrayList<Individual>  createInitPop(int popSize, Domain domain){
         ArrayList<Individual> population = new ArrayList<Individual>();
         for (int i = 0 ; i < popSize ; i++) {
             population.add(new Individual(domain));
@@ -87,7 +87,7 @@ public class Main {
      * @param population - an ArrayList<Individual> representing the entire population
      * @return ArrayList<Individual> - the new population after mutations have occurred
      */
-    public static ArrayList<Individual> mutate(ArrayList<Individual> population, Domain domain){
+    public ArrayList<Individual> mutate(ArrayList<Individual> population, Domain domain){
         for (int i = 0; i < population.size() - 1 ; i++){
             double y = rand.nextDouble(); // Todo: This can throw an erorr.
             if (y <= domain.getMutationRate()) {
@@ -96,20 +96,18 @@ public class Main {
         }
         return population;
     }
-
-
+    
     /**
      * This method is going to create a list of all the indexes of the spliets.
      * @param father: first parent
      * @param mother: second parent
      * @return an ArrayList that has two new children.
      */
-    private  ArrayList<Individual> reproduce(Individual father, Individual mother, Domain domain){
-
-        getKids(gitSplits(father, mother, domain), father.getGenMak(), mother.getGenMak());
-
-
-        return getKids(splitsIndexes, father.getGenMak(), mother.getGenMak());
+    private ArrayList<Individual> reproduce(Individual father, Individual mother, Domain domain){
+         ArrayList<Integer> allSplists = gitSplits(father, mother, domain);
+         String firstKid = getKid(allSplists, father.getGenMak(), mother.getGenMak());
+         String secondKid = getKid(allSplists,  mother.getGenMak(),father.getGenMak());
+        return twoKids(firstKid, secondKid);
     }
 
     private ArrayList<Integer> gitSplits(Individual father, Individual mother, Domain domain){
@@ -123,73 +121,47 @@ public class Main {
                 splitNum--;
             }
         }
+        splitsIndexes.add(0, 0);
+        splitsIndexes.add(father.getGenMakLen());
         Collections.sort(splitsIndexes);
         return splitsIndexes;
     }
 
     /**
-     * This method is going to create the first kid.
+     * This method is going to create the a kid basted on the input.
      * @param allIndexes : where all the slplits will take place.
      * @param father : father indeviual object
      * @param mother : mother indeviual object
      * @return
      */
-    static ArrayList<Individual> getKids(ArrayList allIndexes, String father, String mother){
-        int index = 0;
-        Boolean allowfather = false;
-        Boolean allowmother = false;
-        String firstKid = "";
-        int counter = allIndexes.size(); // how many times I am going to split.
-        int genMakLen = father.length(); // how is the bit len.
-        while (counter >= -1){
-            // Add all the bits for the father's part.
-            while ((!allIndexes.contains(index) && (genMakLen != index)) ||  (allowfather && (genMakLen != index))){
-                firstKid += father.charAt(index);
-                allowfather = false;
-                allowmother = true;
-                index++;
-            }
-            counter--;
-            // Add all the bits for the mother's part.
-            while ((!allIndexes.contains(index) && (genMakLen != index)) || (allowmother && (genMakLen != index))){
-                firstKid += mother.charAt(index);
-                allowfather = true;
-                allowmother = false;
-                index++;
-            }
-            counter--;
+     String getKid(ArrayList allIndexes, String father, String mother){
+        String kid = "";
+        int sub = 0;
+        while (allIndexes.size()  - 1 != sub){
+            kid += father.substring((Integer) allIndexes.get(sub) , (Integer) allIndexes.get(sub + 1));
+            kid += mother.substring((Integer) allIndexes.get(sub + 1), (Integer) allIndexes.get(sub + 2));
+            sub+=2;
         }
-        return createSecondKid(firstKid);
+        return kid;
     }
-
-    /**
-     * This method is going to create a second kid by fliping all the bits of the first kid.
-     * @param firstKid : genMak for the first kid.
-     * @return an ArrayList of two new born kids.
-     */
-    private static ArrayList<Individual> createSecondKid(String firstKid) {
-        return twoKids(firstKid, flipBit(firstKid));
-    }
-
     /**
      * @param firstKid
      * @param secondKid
      * @return @return an ArrayList of two new born kids.
      */
-    private static ArrayList<Individual> twoKids(String firstKid, String secondKid) {
+    private ArrayList<Individual> twoKids(String firstKid, String secondKid) {
         ArrayList<Individual> newKids = new ArrayList<>();
         newKids.add(new Individual(firstKid));
         newKids.add(new Individual(secondKid));
         return newKids;
     }
 
-    
     /**
      * This method takes a population and returns the average fitness
      * @param pop the population; an ArrayList of Individuals
      * @return the average fitness as a double
      */
-    public static double avgFitness(ArrayList<Individual> pop) {
+    public double avgFitness(ArrayList<Individual> pop) {
         double sum = 0;
         for(int i = 0; i < pop.size(); i++) {
             sum += pop.get(i).getFitness();
@@ -202,41 +174,36 @@ public class Main {
      * @param pop the population; an ArrayList of Individuals
      * @return the max fithess as a double
      */
-    public static double maxFitness(ArrayList<Individual> pop) {
+    public  double maxFitness(ArrayList<Individual> pop) {
         Individual maxfit = Collections.max(pop, new IndividualComp());
         return maxfit.getFitness();
     }
-
 
     /**
      * This method returns the min fitness in the population
      * @param pop the population; an ArrayList of Individuals
      * @return the min fithess as a double
      */
-    public static double minFitness(ArrayList<Individual> pop) {
+    public double minFitness(ArrayList<Individual> pop) {
         Individual minfit = Collections.max(pop, new IndividualComp());
         return minfit.getFitness();
     }
 
-    /**
-     * @param genMak: take a string of 0's and 1's.
-     * @return : A string of the oppsitie string of 0's and 1's. Ex.
-     * If the input is: "10001", then the output is: "01110"
-     */
-    private static String flipBit(String genMak){
-        return genMak.replaceAll("0", "x").
-                replaceAll("1", "0")
-                .replaceAll("x", "1");
+    public static void runGen(){
+
     }
 
     public static void main(String[] args) throws Exception {
         Domain domain = new Domain();
         domain.initializeDomain(4,20,2,5,5,
                 0.2,0.001);
-        int gen = domain.getGenNum();
+        domain.runGen();
+
         ArrayList<Individual> initPop = createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
         ArrayList<Individual> adults = new ArrayList<>();
         ArrayList<Individual> kids = new ArrayList<>();
+
+
 
         while (gen != 0) {
             adults = whoLives(initPop, domain);
