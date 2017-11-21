@@ -38,6 +38,7 @@ public class MainTest {
     /**
      * testWhoLives checks if the size of the survivor population is correct
      */
+    /*
     @Test
     public void testWhoLives(){
       Random rand = new Random();
@@ -48,6 +49,7 @@ public class MainTest {
         assertEquals(survivors.size(), Math.floor(domain.getSurRatio()*population.size()) , EPSILON);
       }
     }
+    */
 
 
 //  @Test
@@ -105,6 +107,7 @@ public class MainTest {
   /**
    * testCreateInitPop checks if the size of the initial population is correct
    */
+  /*
   @Test
   public void testCreateInitPop() {
     Random rand = new Random();
@@ -114,4 +117,5 @@ public class MainTest {
       assertEquals(population.size(), i);
     }
   }
+  */
 }

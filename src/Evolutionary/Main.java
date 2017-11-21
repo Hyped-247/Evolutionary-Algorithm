@@ -96,7 +96,7 @@ public class Main {
         }
         return population;
     }
-    
+
     /**
      * This method is going to create a list of all the indexes of the spliets.
      * @param father: first parent
@@ -189,53 +189,49 @@ public class Main {
         return minfit.getFitness();
     }
 
-    public static void runGen(){
-
-    }
-
-    public static void main(String[] args) throws Exception {
-        Domain domain = new Domain();
-        domain.initializeDomain(4,20,2,5,5,
-                0.2,0.001);
-        domain.runGen();
-
+    public void runGen(Domain domain){
         ArrayList<Individual> initPop = createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
         ArrayList<Individual> adults = new ArrayList<>();
         ArrayList<Individual> kids = new ArrayList<>();
-
-
-
+        int gen = domain.getGenNum();
         while (gen != 0) {
             adults = whoLives(initPop, domain);
             int aSize = adults.size();
 
-            while ( aSize < domain.getPopSize()) {
-               int p1 = rand.nextInt((adults.size())); // chose random father.
-               int p2 = rand.nextInt((adults.size()));// chose random mother.
+            while (aSize < domain.getPopSize()) {
+                int p1 = rand.nextInt((adults.size())); // chose random father.
+                int p2 = rand.nextInt((adults.size()));// chose random mother.
 
-              //  kids.addAll(reproduce(adults.get(p1), adults.get(p2), domain));
-                aSize+= 2;
-
+                  kids.addAll(reproduce(adults.get(p1), adults.get(p2), domain));
+                aSize += 2;
             }
-            if (kids.size()-adults.size() != domain.getPopSize()) {
-                kids.remove((kids.size()-1)); // remove the last kid.
+            if (kids.size() - adults.size() != domain.getPopSize()) {
+                kids.remove((kids.size() - 1)); // remove the last kid.
             }
             ArrayList<Individual> newGen = new ArrayList<>();
             newGen.addAll(adults);
             newGen.addAll(kids);
 
             initPop = mutate(newGen, domain);
-            
-            // print average fitness , max fitness , worst fitness
-            System.out.println("This is the data for genration num: "+gen);
-            System.out.println("This is the avgFitness "+avgFitness(initPop));
-            System.out.println("This is the maxFitness "+maxFitness(initPop));
-            System.out.println("This is the minFitness "+minFitness(initPop));
+            genData(gen, initPop);
             gen--;
         }
-        // Todo: fix the bit for the second child.
-        // Todo: compute the fitness for each ind
-        // Todo:
-        
+
+    }
+
+    private void genData(int gen, ArrayList<Individual> initPop) {
+        // print average fitness , max fitness , worst fitness
+        System.out.println("This is the data for genration num: "+gen);
+        System.out.println("This is the avgFitness "+avgFitness(initPop));
+        System.out.println("This is the maxFitness "+maxFitness(initPop));
+        System.out.println("This is the minFitness "+minFitness(initPop));
+    }
+
+    public static void main(String[] args) throws Exception {
+        Domain domain = new Domain();
+        domain.initializeDomain(4,20,2,5,5,
+                0.2,0.001);
+        Main main = new Main();
+        main.runGen(domain);
     }
 }
