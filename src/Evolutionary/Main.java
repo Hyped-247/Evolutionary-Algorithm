@@ -4,6 +4,9 @@ import java.util.*;
 import java.lang.Math;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+
+public static Random rand = new Random();
+
 public class Main {
 
     // Make an init method that instantiates a domain object
@@ -40,9 +43,8 @@ public class Main {
      */
     public static ArrayList<Individual> selectParticipants(ArrayList<Individual> population,  Domain domain){
         ArrayList<Individual> tParticipants = new ArrayList<Individual>();
-        Random x = new  Random();
         for(int i = 0 ; i < domain.getTSize() ; i++){
-            int y = x.nextInt(population.size());
+            int y = rand.nextInt(population.size());
             tParticipants.add(population.get(y));
         }
         return tParticipants;
@@ -86,9 +88,8 @@ public class Main {
      * @return ArrayList<Individual> - the new population after mutations have occurred
      */
     public static ArrayList<Individual> mutate(ArrayList<Individual> population, Domain domain){
-        Random darwin = new Random();
         for (int i = 0; i < population.size() - 1 ; i++){
-            double y = darwin.nextDouble() * 1; // Todo: This can throw an erorr.
+            double y = rand.nextDouble() * 1; // Todo: This can throw an erorr.
             if (y <= domain.getMutationRate()) {
                 population.get(i).flipBit(domain);
             }
@@ -244,9 +245,8 @@ public class Main {
             int aSize = adults.size();
 
             while ( aSize < domain.getPopSize()) {
-               Random par = new Random(); // get Random number.
-               int p1 = par.nextInt((adults.size())); // chose random father.
-               int p2 = par.nextInt((adults.size()));// chose random mother.
+               int p1 = rand.nextInt((adults.size())); // chose random father.
+               int p2 = rand.nextInt((adults.size()));// chose random mother.
 
                 kids.addAll(reproduce(adults.get(p1), adults.get(p2), domain));
                 aSize+= 2;
