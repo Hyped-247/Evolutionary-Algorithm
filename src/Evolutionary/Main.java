@@ -16,9 +16,12 @@ public class Main {
      */
     public static ArrayList<Individual> whoLives(ArrayList<Individual> population, Domain domain){
         ArrayList<Individual> tempList = new ArrayList<Individual>();
+        ArrayList<Individual> tempPop = new ArrayList<Individual>(population); // changeable list of the population
         while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())){
-            // Randomly select participants for the tournament
-            ArrayList<Individual> participants = selectParticipants(population, domain);
+            
+        	
+        	// Randomly select participants for the tournament
+            ArrayList<Individual> participants = selectParticipants(tempPop, domain);
             
             // Select Winner
             Individual winner = selectWinner(participants);
@@ -27,7 +30,7 @@ public class Main {
             tempList.add(winner);
 
             // Remove the winner from the population list
-            population.remove(winner);
+            tempPop.remove(winner);
         }
         return tempList;
     }
@@ -53,7 +56,7 @@ public class Main {
      * @param participants <Individual> the participants in the tournament
      * @return Individual - the winner of the tournament
      */
-    public static Individual selectWinner(ArrayList<Individual> participants){
+    public static Individual selectWinner(List<Individual> participants){
         Individual winner = participants.get(0);
         double winnerFitness = winner.getFitness();
         for(int i = 1 ; i < participants.size() ; i++){
@@ -236,14 +239,22 @@ public class Main {
      * @param kidList list of kids, to be added to
      * @param domain the domain
      */
-    private static void runGeneration(ArrayList<Individual> adultList, ArrayList<Individual> kidList, Domain domain){
+    private static void runGeneration(ArrayList<Individual> population, ArrayList<Individual> adultList, ArrayList<Individual> kidList, Domain domain){
     	int nextGenSize = adultList.size(); //starts at the size of the adults, increases as children added
-    	while ( nextGenSize < domain.getPopSize()) {
-            Random par = new Random(); // get Random number.
-            int p1 = par.nextInt((adultList.size())); // chose random father.
-            int p2 = par.nextInt((adultList.size()));// chose random mother.
-
-             kidList.addAll(reproduce(adultList.get(p1), adultList.get(p2), domain));
+    	
+    	while (nextGenSize < domain.getPopSize()) {
+    		ArrayList<Individual>  randGroup = new ArrayList<Individual>();
+    		
+    		randGroup = selectParticipants(population, domain);
+    		Individual p1 = selectWinner(randGroup);
+    		Individual tempInd = p1;
+    		randGroup.set(randGroup.indexOf(p1), randGroup.get(randGroup.size()-1));
+    		randGroup.set(randGroup.size()-1, tempInd);
+    		Individual p2 = selectWinner(randGroup.subList(0, randGroup.size()-1)); //choose from the list except last element(p1)
+    		
+            
+      
+             kidList.addAll(reproduce(p1, p2, domain));
              nextGenSize+= 2;
 
          }
@@ -286,7 +297,7 @@ public class Main {
             
         	adults = whoLives(initPop, domain);
             
-        	runGeneration(adults, kids ,domain);
+        	runGeneration(initPop, adults, kids ,domain);
             if (kids.size()-adults.size() != domain.getPopSize()) {
                 kids.remove((kids.size()-1)); // remove the last kid.
             }
@@ -298,6 +309,9 @@ public class Main {
             printStats(count, initPop);
             
             count++;
+            
+            
+            
         }
         
     }
