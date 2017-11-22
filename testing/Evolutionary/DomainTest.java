@@ -8,7 +8,8 @@ import static org.junit.Assert.*;
 public class DomainTest {
     Domain d = new Domain();
     double EPSILON = 0.000000001;
-    
+
+    /*
 
     @Test
     public void testComputeFitness() throws Exception {
@@ -48,6 +49,6 @@ public class DomainTest {
 	public void testGetMutationRate() {
 		assertEquals(d.getMutationRate(),0.001, EPSILON);
 	}
-
+	*/
 
 }

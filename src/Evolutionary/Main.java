@@ -18,21 +18,21 @@ public class Main {
      */
     public ArrayList<Individual> whoLives(ArrayList<Individual> population, Domain domain){
         ArrayList<Individual> tempList = new ArrayList<Individual>();
-        ArrayList<Individual> tempPop = new ArrayList<>(population);
-
-        while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())){
+        ArrayList<Individual> tempPop = new ArrayList<>(population); // changeable list of the population
+        while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())) {
 
             // Randomly select participants for the tournament
-            ArrayList<Individual> participants = selectParticipants(population, domain);
-            
+            ArrayList<Individual> participants = selectParticipants(tempPop, domain);
+
             // Select Winner
             Individual winner = selectWinner(participants);
-            
+
             //Add winner to list of winners
             tempList.add(winner);
 
             // Remove the winner from the population list
-            population.remove(winner);
+            tempPop.remove(winner);
+
         }
         return tempList;
     }
@@ -44,7 +44,7 @@ public class Main {
      * @return ArrayList<Individual> the participants selected for the tournament
      */
     public ArrayList<Individual> selectParticipants(ArrayList<Individual> population,  Domain domain){
-        ArrayList<Individual> tParticipants = new ArrayList<Individual>();
+        ArrayList<Individual> tParticipants = new ArrayList<>();
         for(int i = 0 ; i < domain.getTSize() ; i++){
             int y = rand.nextInt(population.size());
             tParticipants.add(population.get(y));
@@ -77,7 +77,7 @@ public class Main {
      * @return Array<Individual> - the initial population representing the first generation of the test
      */
     public ArrayList<Individual>  createInitPop(int popSize, Domain domain){
-        ArrayList<Individual> population = new ArrayList<Individual>();
+        ArrayList<Individual> population = new ArrayList<>();
         for (int i = 0 ; i < popSize ; i++) {
             population.add(new Individual(domain));
         }
@@ -107,7 +107,7 @@ public class Main {
      */
     private ArrayList<Individual> reproduce(Individual father, Individual mother, Domain domain){
          ArrayList<Integer> allSplists = gitSplits(domain);
-         ArrayList kids = sliceAndDice(allSplists, father.getGenMak(), mother.getGenMak());
+         ArrayList<Individual> kids = sliceAndDice(domain, allSplists, father.getGenMak(), mother.getGenMak());
         return kids;
     }
 
@@ -135,7 +135,7 @@ public class Main {
      * @param mother : mother indeviual object
      * @return
      */
-     ArrayList<Individual> sliceAndDice(ArrayList<Integer> allIndexes, String father, String mother){
+     ArrayList<Individual> sliceAndDice(Domain domain,ArrayList<Integer> allIndexes, String father, String mother){
         String kid1 = "";
         String kid2 = "";
          int sub = 0;
@@ -150,17 +150,19 @@ public class Main {
              }
              sub+=2;
          }
-        return twoKids(kid1, kid2);
+        return twoKids(domain, kid1, kid2);
     }
     /**
+     *
+     * @param domain
      * @param firstKid
      * @param secondKid
      * @return @return an ArrayList of two new born kids.
      */
-    private ArrayList<Individual> twoKids(String firstKid, String secondKid) {
+    private ArrayList<Individual> twoKids(Domain domain, String firstKid, String secondKid) {
         ArrayList<Individual> newKids = new ArrayList<>();
-        newKids.add(new Individual(firstKid));
-        newKids.add(new Individual(secondKid));
+        newKids.add(new Individual(domain, firstKid));
+        newKids.add(new Individual(domain, secondKid));
         return newKids;
     }
 

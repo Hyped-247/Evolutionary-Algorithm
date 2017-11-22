@@ -18,17 +18,16 @@ class Individual {
      * 1) id
      * 2) genMak,
      **/
-    Individual(String s) {
-        genMak = s;
+    Individual(Domain domain, String s) {
         setId();
-
+        genMak = s;
+        setFitness(domain);
     }
 
     Individual(Domain domain) {
         setId();
         setGenMak(domain);
-        setfitness
-        computeFitness(genMak);
+        setFitness(domain);
     }
 
     /**
@@ -72,6 +71,10 @@ class Individual {
     }
     String getGenMak(){
         return genMak;
+    }
+
+    private void setFitness(Domain domain) {
+        fitness =  domain.computeFitness(genMak);
     }
 }
 class IndividualComp implements Comparator<Individual> {
