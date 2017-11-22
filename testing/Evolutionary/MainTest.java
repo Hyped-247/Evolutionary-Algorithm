@@ -48,6 +48,8 @@ public class MainTest {
         assertEquals(survivors.size(), Math.floor(domain.getSurRatio()*population.size()) , EPSILON);
       }
     }
+    
+    runGeneration()
 
 
 //  @Test
@@ -116,6 +118,7 @@ public class MainTest {
   }
   
   
+
   @Test
   public void testAvgFitness() {
 	  Random rand = new Random();
@@ -148,4 +151,5 @@ public class MainTest {
 	    AssertTrue(population.minFitness() >= 0);
 	  } 
   }
+
 }
