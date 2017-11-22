@@ -10,7 +10,7 @@ class Individual {
     private static int idGenerator = 0;
     private Random rand = new Random();
     private String genMak = "";
-    private Double fitness = 0.0;
+    private Double fitness;
     private int id;
 
     /**
@@ -27,7 +27,8 @@ class Individual {
     Individual(Domain domain) {
         setId();
         setGenMak(domain);
-        domain.computeFitness(this, domain);
+        setfitness
+        computeFitness(genMak);
     }
 
     /**
@@ -72,7 +73,6 @@ class Individual {
     String getGenMak(){
         return genMak;
     }
-    int getGenMakLen(){ return getGenMak().length(); }
 }
 class IndividualComp implements Comparator<Individual> {
     @Override

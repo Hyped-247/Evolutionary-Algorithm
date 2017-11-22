@@ -18,6 +18,8 @@ public class Main {
      */
     public ArrayList<Individual> whoLives(ArrayList<Individual> population, Domain domain){
         ArrayList<Individual> tempList = new ArrayList<Individual>();
+        ArrayList<Individual> tempPop = new ArrayList<>(population);
+
         while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())){
 
             // Randomly select participants for the tournament
@@ -104,25 +106,24 @@ public class Main {
      * @return an ArrayList that has two new children.
      */
     private ArrayList<Individual> reproduce(Individual father, Individual mother, Domain domain){
-         ArrayList<Integer> allSplists = gitSplits(father, mother, domain);
-         String firstKid = getKid(allSplists, father.getGenMak(), mother.getGenMak());
-         String secondKid = getKid(allSplists,  mother.getGenMak(),father.getGenMak());
-        return twoKids(firstKid, secondKid);
+         ArrayList<Integer> allSplists = gitSplits(domain);
+         ArrayList kids = sliceAndDice(allSplists, father.getGenMak(), mother.getGenMak());
+        return kids;
     }
 
-    private ArrayList<Integer> gitSplits(Individual father, Individual mother, Domain domain){
+    private ArrayList<Integer> gitSplits(Domain domain){
         ArrayList<Integer> splitsIndexes = new ArrayList<>(); // all the splits indexes.
         int splitNum = domain.getCrossNum();
         while (splitNum != 0){
             // generate a number from 1 to len of the father or the mother - 1
-            int randomSplit = rand.nextInt( father.getGenMakLen() - 1) + 1;
+            int randomSplit = rand.nextInt( domain.getBitLength() - 1) + 1;
             if (!splitsIndexes.contains(randomSplit)){
                 splitsIndexes.add(randomSplit);
                 splitNum--;
             }
         }
         splitsIndexes.add(0, 0);
-        splitsIndexes.add(father.getGenMakLen());
+        splitsIndexes.add(domain.getBitLength());
         Collections.sort(splitsIndexes);
         return splitsIndexes;
     }
@@ -134,15 +135,22 @@ public class Main {
      * @param mother : mother indeviual object
      * @return
      */
-     String getKid(ArrayList allIndexes, String father, String mother){
-        String kid = "";
-        int sub = 0;
-        while (allIndexes.size()  - 1 != sub){
-            kid += father.substring((Integer) allIndexes.get(sub) , (Integer) allIndexes.get(sub + 1));
-            kid += mother.substring((Integer) allIndexes.get(sub + 1), (Integer) allIndexes.get(sub + 2));
-            sub+=2;
-        }
-        return kid;
+     ArrayList<Individual> sliceAndDice(ArrayList<Integer> allIndexes, String father, String mother){
+        String kid1 = "";
+        String kid2 = "";
+         int sub = 0;
+         while (allIndexes.size()  - 1 >= sub){
+             if (father.length() != kid1.length()) {
+                 kid1 += father.substring(allIndexes.get(sub), allIndexes.get(sub + 1));
+                 kid2 += mother.substring(allIndexes.get(sub), allIndexes.get(sub + 1));
+             }
+             if (mother.length() != kid2.length()){
+                 kid1 += mother.substring( allIndexes.get(sub + 1), allIndexes.get(sub + 2));
+                 kid2 += father.substring( allIndexes.get(sub + 1), allIndexes.get(sub + 2));
+             }
+             sub+=2;
+         }
+        return twoKids(kid1, kid2);
     }
     /**
      * @param firstKid
@@ -191,7 +199,7 @@ public class Main {
 
     public void runGen(Domain domain){
         ArrayList<Individual> initPop = createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
-        ArrayList<Individual> adults = new ArrayList<>();
+        ArrayList<Individual> adults;
         ArrayList<Individual> kids = new ArrayList<>();
         int gen = domain.getGenNum();
         while (gen != 0) {
@@ -199,12 +207,13 @@ public class Main {
             int aSize = adults.size();
 
             while (aSize < domain.getPopSize()) {
-                int p1 = rand.nextInt((adults.size())); // chose random father.
-                int p2 = rand.nextInt((adults.size()));// chose random mother.
+                int p1 = rand.nextInt((initPop.size())); // chose random father.
+                int p2 = rand.nextInt((initPop.size()));// chose random mother.
 
-                  kids.addAll(reproduce(adults.get(p1), adults.get(p2), domain));
-                aSize += 2;
+                  kids.addAll(reproduce(initPop.get(p1), initPop.get(p2), domain));
+                  aSize += 2;
             }
+            // make sure that it is even.
             if (kids.size() - adults.size() != domain.getPopSize()) {
                 kids.remove((kids.size() - 1)); // remove the last kid.
             }

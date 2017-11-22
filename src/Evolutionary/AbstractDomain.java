@@ -22,7 +22,7 @@ public abstract class AbstractDomain {
      * @param i an Individual object
      * @return the double fitness level between 0-1
      */
-    public abstract double computeFitness(Individual i, Domain d);
+    public abstract double computeFitness(String gen);
 
 
 	/*
