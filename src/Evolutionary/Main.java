@@ -16,9 +16,12 @@ public class Main {
      */
     public static ArrayList<Individual> whoLives(ArrayList<Individual> population, Domain domain){
         ArrayList<Individual> tempList = new ArrayList<Individual>();
+        ArrayList<Individual> tempPop = new ArrayList<Individual>(population); // changeable list of the population
         while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())){
-            // Randomly select participants for the tournament
-            ArrayList<Individual> participants = selectParticipants(population, domain);
+            
+        	
+        	// Randomly select participants for the tournament
+            ArrayList<Individual> participants = selectParticipants(tempPop, domain);
             
             // Select Winner
             Individual winner = selectWinner(participants);
@@ -27,7 +30,7 @@ public class Main {
             tempList.add(winner);
 
             // Remove the winner from the population list
-            population.remove(winner);
+            tempPop.remove(winner);
         }
         return tempList;
     }
@@ -53,7 +56,7 @@ public class Main {
      * @param participants <Individual> the participants in the tournament
      * @return Individual - the winner of the tournament
      */
-    public static Individual selectWinner(ArrayList<Individual> participants){
+    public static Individual selectWinner(List<Individual> participants){
         Individual winner = participants.get(0);
         double winnerFitness = winner.getFitness();
         for(int i = 1 ; i < participants.size() ; i++){
@@ -230,54 +233,86 @@ public class Main {
                 replaceAll("1", "0")
                 .replaceAll("x", "1");
     }
+    /**
+     * This method runs a generation 
+     * @param adultList list of surviving adults
+     * @param kidList list of kids, to be added to
+     * @param domain the domain
+     */
+    private static void runGeneration(ArrayList<Individual> population, ArrayList<Individual> adultList, ArrayList<Individual> kidList, Domain domain){
+    	int nextGenSize = adultList.size(); //starts at the size of the adults, increases as children added
+    	
+    	while (nextGenSize < domain.getPopSize()) {
+    		ArrayList<Individual>  randGroup = new ArrayList<Individual>();
+    		
+    		randGroup = selectParticipants(population, domain);
+    		Individual p1 = selectWinner(randGroup);
+    		Individual tempInd = p1;
+    		randGroup.set(randGroup.indexOf(p1), randGroup.get(randGroup.size()-1));
+    		randGroup.set(randGroup.size()-1, tempInd);
+    		Individual p2 = selectWinner(randGroup.subList(0, randGroup.size()-1)); //choose from the list except last element(p1)
+    		
+            
+      
+             kidList.addAll(reproduce(p1, p2, domain));
+             nextGenSize+= 2;
+
+         }
+    	
+    }
+    /**
+     * This method combines two lists of Individuals
+     * @param list1 list of Individuals
+     * @param list2 another list of Individuals
+     * @return list combining list1 and list2
+     */
+    private static ArrayList<Individual> combineLists(ArrayList<Individual> list1, ArrayList<Individual> list2){
+    	ArrayList<Individual> combinedList = new ArrayList<Individual>();
+    	combinedList.addAll(list1);
+    	combinedList.addAll(list2);
+        
+        return combinedList;
+    }
+    /**
+     * This method prints gen, maxFit, and avgFit 
+     * @param gen the generation number 
+     * @param initPop mutated for the next generation 
+     */
+    private static void printStats(int gen, ArrayList<Individual> initPop){
+    	System.out.println("gen" + gen + "  maxFit " + maxFitness(initPop) + "  avgFit " + avgFitness(initPop));
+    }
+    
     public static void main(String[] args) throws Exception {
         Domain domain = new Domain();
-        domain.initializeDomain(4,20,2,5,5,
-                0.2,0.001);
+        domain.initializeDomain(4,20,2,5,5, 0.2,0.001);
+        
         int gen = domain.getGenNum();
+        int count = 0;
+        
         ArrayList<Individual> initPop = createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
         ArrayList<Individual> adults = new ArrayList<>();
         ArrayList<Individual> kids = new ArrayList<>();
 
-        while (gen != 0) {
-            adults = whoLives(initPop, domain);
-            int aSize = adults.size();
-
-            while ( aSize < domain.getPopSize()) {
-               Random par = new Random(); // get Random number.
-               int p1 = par.nextInt((adults.size())); // chose random father.
-               int p2 = par.nextInt((adults.size()));// chose random mother.
-
-                kids.addAll(reproduce(adults.get(p1), adults.get(p2), domain));
-                aSize+= 2;
-
-            }
+        while (count < gen) {
+            
+        	adults = whoLives(initPop, domain);
+            
+        	runGeneration(initPop, adults, kids ,domain);
             if (kids.size()-adults.size() != domain.getPopSize()) {
                 kids.remove((kids.size()-1)); // remove the last kid.
             }
-            ArrayList<Individual> newGen = new ArrayList<>();
-            newGen.addAll(adults);
-            newGen.addAll(kids);
-
-            initPop = mutate(newGen, domain);
             
-            // print average fitness , max fitness , worst fitness
-            System.out.println("This is the data for genration num: "+gen);
-            System.out.println("This is the avgFitness "+avgFitness(initPop));
-            System.out.println("This is the maxFitness "+maxFitness(initPop));
-            System.out.println("This is the minFitness "+minFitness(initPop));
-            gen--;
+           
+
+            initPop = mutate(combineLists(adults,kids), domain);
+            
+            printStats(count, initPop);
+            
+            count++;
+            
+            
+            
         }
-//         Compute fitness and store
-//         Compute the standard diviation over fitness and store
-//         Select for survival
-//         Select for reproduction
-//         Mutate
-//         Create a population from these individuals
-//         Compute maximum fitness and store
-//         Compute minimum fitness and store
-//         Print this for every generation: genNum_k_avgFit_ft_stdv_f2_maxFit_f3_minFit_f4
-//         Restart
         
     }
 }
