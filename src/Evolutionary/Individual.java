@@ -50,15 +50,12 @@ class Individual {
     }
 
     // This is going to randomly flip one bit if it is chosen to be mutated
+    // Todo: this method is giving me index errors.
     void flipBit(Domain domain){
         int pos = rand.nextInt(domain.getBitLength());
-        String second = "0";
-        if (genMak.charAt(pos) == '0'){
-            second = "1";
-        }
-        String first = genMak.substring(0, pos - 1);
-        String third = genMak.substring(pos + 1);
-        genMak = first + second + third;
+        StringBuilder myName = new StringBuilder(this.genMak);
+        myName.setCharAt(pos, '1');
+        genMak = String.valueOf(myName);
     }
     /**
      * getFitness return
@@ -80,7 +77,7 @@ class Individual {
 class IndividualComp implements Comparator<Individual> {
     @Override
     public int compare(Individual e1, Individual e2) {
-        return e1.getFitness().compareTo(e2.getFitness());
+        return  e1.getFitness().compareTo(e2.getFitness());
     }
 }
 

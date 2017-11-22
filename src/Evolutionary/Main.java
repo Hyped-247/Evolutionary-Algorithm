@@ -91,7 +91,8 @@ public class Main {
      */
     public ArrayList<Individual> mutate(ArrayList<Individual> population, Domain domain){
         for (int i = 0; i < population.size() - 1 ; i++){
-            double y = rand.nextDouble(); // Todo: This can throw an erorr.
+            double y = rand.nextDouble();
+            // Todo: What if all of them are
             if (y <= domain.getMutationRate()) {
                 population.get(i).flipBit(domain);
             }
@@ -135,25 +136,23 @@ public class Main {
      * @param mother : mother indeviual object
      * @return
      */
-     ArrayList<Individual> sliceAndDice(Domain domain,ArrayList<Integer> allIndexes, String father, String mother){
+     ArrayList<Individual> sliceAndDice(Domain domain, ArrayList<Integer> allIndexes, String father, String mother){
         String kid1 = "";
         String kid2 = "";
          int sub = 0;
          while (allIndexes.size()  - 1 >= sub){
-             if (father.length() != kid1.length()) {
+             if (father.length() != kid1.length() && mother.length() != kid2.length()){
                  kid1 += father.substring(allIndexes.get(sub), allIndexes.get(sub + 1));
-                 kid2 += mother.substring(allIndexes.get(sub), allIndexes.get(sub + 1));
-             }
-             if (mother.length() != kid2.length()){
                  kid1 += mother.substring( allIndexes.get(sub + 1), allIndexes.get(sub + 2));
+
                  kid2 += father.substring( allIndexes.get(sub + 1), allIndexes.get(sub + 2));
+                 kid2 += mother.substring(allIndexes.get(sub), allIndexes.get(sub + 1));
              }
              sub+=2;
          }
         return twoKids(domain, kid1, kid2);
     }
     /**
-     *
      * @param domain
      * @param firstKid
      * @param secondKid
@@ -184,7 +183,7 @@ public class Main {
      * @param pop the population; an ArrayList of Individuals
      * @return the max fithess as a double
      */
-    public  double maxFitness(ArrayList<Individual> pop) {
+    public double maxFitness(ArrayList<Individual> pop) {
         Individual maxfit = Collections.max(pop, new IndividualComp());
         return maxfit.getFitness();
     }
@@ -201,8 +200,8 @@ public class Main {
 
     public void runGen(Domain domain){
         ArrayList<Individual> initPop = createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
-        ArrayList<Individual> adults;
         ArrayList<Individual> kids = new ArrayList<>();
+        ArrayList<Individual> adults;
         int gen = domain.getGenNum();
         while (gen != 0) {
             adults = whoLives(initPop, domain);
@@ -240,9 +239,9 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Domain domain = new Domain();
-        domain.initializeDomain(4,20,2,5,5,
-                0.2,0.001);
         Main main = new Main();
+        domain.initializeDomain(10,100000,9,5,5,
+                0.2,0.001);
         main.runGen(domain);
     }
 }
