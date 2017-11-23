@@ -10,7 +10,7 @@ public class trt {
     public static void main(String[] args) throws Exception {
 
 
-
+        System.out.println(father.substring(0, 7));
 
 
     }
