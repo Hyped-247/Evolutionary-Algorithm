@@ -141,8 +141,10 @@ public class Main {
         String kid2 = "";
          int sub = 0;
          while (allIndexes.size()  - 1 >= sub){
+             if (father.length() != kid1.length() && mother.length() != kid2.length()) {
                  kid1 += father.substring(allIndexes.get(sub), allIndexes.get(sub + 1));
                  kid2 += mother.substring(allIndexes.get(sub), allIndexes.get(sub + 1));
+             }
 
              if (father.length() != kid1.length() && mother.length() != kid2.length()){
 
@@ -232,7 +234,7 @@ public class Main {
 
     private void genData(int gen, ArrayList<Individual> initPop) {
         // print average fitness , max fitness , worst fitness
-        System.out.println("This is the data for genration num: "+gen);
+        System.out.println("This is the data for generation num: "+gen);
         System.out.println("This is the avgFitness "+avgFitness(initPop));
         System.out.println("This is the maxFitness "+maxFitness(initPop));
         System.out.println("This is the minFitness "+minFitness(initPop));
@@ -241,7 +243,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Domain domain = new Domain();
         Main main = new Main();
-        domain.initializeDomain(5,10,2,5,5,
+        domain.initializeDomain(20,1000,5,5,5,
                 0.2,0.001);
         main.runGen(domain);
     }
