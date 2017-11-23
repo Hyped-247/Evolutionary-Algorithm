@@ -243,7 +243,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Domain domain = new Domain();
         Main main = new Main();
-        domain.initializeDomain(20,1000,5,5,5,
+        domain.initializeDomain(50,1000,10,5,5,
                 0.2,0.001);
         main.runGen(domain);
     }
