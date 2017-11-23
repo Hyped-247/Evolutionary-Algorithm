@@ -141,12 +141,13 @@ public class Main {
         String kid2 = "";
          int sub = 0;
          while (allIndexes.size()  - 1 >= sub){
-             if (father.length() != kid1.length() && mother.length() != kid2.length()){
                  kid1 += father.substring(allIndexes.get(sub), allIndexes.get(sub + 1));
-                 kid1 += mother.substring( allIndexes.get(sub + 1), allIndexes.get(sub + 2));
-
-                 kid2 += father.substring( allIndexes.get(sub + 1), allIndexes.get(sub + 2));
                  kid2 += mother.substring(allIndexes.get(sub), allIndexes.get(sub + 1));
+
+             if (father.length() != kid1.length() && mother.length() != kid2.length()){
+
+                 kid1 += mother.substring( allIndexes.get(sub + 1), allIndexes.get(sub + 2));
+                 kid2 += father.substring( allIndexes.get(sub + 1), allIndexes.get(sub + 2));
              }
              sub+=2;
          }
@@ -194,7 +195,7 @@ public class Main {
      * @return the min fithess as a double
      */
     public double minFitness(ArrayList<Individual> pop) {
-        Individual minfit = Collections.max(pop, new IndividualComp());
+        Individual minfit = Collections.min(pop, new IndividualComp());
         return minfit.getFitness();
     }
 
@@ -240,7 +241,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Domain domain = new Domain();
         Main main = new Main();
-        domain.initializeDomain(10,100000,9,5,5,
+        domain.initializeDomain(5,10,2,5,5,
                 0.2,0.001);
         main.runGen(domain);
     }

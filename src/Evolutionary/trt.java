@@ -18,7 +18,7 @@ public class trt {
         String father = "0110100";
         String mother = "1000110";
 
-
+        System.out.println(father.substring(0, 7));
 
 
     }
