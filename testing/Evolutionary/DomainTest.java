@@ -1,54 +1,29 @@
 package Evolutionary;
 
+import org.junit.Before;
 import org.junit.Test;
+import java.util.ArrayList;
+import org.apache.commons.lang3.StringUtils;
 
 import static org.junit.Assert.*;
 
-
 public class DomainTest {
-    Domain d = new Domain();
-    double EPSILON = 0.000000001;
+    private Domain domain = new Domain();
+    private Main main = new Main();
 
-    /*
-
-    @Test
-    public void testComputeFitness() throws Exception {
-        d.initializeDomain(8,10000,2,5,5,0.002,0.001);
-        Individual i = new Individual("01010101");
-        assertEquals(d.computeFitness(i, d), 0.5, EPSILON);
+    @Before
+    public void initialize() throws Exception {
+        domain.initializeDomain(100,10000,5,15,20,
+                0.8,0.9);
     }
 
-	@Test
-	public void testGetBitLength() {
-		// System.out.println(d.getGenNum());
-    	assertEquals(d.getBitLength(),8);
-	}
-
-	@Test
-	public void testGetPopSize() {
-		assertEquals(d.getPopSize(),10000);
-	}
-
-	@Test
-	public void testGetCrossNum() {
-    	System.out.print(d.getCrossNum());
-		assertEquals(d.getCrossNum(),2);
-	}
-
-	@Test
-	public void testGetGenNum() {
-		assertEquals(d.getGenNum(),5);
-	}
-
-	@Test
-	public void testGetSurRatio() {
-		assertEquals(d.getSurRatio(),0.002,EPSILON);
-	}
-
-	@Test
-	public void testGetMutationRate() {
-		assertEquals(d.getMutationRate(),0.001, EPSILON);
-	}
-	*/
-
+    @Test
+    public void computeFitness() throws Exception {
+        ArrayList<Individual> initPop = main.createInitPop(domain.getPopSize(), domain);
+        for (int i = 0; i < initPop.size() - 1 ; i++) {
+            String gen = initPop.get(i).getGenMak();
+            Double ans = (double) StringUtils.countMatches(gen, "1") / gen.length();
+            assertEquals(String.valueOf(ans), String.valueOf(initPop.get(i).getFitness()));
+        }
+    }
 }

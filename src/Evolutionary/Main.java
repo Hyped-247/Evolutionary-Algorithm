@@ -106,13 +106,13 @@ public class Main {
      * @param mother: second parent
      * @return an ArrayList that has two new children.
      */
-    private ArrayList<Individual> reproduce(Individual father, Individual mother, Domain domain){
+    public ArrayList<Individual> reproduce(Individual father, Individual mother, Domain domain){
          ArrayList<Integer> allSplists = gitSplits(domain);
          ArrayList<Individual> kids = sliceAndDice(domain, allSplists, father.getGenMak(), mother.getGenMak());
         return kids;
     }
 
-    private ArrayList<Integer> gitSplits(Domain domain){
+    public ArrayList<Integer> gitSplits(Domain domain){
         ArrayList<Integer> splitsIndexes = new ArrayList<>(); // all the splits indexes.
         int splitNum = domain.getCrossNum();
         while (splitNum != 0){
@@ -243,8 +243,9 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Domain domain = new Domain();
         Main main = new Main();
-        domain.initializeDomain(50,1000,10,5,5,
-                0.2,0.001);
+        // The greater tha bitLength the more interesting the results are.
+        domain.initializeDomain(100,10000,5,15,20,
+                0.8,0.9);
         main.runGen(domain);
     }
 }

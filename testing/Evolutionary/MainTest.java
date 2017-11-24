@@ -1,121 +1,60 @@
 package Evolutionary;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.Random;
-
-import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
 
-/**
- * Created by mohammad on 11/2/17.
- */
 public class MainTest {
-
-  private static final double EPSILON = 0.0002;
-  private Domain domain = new Domain();
-    /*
     @Test
-    public void testWhoLives(){
-      Random rand = new Random();
-      for (int k=0; k<100; k++) {
-        int i = rand.nextInt(1000);
-        ArrayList<Individual> population = createInitPop(i);
-        Array<Individual> survivors = whoLives(population);
-        assertEquals(survivors.length, 0.2*population.length);
-       */
-      /**
-       * setUp is the fixture that sets up the variables to be used throughout the test
-       */
-    @Before
-    public void setUp() throws Exception {
-        domain.initializeDomain(8,10000,2,5,
-                5,0.002,0.001);
+    public void whoLives() throws Exception {
     }
 
-    /**
-     * testWhoLives checks if the size of the survivor population is correct
-     */
-    /*
     @Test
-    public void testWhoLives(){
-      Random rand = new Random();
-      for (int k=0; k<100; k++) {
-        int i = rand.nextInt(1000);
-        ArrayList<Individual> population = Main.createInitPop(i, domain);
-        ArrayList<Individual> survivors = Main.whoLives(population, domain);
-        assertEquals(survivors.size(), Math.floor(domain.getSurRatio()*population.size()) , EPSILON);
-      }
+    public void selectParticipants() throws Exception {
     }
-    */
 
-
-//  @Test
-//  public void testReproduce1() {
-//    Random rand = new Random();
-//    for (int i=0; i<100; i++) {
-//      String bitString = new String ((String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))));
-//      //bitString for the first Individual
-//      String bitString2 = new String ((String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))));
-//      //bitString for the second Individual
-//      Individual indi1 = new Individual(bitString); //first Individual
-//      Individual indi2 = new Individual(bitString2); //second Individual
-//      ArrayList<Individual> ai = Main.reproduce(indi1, indi2); //children of the two Individuals
-//      assertEquals(String.length(ai.get(0).getGenMak()), indi1.getGenMak()).length();
-//      //test that the first child's makeup is the same length as the parents'
-//      assertEquals(String.length(ai.get(1).getGenMak()), String.length(indi2.getGenMak()));
-//      //test that the second child's makeup is the same length as the parents'
-//      assertEquals(ai.length, 2);
-//      //test that there are 2 children
-//    }
-//  }
-  
-  /**
-   * testReproduce checks if the length of the kids bit strings are the correct length
-   * @throws Exception 
-   */
-  @Test
-  public void testReproduce() throws Exception{
-      /*
-      Main main = new Main();
-      for(int i = 0 ; i < 10 ; i++){
-          Individual indi1 = new Individual();
-          Individual indi2 = new Individual();
-          ArrayList<Individual> kids = Main.reproduce(indi1 , indi2);
-          assertEquals(Domain.getBitLength() , kids.get(0).getGenMak().length()); // Checks if kid0 has the correct length genMak
-          assertEquals(Domain.getBitLength() , kids.get(1).getGenMak().length()); // Checks if kid1 has the correct length genMak
-          */
-  }
-
-
-  /**
-   * testCreateInitPop checks if the size of the initial population is correct
-   */
-  /*
-  @Test
-  public void testCreateInitPop() {
-    Random rand = new Random();
-    for (int j=0; j<100; j++) {
-      int i = rand.nextInt(1000);
-      ArrayList<Individual> population = Main.createInitPop(i, domain);
-      assertEquals(population.size(), i);
+    @Test
+    public void selectWinner() throws Exception {
     }
-  }
-  */
+
+    @Test
+    public void createInitPop() throws Exception {
+    }
+
+    @Test
+    public void mutate() throws Exception {
+    }
+
+    @Test
+    public void reproduce() throws Exception {
+    }
+
+    @Test
+    public void gitSplits() throws Exception {
+    }
+
+    @Test
+    public void sliceAndDice() throws Exception {
+    }
+
+    @Test
+    public void avgFitness() throws Exception {
+    }
+
+    @Test
+    public void maxFitness() throws Exception {
+    }
+
+    @Test
+    public void minFitness() throws Exception {
+    }
+
+    @Test
+    public void runGen() throws Exception {
+    }
+
+    @Test
+    public void main() throws Exception {
+    }
+
 }
