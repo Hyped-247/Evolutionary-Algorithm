@@ -69,7 +69,6 @@ class Individual {
     String getGenMak(){
         return genMak;
     }
-
     private void setFitness(Domain domain) {
         fitness =  domain.computeFitness(genMak);
     }
