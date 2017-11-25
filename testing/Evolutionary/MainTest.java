@@ -2,30 +2,32 @@ package Evolutionary;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 public class MainTest {
     private Domain domain = new Domain();
     private Main main = new Main();
-    private ArrayList<Individual> initPop = main.createInitPop(domain.getPopSize(), domain);
+    private ArrayList<Individual> initPop;
 
 
     @Before
     public void initialize() throws Exception {
-        domain.initializeDomain(100,10000,5,15,20,
+        domain.initializeDomain(100,100,5,15,20,
                 0.8,0.9);
+    }
+
+    @Before
+    public void createInitPop() throws Exception {
+        initPop = main.createInitPop(domain.getPopSize(), domain);
+        assertEquals(initPop.size(), domain.getPopSize());
     }
 
     @Test
     public void whoLives() throws Exception {
 
-        
 
 
     }
@@ -43,15 +45,9 @@ public class MainTest {
 
 
 
-
     }
 
-    @Test
-    public void createInitPop() throws Exception {
 
-
-
-    }
 
     @Test
     public void mutate() throws Exception {

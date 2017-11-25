@@ -18,8 +18,7 @@ public abstract class AbstractDomain {
 
 
     /*
-     * Takes an Individual object and returns it's fitness score
-     * @param i an Individual object
+     * @param a Bit String
      * @return the double fitness level between 0-1
      */
     public abstract double computeFitness(String gen);
@@ -35,7 +34,7 @@ public abstract class AbstractDomain {
 	 * @param mutationRate	the mutation rate for the simulation 0-1
 	 */
 
-    public  void initializeDomain(int bitLength1, int popSize1, int crossNum1, int numGen, int tSize1,
+    public void initializeDomain(int bitLength1, int popSize1, int crossNum1, int numGen, int tSize1,
                                         double surRatio1, double mutationRate1) throws Exception {
         bitLength = bitLength1;
         popSize = popSize1;

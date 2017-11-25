@@ -17,7 +17,7 @@ public class Main {
      * @return Array<Individual> - the individuals that have been chosen to survive
      */
     public ArrayList<Individual> whoLives(ArrayList<Individual> population, Domain domain){
-        ArrayList<Individual> tempList = new ArrayList<Individual>();
+        ArrayList<Individual> tempList = new ArrayList<>();
         ArrayList<Individual> tempPop = new ArrayList<>(population); // changeable list of the population
         while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())) {
 
