@@ -42,8 +42,6 @@ public class MainTest {
     public void selectParticipants() throws Exception {
 
 
-
-
     }
 
     @Test
@@ -145,7 +143,6 @@ public class MainTest {
 
     @Test
     public void main() throws Exception {
-
 
 
     }
