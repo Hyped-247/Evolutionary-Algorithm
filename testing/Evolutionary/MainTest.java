@@ -15,7 +15,7 @@ public class MainTest {
     private String father = "";
     private String mother = "";
     private String firstKid = "";
-    private String secondtKid = "";
+    private String secondKid = "";
 
 
 
@@ -53,8 +53,6 @@ public class MainTest {
 
     }
 
-
-
     @Test
     public void mutate() throws Exception {
 
@@ -63,14 +61,14 @@ public class MainTest {
 
     @Test
     public void reproduce() throws Exception {
-
-
+        // reproduce and sliceAndDice are doing the same thing.
+        sliceAndDice();
     }
 
     @Test
     public void gitSplits() throws Exception {
-
-
+        // the +2 is there because the gitSplits method is going to also add the index of 0, and the last index.
+        assertEquals(domain.getCrossNum()+2, main.gitSplits(domain).size());
     }
 
     @Test
@@ -85,9 +83,9 @@ public class MainTest {
         // first kid should be 110100
         firstKid = "110100";
         // second kid should be 001011
-        secondtKid = "001011";
+        secondKid = "001011";
         assertEquals(firstKid,  main.sliceAndDice(domain, splits, father, mother).get(0).getGenMak()); // get first kid
-        assertEquals(secondtKid,  main.sliceAndDice(domain, splits, father, mother).get(1).getGenMak()); // get first kid
+        assertEquals(secondKid,  main.sliceAndDice(domain, splits, father, mother).get(1).getGenMak()); // get first kid
         splits.clear();
 
         // Second sliceAndDice test..
@@ -99,9 +97,9 @@ public class MainTest {
         // first kid should be 0011
         firstKid = "0011";
         // second kid should be 1100
-        secondtKid = "1100";
+        secondKid = "1100";
         assertEquals(firstKid,  main.sliceAndDice(domain, splits, father, mother).get(0).getGenMak()); // get first kid
-        assertEquals(secondtKid,  main.sliceAndDice(domain, splits, father, mother).get(1).getGenMak()); // get first kid
+        assertEquals(secondKid,  main.sliceAndDice(domain, splits, father, mother).get(1).getGenMak()); // get first kid
         splits.clear();
 
         // Third sliceAndDice test..
@@ -113,16 +111,10 @@ public class MainTest {
         // first kid should be 1001010
         firstKid = "1001010";
         // second kid should be 0111101
-        secondtKid = "0111101";
+        secondKid = "0111101";
         assertEquals(firstKid,  main.sliceAndDice(domain, splits, father, mother).get(0).getGenMak()); // get first kid
-        assertEquals(secondtKid,  main.sliceAndDice(domain, splits, father, mother).get(1).getGenMak()); // get first kid
+        assertEquals(secondKid,  main.sliceAndDice(domain, splits, father, mother).get(1).getGenMak()); // get first kid
         splits.clear();
-
-
-
-
-
-
     }
 
     @Test
