@@ -40,7 +40,6 @@ class Individual {
     /**
      * create genMak
      **/
-    // This method is going to create a random string that is 8 digits long of 0's and 1's.
     private void setGenMak(Domain domain) {
         int bitLen = domain.getBitLength();
         while (bitLen != 0) {
