@@ -23,20 +23,23 @@ class Individual {
         genMak = s;
         setFitness(domain);
     }
-
     Individual(Domain domain) {
         setId();
         setGenMak(domain);
         setFitness(domain);
     }
-
     /**
      * create an id
      **/
     private void setId() {
         id = idGenerator++;
     }
-
+    /**
+     * create Fitness
+     **/
+    private void setFitness(Domain domain) {
+        fitness =  domain.computeFitness(genMak);
+    }
     /**
      * create genMak
      **/
@@ -47,29 +50,23 @@ class Individual {
             bitLen--;
         }
     }
-
-    // This is going to randomly flip one bit if it is chosen to be mutated
-    // Todo: this method is giving me index errors.
+    /**
+     *  This is going to randomly flip one bit if it is chosen to be mutated
+     **/
     void flipBit(Domain domain){
         int pos = rand.nextInt(domain.getBitLength());
         StringBuilder myName = new StringBuilder(this.genMak);
         myName.setCharAt(pos, '1');
         genMak = String.valueOf(myName);
     }
-    /**
-     * getFitness return
-     */
     Double getFitness(){
         return fitness;
-    }
-    int getId(){
-        return id;
     }
     String getGenMak(){
         return genMak;
     }
-    private void setFitness(Domain domain) {
-        fitness =  domain.computeFitness(genMak);
+    int getId(){
+        return id;
     }
 }
 class IndividualComp implements Comparator<Individual> {
