@@ -8,9 +8,15 @@ import java.util.Collections;
 import static org.junit.Assert.assertEquals;
 
 public class MainTest {
+    private ArrayList<Integer> splits = new ArrayList<>();
     private Domain domain = new Domain();
     private Main main = new Main();
     private ArrayList<Individual> initPop;
+    private String father = "";
+    private String mother = "";
+    private String firstKid = "";
+    private String secondtKid = "";
+
 
 
     @Before
@@ -69,6 +75,52 @@ public class MainTest {
 
     @Test
     public void sliceAndDice() throws Exception {
+
+        // First sliceAndDice test..
+        splits.add(0);splits.add(2);splits.add(3);splits.add(4);splits.add(6); // splits 2, 3, 4
+        // Father : 101010
+        father = "111111";
+        // Mother : 101110
+        mother = "000000";
+        // first kid should be 110100
+        firstKid = "110100";
+        // second kid should be 001011
+        secondtKid = "001011";
+        assertEquals(firstKid,  main.sliceAndDice(domain, splits, father, mother).get(0).getGenMak()); // get first kid
+        assertEquals(secondtKid,  main.sliceAndDice(domain, splits, father, mother).get(1).getGenMak()); // get first kid
+        splits.clear();
+
+        // Second sliceAndDice test..
+        splits.add(0);splits.add(2);splits.add(3);splits.add(4); // splits 2, 3
+        // Father : 0001
+        father = "0001";
+        // Mother : 1110
+        mother = "1110";
+        // first kid should be 0011
+        firstKid = "0011";
+        // second kid should be 1100
+        secondtKid = "1100";
+        assertEquals(firstKid,  main.sliceAndDice(domain, splits, father, mother).get(0).getGenMak()); // get first kid
+        assertEquals(secondtKid,  main.sliceAndDice(domain, splits, father, mother).get(1).getGenMak()); // get first kid
+        splits.clear();
+
+        // Third sliceAndDice test..
+        splits.add(0);splits.add(2);splits.add(3);splits.add(7); // splits 2, 3
+        // Father : 1011010
+        father = "1011010";
+        // Mother : 0101101
+        mother = "0101101";
+        // first kid should be 1001010
+        firstKid = "1001010";
+        // second kid should be 0111101
+        secondtKid = "0111101";
+        assertEquals(firstKid,  main.sliceAndDice(domain, splits, father, mother).get(0).getGenMak()); // get first kid
+        assertEquals(secondtKid,  main.sliceAndDice(domain, splits, father, mother).get(1).getGenMak()); // get first kid
+        splits.clear();
+
+
+
+
 
 
     }

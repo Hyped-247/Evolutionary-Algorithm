@@ -92,7 +92,6 @@ public class Main {
     public ArrayList<Individual> mutate(ArrayList<Individual> population, Domain domain){
         for (int i = 0; i < population.size() - 1 ; i++){
             double y = rand.nextDouble();
-            // Todo: What if all of them are
             if (y <= domain.getMutationRate()) {
                 population.get(i).flipBit(domain);
             }
@@ -107,8 +106,8 @@ public class Main {
      * @return an ArrayList that has two new children.
      */
     public ArrayList<Individual> reproduce(Individual father, Individual mother, Domain domain){
-         ArrayList<Integer> allSplists = gitSplits(domain);
-         ArrayList<Individual> kids = sliceAndDice(domain, allSplists, father.getGenMak(), mother.getGenMak());
+         ArrayList<Integer> allSplits = gitSplits(domain);
+         ArrayList<Individual> kids = sliceAndDice(domain, allSplits, father.getGenMak(), mother.getGenMak());
         return kids;
     }
 
