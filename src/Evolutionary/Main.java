@@ -16,7 +16,7 @@ public class Main {
     public static ArrayList<Individual> whoLives(List<Individual> population, Domain domain){
         ArrayList<Individual> tempList = new ArrayList<Individual>();
         //ArrayList<Individual> tempPop = new ArrayList<Individual>(population); // changeable list of the population
-        int tempEnd = population.size() - 1; //full list, to be shrunk
+        int tempEnd = population.size(); //full list, to be shrunk
         while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())){
             
         	
@@ -30,7 +30,7 @@ public class Main {
             tempList.add(winner);
 
             // swap the first and the last participants
-            Collections.swap(population, population.indexOf(winner), (population.size() - 1));
+            Collections.swap(population, population.indexOf(winner), (tempEnd-1));
             tempEnd--;
             
         }
