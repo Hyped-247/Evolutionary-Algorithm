@@ -15,6 +15,6 @@ class Domain extends AbstractDomain {
      * @return double - a number between 0 and 1, representing the fitness of the individual
     **/
     public double computeFitness(String gen){
-       return (double) StringUtils.countMatches(gen, "1") / gen.length();
+        return (double) StringUtils.countMatches(gen, "1") / gen.length();
     }
 }
