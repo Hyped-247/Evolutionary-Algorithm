@@ -24,6 +24,8 @@ class Individual {
         setFitness(domain);
     }
     Individual(Domain domain) {
+        // Todo: use the this() to call the other constructor.
+        //this(domain, setGenMak(domain));
         setId();
         setGenMak(domain);
         setFitness(domain);

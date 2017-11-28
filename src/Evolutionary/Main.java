@@ -243,8 +243,8 @@ public class Main {
         Domain domain = new Domain();
         Main main = new Main();
         // The greater tha bitLength the more interesting the results are.
-        domain.initializeDomain(100,10000,5,15,20,
-                0.8,0.9);
+        domain.initializeDomain(20,100,3,100,5,
+                0.2,0.0001);
         main.runGen(domain);
     }
 }
