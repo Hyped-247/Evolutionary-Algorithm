@@ -49,7 +49,7 @@ public class MainTest {
       }
     }
     
-    runGeneration()
+  //  runGeneration()
 
 
 //  @Test
@@ -116,8 +116,10 @@ public class MainTest {
       assertEquals(population.size(), i);
     }
   }
-  
-  
+
+  /**
+
+
 
   @Test
   public void testAvgFitness() {
@@ -151,5 +153,5 @@ public class MainTest {
 	    AssertTrue(population.minFitness() >= 0);
 	  } 
   }
-
+   */
 }

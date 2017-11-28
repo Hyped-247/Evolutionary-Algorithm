@@ -3,12 +3,12 @@ package Evolutionary;
 import java.util.Comparator;
 import java.util.Random;
 
-public static Random rand = new Random();
 
 /**
  * This class is going to create an id, genetic_makeup, and fitness_level for each Individual.
  **/
 class Individual {
+    private Random rand = new Random();
     private static int idGenerator = 0;
     private String genMak;
     private Double fitness = 0.0;

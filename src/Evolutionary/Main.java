@@ -5,9 +5,10 @@ import java.lang.Math;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public static Random rand = new Random();
+
 
 public class Main {
+    static Random rand = new Random();
 
     // Make an init method that instantiates a domain object
     
@@ -45,7 +46,7 @@ public class Main {
      * @return ArrayList<Individual> the participants selected for the tournament
      */
     public static ArrayList<Individual> selectParticipants(ArrayList<Individual> population,  Domain domain){
-        ArrayList<Individual> tParticipants = new ArrayList<Individual>();
+        ArrayList<Individual> tParticipants = new ArrayList<>();
         for(int i = 0 ; i < domain.getTSize() ; i++){
             int y = rand.nextInt(population.size());
             tParticipants.add(population.get(y));
@@ -285,11 +286,11 @@ public class Main {
     
     public static void main(String[] args) throws Exception {
         Domain domain = new Domain();
-        domain.initializeDomain(4,20,2,5,5, 0.2,0.001);
-        
+        domain.initializeDomain(4, 20, 2, 5, 5, 0.2, 0.001);
+
         int gen = domain.getGenNum();
         int count = 0;
-        
+
         ArrayList<Individual> initPop = createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
         ArrayList<Individual> adults = new ArrayList<>();
         ArrayList<Individual> kids = new ArrayList<>();
@@ -298,35 +299,34 @@ public class Main {
             adults = whoLives(initPop, domain);
             int aSize = adults.size();
 
-            while ( aSize < domain.getPopSize()) {
-               int p1 = rand.nextInt((adults.size())); // chose random father.
-               int p2 = rand.nextInt((adults.size()));// chose random mother.
+            while (aSize < domain.getPopSize()) {
+                int p1 = rand.nextInt((adults.size())); // chose random father.
+                int p2 = rand.nextInt((adults.size()));// chose random mother.
 
                 kids.addAll(reproduce(adults.get(p1), adults.get(p2), domain));
-                aSize+= 2;
+                aSize += 2;
 
             }
 
-        while (count < gen) {
-            
-        	adults = whoLives(initPop, domain);
-            
-        	runGeneration(initPop, adults, kids ,domain);
-            if (kids.size()-adults.size() != domain.getPopSize()) {
-                kids.remove((kids.size()-1)); // remove the last kid.
-            }
-            
-           
+            while (count < gen) {
 
-            initPop = mutate(combineLists(adults,kids), domain);
-            
-            printStats(count, initPop);
-            
-            count++;
-            
-            
-            
+                adults = whoLives(initPop, domain);
+
+                runGeneration(initPop, adults, kids, domain);
+                if (kids.size() - adults.size() != domain.getPopSize()) {
+                    kids.remove((kids.size() - 1)); // remove the last kid.
+                }
+
+
+                initPop = mutate(combineLists(adults, kids), domain);
+
+                printStats(count, initPop);
+
+                count++;
+
+
+            }
+
         }
-        
     }
 }
