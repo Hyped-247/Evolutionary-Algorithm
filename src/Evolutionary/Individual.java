@@ -21,15 +21,15 @@ class Individual {
         genMak = s;
         setId();
         fitness = domain.computeFitness(this, domain);
-        System.out.println("FitnessNew: " + fitness);
-        System.out.println("genMakNew: " + genMak);
+        //System.out.println("FitnessNew: " + fitness);
+        //System.out.println("genMakNew: " + genMak);
     }
     Individual(Domain domain){
         setId();
         setGenMak(domain);
         fitness = domain.computeFitness(this, domain);
-        System.out.println("FitnessOriginal: " + fitness);
-        System.out.println("genMakOriginal: " + genMak);
+        //System.out.println("FitnessOriginal: " + fitness);
+        //System.out.println("genMakOriginal: " + genMak);
     }
     
     /**
@@ -61,6 +61,10 @@ class Individual {
     void flipBit(Domain domain){
         Random charles = new Random();
         int pos = charles.nextInt(domain.getBitLength());
+        if(pos == 0)
+        {
+            pos = 1;
+        }
         String second = "0";
         if (genMak.charAt(pos)=='0'){
             second = "1";

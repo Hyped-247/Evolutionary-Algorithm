@@ -136,6 +136,10 @@ public class Main {
         String secondKid = "";
         int counter = allIndexes.size(); // how many times I am going to split.
         int genMakLen = father.length(); // how is the bit len.
+        
+        //System.out.println("Father: " + father);
+        //System.out.println("Mother: " + mother);
+        
         while (counter >= -1){
             // start adding bits to both children/ adding bits after split
             while ((!allIndexes.contains(index) && (genMakLen != index)) ||  (allowfather && (genMakLen != index))){
@@ -256,6 +260,9 @@ public class Main {
                Random par = new Random(); // get Random number.
                int p1 = par.nextInt((adults.size())); // chose random father.
                int p2 = par.nextInt((adults.size()));// chose random mother.
+               
+               //System.out.println("p1: " + p1);
+               //System.out.println("p2: " + p2);
 
                 kids.addAll(reproduce(adults.get(p1), adults.get(p2), domain));
                 aSize+= 2;
