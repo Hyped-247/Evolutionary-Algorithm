@@ -8,6 +8,7 @@ import java.util.Random;
 public class Main {
     private Random rand = new Random();
 
+
     // Make an init method that instantiates a domain object
     
     /**
@@ -199,8 +200,8 @@ public class Main {
         Individual minfit = Collections.min(pop, new IndividualComp());
         return minfit.getFitness();
     }
-
     public void runGen(Domain domain){
+
         ArrayList<Individual> initPop = createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
         ArrayList<Individual> kids = new ArrayList<>();
         ArrayList<Individual> adults;
@@ -220,9 +221,6 @@ public class Main {
             if (kids.size() - adults.size() != domain.getPopSize()) {
                 kids.remove((kids.size() - 1)); // remove the last kid.
             }
-            ArrayList<Individual> newGen = new ArrayList<>();
-            newGen.addAll(adults);
-            newGen.addAll(kids);
 
             initPop = mutate(newGen, domain);
             genData(gen, initPop);

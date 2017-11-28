@@ -37,6 +37,7 @@ public class MainTest {
 
 
     }
+    
 
     @Test
     public void selectParticipants() throws Exception {
@@ -146,5 +147,36 @@ public class MainTest {
 
 
     }
-
+    @Test
+  public void testAvgFitness() {
+	  Random rand = new Random();
+	  for (int j=0; j<100; j++) {
+	    int i = rand.nextInt(1000);
+	    ArrayList<Individual> population = Main.createInitPop(i, domain);
+	    AssertTrue(population.avgFitness() <= 1);
+	    AssertTrue(population.avgFitness() >= 0);
+	  } 
+  }
+  
+  @Test
+  public void testMaxFitness() {
+	  Random rand = new Random();
+	  for (int j=0; j<100; j++) {
+	    int i = rand.nextInt(1000);
+	    ArrayList<Individual> population = Main.createInitPop(i, domain);
+	    AssertTrue(population.maxFitness() <= 1);
+	    AssertTrue(population.maxFitness() >= 0);
+	  } 
+  }
+  
+  @Test
+  public void testMinFitness() {
+	  Random rand = new Random();
+	  for (int j=0; j<100; j++) {
+	    int i = rand.nextInt(1000);
+	    ArrayList<Individual> population = Main.createInitPop(i, domain);
+	    AssertTrue(population.minFitness() <= 1);
+	    AssertTrue(population.minFitness() >= 0);
+	  } 
+  }
 }
