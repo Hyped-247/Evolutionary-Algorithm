@@ -2,7 +2,6 @@ package Evolutionary;
 
 import java.util.*;
 import java.lang.Math;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 public class Main {
 
@@ -14,14 +13,15 @@ public class Main {
      * @param domain
      * @return Array<Individual> - the individuals that have been chosen to survive
      */
-    public static ArrayList<Individual> whoLives(ArrayList<Individual> population, Domain domain){
+    public static ArrayList<Individual> whoLives(List<Individual> population, Domain domain){
         ArrayList<Individual> tempList = new ArrayList<Individual>();
-        ArrayList<Individual> tempPop = new ArrayList<Individual>(population); // changeable list of the population
+        //ArrayList<Individual> tempPop = new ArrayList<Individual>(population); // changeable list of the population
+        int tempEnd = population.size() - 1; //full list, to be shrunk
         while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())){
             
         	
         	// Randomly select participants for the tournament
-            ArrayList<Individual> participants = selectParticipants(tempPop, domain);
+            ArrayList<Individual> participants = selectParticipants(population.subList(0, tempEnd), domain);
             
             // Select Winner
             Individual winner = selectWinner(participants);
@@ -29,8 +29,10 @@ public class Main {
             //Add winner to list of winners
             tempList.add(winner);
 
-            // Remove the winner from the population list
-            tempPop.remove(winner);
+            // swap the first and the last participants
+            Collections.swap(population, population.indexOf(winner), (population.size() - 1));
+            tempEnd--;
+            
         }
         return tempList;
     }
@@ -38,15 +40,15 @@ public class Main {
     
     /**
      * selectParticipants randomly chooses participants from a population to compete in a tournament
-     * @param population the population from which the participants are being chosen
+     * @param list the population from which the participants are being chosen
      * @return ArrayList<Individual> the participants selected for the tournament
      */
-    public static ArrayList<Individual> selectParticipants(ArrayList<Individual> population,  Domain domain){
+    public static ArrayList<Individual> selectParticipants(List<Individual> list,  Domain domain){
         ArrayList<Individual> tParticipants = new ArrayList<Individual>();
         Random x = new  Random();
         for(int i = 0 ; i < domain.getTSize() ; i++){
-            int y = x.nextInt(population.size());
-            tParticipants.add(population.get(y));
+            int y = x.nextInt(list.size());
+            tParticipants.add(list.get(y));
         }
         return tParticipants;
     }
