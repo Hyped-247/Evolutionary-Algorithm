@@ -1,127 +1,153 @@
 package Evolutionary;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.Random;
-
 import org.junit.Before;
 import org.junit.Test;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import static org.junit.Assert.assertEquals;
 
-
-/**
- * Created by mohammad on 11/2/17.
- */
 public class MainTest {
+    private ArrayList<Integer> splits = new ArrayList<>();
+    private Domain domain = new Domain();
+    private Main main = new Main();
+    private ArrayList<Individual> initPop;
+    private String father = "";
+    private String mother = "";
+    private String firstKid = "";
+    private String secondKid = "";
 
-  private static final double EPSILON = 0.0002;
-  private Domain domain = new Domain();
-    /*
-    @Test
-    public void testWhoLives(){
-      Random rand = new Random();
-      for (int k=0; k<100; k++) {
-        int i = rand.nextInt(1000);
-        ArrayList<Individual> population = createInitPop(i);
-        Array<Individual> survivors = whoLives(population);
-        assertEquals(survivors.length, 0.2*population.length);
-       */
-      /**
-       * setUp is the fixture that sets up the variables to be used throughout the test
-       */
+
+
     @Before
-    public void setUp() throws Exception {
-        domain.initializeDomain(8,10000,2,5,
-                5,0.002,0.001);
+    public void initialize() throws Exception {
+        domain.initializeDomain(100,100,5,15,20,
+                0.8,0.9);
     }
 
-    /**
-     * testWhoLives checks if the size of the survivor population is correct
-     */
+    @Before
+    public void createInitPop() throws Exception {
+        initPop = main.createInitPop(domain.getPopSize(), domain);
+        assertEquals(initPop.size(), domain.getPopSize());
+    }
+
     @Test
-    public void testWhoLives(){
-      Random rand = new Random();
-      for (int k=0; k<100; k++) {
-        int i = rand.nextInt(1000);
-        ArrayList<Individual> population = Main.createInitPop(i, domain);
-        ArrayList<Individual> survivors = Main.whoLives(population, domain);
-        assertEquals(survivors.size(), Math.floor(domain.getSurRatio()*population.size()) , EPSILON);
-      }
+    public void whoLives() throws Exception {
+
+
+
     }
     
-  //  runGeneration()
+
+    @Test
+    public void selectParticipants() throws Exception {
 
 
-//  @Test
-//  public void testReproduce1() {
-//    Random rand = new Random();
-//    for (int i=0; i<100; i++) {
-//      String bitString = new String ((String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))));
-//      //bitString for the first Individual
-//      String bitString2 = new String ((String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))) +
-//                                     (String.valueOf(rand.nextInt(2))));
-//      //bitString for the second Individual
-//      Individual indi1 = new Individual(bitString); //first Individual
-//      Individual indi2 = new Individual(bitString2); //second Individual
-//      ArrayList<Individual> ai = Main.reproduce(indi1, indi2); //children of the two Individuals
-//      assertEquals(String.length(ai.get(0).getGenMak()), indi1.getGenMak()).length();
-//      //test that the first child's makeup is the same length as the parents'
-//      assertEquals(String.length(ai.get(1).getGenMak()), String.length(indi2.getGenMak()));
-//      //test that the second child's makeup is the same length as the parents'
-//      assertEquals(ai.length, 2);
-//      //test that there are 2 children
-//    }
-//  }
-  
-  /**
-   * testReproduce checks if the length of the kids bit strings are the correct length
-   * @throws Exception 
-   */
-  @Test
-  public void testReproduce() throws Exception{
-      /*
-      Main main = new Main();
-      for(int i = 0 ; i < 10 ; i++){
-          Individual indi1 = new Individual();
-          Individual indi2 = new Individual();
-          ArrayList<Individual> kids = Main.reproduce(indi1 , indi2);
-          assertEquals(Domain.getBitLength() , kids.get(0).getGenMak().length()); // Checks if kid0 has the correct length genMak
-          assertEquals(Domain.getBitLength() , kids.get(1).getGenMak().length()); // Checks if kid1 has the correct length genMak
-          */
-  }
-
-
-  /**
-   * testCreateInitPop checks if the size of the initial population is correct
-   */
-  @Test
-  public void testCreateInitPop() {
-    Random rand = new Random();
-    for (int j=0; j<100; j++) {
-      int i = rand.nextInt(1000);
-      ArrayList<Individual> population = Main.createInitPop(i, domain);
-      assertEquals(population.size(), i);
     }
-  }
 
-  /**
+    @Test
+    public void selectWinner() throws Exception {
 
 
 
-  @Test
+    }
+
+    @Test
+    public void mutate() throws Exception {
+
+
+    }
+
+    @Test
+    public void reproduce() throws Exception {
+        // reproduce and sliceAndDice are doing the same thing.
+        sliceAndDice();
+    }
+
+    @Test
+    public void gitSplits() throws Exception {
+        // the +2 is there because the gitSplits method is going to also add the index of 0, and the last index.
+        assertEquals(domain.getCrossNum()+2, main.gitSplits(domain).size());
+    }
+
+    @Test
+    public void sliceAndDice() throws Exception {
+
+        // First sliceAndDice test..
+        splits.add(0);splits.add(2);splits.add(3);splits.add(4);splits.add(6); // splits 2, 3, 4
+        // Father : 101010
+        father = "111111";
+        // Mother : 101110
+        mother = "000000";
+        // first kid should be 110100
+        firstKid = "110100";
+        // second kid should be 001011
+        secondKid = "001011";
+        assertEquals(firstKid,  main.sliceAndDice(domain, splits, father, mother).get(0).getGenMak()); // get first kid
+        assertEquals(secondKid,  main.sliceAndDice(domain, splits, father, mother).get(1).getGenMak()); // get first kid
+        splits.clear();
+
+        // Second sliceAndDice test..
+        splits.add(0);splits.add(2);splits.add(3);splits.add(4); // splits 2, 3
+        // Father : 0001
+        father = "0001";
+        // Mother : 1110
+        mother = "1110";
+        // first kid should be 0011
+        firstKid = "0011";
+        // second kid should be 1100
+        secondKid = "1100";
+        assertEquals(firstKid,  main.sliceAndDice(domain, splits, father, mother).get(0).getGenMak()); // get first kid
+        assertEquals(secondKid,  main.sliceAndDice(domain, splits, father, mother).get(1).getGenMak()); // get first kid
+        splits.clear();
+
+        // Third sliceAndDice test..
+        splits.add(0);splits.add(2);splits.add(3);splits.add(7); // splits 2, 3
+        // Father : 1011010
+        father = "1011010";
+        // Mother : 0101101
+        mother = "0101101";
+        // first kid should be 1001010
+        firstKid = "1001010";
+        // second kid should be 0111101
+        secondKid = "0111101";
+        assertEquals(firstKid,  main.sliceAndDice(domain, splits, father, mother).get(0).getGenMak()); // get first kid
+        assertEquals(secondKid,  main.sliceAndDice(domain, splits, father, mother).get(1).getGenMak()); // get first kid
+        splits.clear();
+    }
+
+    @Test
+    public void avgFitness() throws Exception {
+        double sum = 0;
+        for(int i = 0; i < initPop.size(); i++) {
+            sum += initPop.get(i).getFitness();
+        }
+        Double ans = Double.parseDouble(new DecimalFormat("0.00").format(sum / initPop.size()));
+        assertEquals(String.valueOf(main.avgFitness(initPop)) , String.valueOf(ans));
+    }
+    @Test
+    public void maxFitness() throws Exception {
+        Individual max = Collections.max(initPop, new IndividualComp());
+        assertEquals(String.valueOf(max.getFitness()), String.valueOf(main.maxFitness(initPop)));
+    }
+
+    @Test
+    public void minFitness() throws Exception {
+        Individual min = Collections.min(initPop, new IndividualComp());
+        assertEquals(String.valueOf(min.getFitness()) ,String.valueOf(main.minFitness(initPop)));
+    }
+
+    @Test
+    public void runGen() throws Exception {
+
+    }
+
+    @Test
+    public void main() throws Exception {
+
+
+    }
+    @Test
   public void testAvgFitness() {
 	  Random rand = new Random();
 	  for (int j=0; j<100; j++) {
@@ -153,5 +179,4 @@ public class MainTest {
 	    AssertTrue(population.minFitness() >= 0);
 	  } 
   }
-   */
 }
