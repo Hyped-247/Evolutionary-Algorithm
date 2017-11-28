@@ -15,7 +15,7 @@ public class Main {
      */
     public static ArrayList<Individual> whoLives(List<Individual> population, Domain domain){
         ArrayList<Individual> tempList = new ArrayList<Individual>();
-        //ArrayList<Individual> tempPop = new ArrayList<Individual>(population); // changeable list of the population
+        
         int tempEnd = population.size(); //full list, to be shrunk
         while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())){
             
@@ -236,7 +236,7 @@ public class Main {
                 .replaceAll("x", "1");
     }
     /**
-     * This method runs a generation 
+     * This method runs a generation, used to shorten main method
      * @param adultList list of surviving adults
      * @param kidList list of kids, to be added to
      * @param domain the domain
@@ -247,8 +247,8 @@ public class Main {
     	while (nextGenSize < domain.getPopSize()) {
     		ArrayList<Individual>  randGroup = new ArrayList<Individual>();
     		
-    		randGroup = selectParticipants(population, domain);
-    		Individual p1 = selectWinner(randGroup);
+    		randGroup = selectParticipants(population, domain); //form a random group from the WHOLE population
+    		Individual p1 = selectWinner(randGroup); //select  a winner from the random group
     		Individual tempInd = p1;
     		randGroup.set(randGroup.indexOf(p1), randGroup.get(randGroup.size()-1));
     		randGroup.set(randGroup.size()-1, tempInd);
