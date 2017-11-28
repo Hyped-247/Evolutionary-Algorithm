@@ -22,7 +22,6 @@ public class AbstractDomainTest {
     @Test
     public void getPopSize() throws Exception {
         assertEquals(domain.getPopSize(), 10000);
-
     }
 
     @Test
