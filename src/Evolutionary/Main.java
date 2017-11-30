@@ -17,23 +17,25 @@ public class Main {
      * @param domain
      * @return Array<Individual> - the individuals that have been chosen to survive
      */
-    public ArrayList<Individual> whoLives(ArrayList<Individual> population, Domain domain){
-        ArrayList<Individual> tempList = new ArrayList<>();
-        ArrayList<Individual> tempPop = new ArrayList<>(population); // changeable list of the population
-        while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())) {
-
-            // Randomly select participants for the tournament
-            ArrayList<Individual> participants = selectParticipants(tempPop, domain);
-
+    public  ArrayList<Individual> whoLives(List<Individual> population, Domain domain){
+        ArrayList<Individual> tempList = new ArrayList<Individual>();
+        
+        int tempEnd = population.size(); //full list, to be shrunk
+        while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())){
+            
+        	
+        	// Randomly select participants for the tournament
+            ArrayList<Individual> participants = selectParticipants(population.subList(0, tempEnd), domain);
+            
             // Select Winner
             Individual winner = selectWinner(participants);
 
             //Add winner to list of winners
             tempList.add(winner);
 
-            // Remove the winner from the population list
-            tempPop.remove(winner);
-
+            // swap the first and the last participants
+            Collections.swap(population, population.indexOf(winner), (tempEnd-1));
+            tempEnd--;
         }
         return tempList;
     }
@@ -41,14 +43,15 @@ public class Main {
     
     /**
      * selectParticipants randomly chooses participants from a population to compete in a tournament
-     * @param population the population from which the participants are being chosen
+     * @param list the population from which the participants are being chosen
      * @return ArrayList<Individual> the participants selected for the tournament
      */
-    public ArrayList<Individual> selectParticipants(ArrayList<Individual> population,  Domain domain){
-        ArrayList<Individual> tParticipants = new ArrayList<>();
+    public  ArrayList<Individual> selectParticipants(List<Individual> list,  Domain domain){
+        ArrayList<Individual> tParticipants = new ArrayList<Individual>();
+        Random x = new  Random();
         for(int i = 0 ; i < domain.getTSize() ; i++){
-            int y = rand.nextInt(population.size());
-            tParticipants.add(population.get(y));
+            int y = x.nextInt(list.size());
+            tParticipants.add(list.get(y));
         }
         return tParticipants;
     }
@@ -200,9 +203,70 @@ public class Main {
         Individual minfit = Collections.min(pop, new IndividualComp());
         return minfit.getFitness();
     }
-    public void runGen(Domain domain){
 
-        ArrayList<Individual> initPop = createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
+    /**
+     * This method runs a generation, used to shorten main method
+     * @param adultList list of surviving adults
+     * @param kidList list of kids, to be added to
+     * @param domain the domain
+     */
+    private void runGeneration(ArrayList<Individual> population, ArrayList<Individual> adultList, ArrayList<Individual> kidList, Domain domain){
+    	int nextGenSize = adultList.size(); //starts at the size of the adults, increases as children added
+    	
+    	while (nextGenSize < domain.getPopSize()) {
+    		ArrayList<Individual>  randGroup = new ArrayList<Individual>();
+    		
+    		randGroup = selectParticipants(population, domain); //form a random group from the WHOLE population
+    		Individual p1 = selectWinner(randGroup); //select  a winner from the random group
+    		Individual tempInd = p1;
+    		randGroup.set(randGroup.indexOf(p1), randGroup.get(randGroup.size()-1));
+    		randGroup.set(randGroup.size()-1, tempInd);
+    		Individual p2 = selectWinner(randGroup.subList(0, randGroup.size()-1)); //choose from the list except last element(p1)
+      
+             kidList.addAll(reproduce(p1, p2, domain));
+             nextGenSize+= 2;
+
+         }
+    }
+    /**
+     * This method combines two lists of Individuals
+     * @param list1 list of Individuals
+     * @param list2 another list of Individuals
+     * @return list combining list1 and list2
+     */
+    private ArrayList<Individual> combineLists(ArrayList<Individual> list1, ArrayList<Individual> list2){
+    	ArrayList<Individual> combinedList = new ArrayList<Individual>();
+    	combinedList.addAll(list1);
+    	combinedList.addAll(list2);
+        
+        return combinedList;
+    }
+      private void genData(int gen, ArrayList<Individual> initPop) {
+        // print average fitness , max fitness , worst fitness
+        System.out.println("This is the data for generation num: "+gen);
+        System.out.println("This is the avgFitness "+avgFitness(initPop));
+        System.out.println("This is the maxFitness "+maxFitness(initPop));
+        System.out.println("This is the minFitness "+minFitness(initPop));
+    }
+    /**
+     * This method prints gen, maxFit, and avgFit 
+     * @param gen the generation number 
+     * @param initPop mutated for the next generation 
+     */
+    private static void printStats(int gen, ArrayList<Individual> initPop){
+    	System.out.println("gen" + gen + "  maxFit " + maxFitness(initPop) + "  avgFit " + avgFitness(initPop));
+    }
+    
+
+    public static void main(String[] args) throws Exception {
+        Domain domain = new Domain();
+        Main main = new Main();
+        // The greater tha bitLength the more interesting the results are.
+        domain.initializeDomain(100,10000,5,15,20,
+                0.8,0.9);
+        main.runGeneration(domain);
+      /*
+      ArrayList<Individual> initPop = createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
         ArrayList<Individual> kids = new ArrayList<>();
         ArrayList<Individual> adults;
         int gen = domain.getGenNum();
@@ -221,28 +285,13 @@ public class Main {
             if (kids.size() - adults.size() != domain.getPopSize()) {
                 kids.remove((kids.size() - 1)); // remove the last kid.
             }
+            ArrayList<Individual> newGen = new ArrayList<>();
+            newGen.addAll(adults);
+            newGen.addAll(kids);
 
             initPop = mutate(newGen, domain);
             genData(gen, initPop);
             gen--;
-        }
-
-    }
-
-    private void genData(int gen, ArrayList<Individual> initPop) {
-        // print average fitness , max fitness , worst fitness
-        System.out.println("This is the data for generation num: "+gen);
-        System.out.println("This is the avgFitness "+avgFitness(initPop));
-        System.out.println("This is the maxFitness "+maxFitness(initPop));
-        System.out.println("This is the minFitness "+minFitness(initPop));
-    }
-
-    public static void main(String[] args) throws Exception {
-        Domain domain = new Domain();
-        Main main = new Main();
-        // The greater tha bitLength the more interesting the results are.
-        domain.initializeDomain(100,10000,5,15,20,
-                0.8,0.9);
-        main.runGen(domain);
+      */
     }
 }
