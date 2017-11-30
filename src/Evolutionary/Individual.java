@@ -10,7 +10,6 @@ import java.util.Random;
 class Individual {
     private Random rand = new Random();
     private static int idGenerator = 0;
-    private Random rand = new Random();
     private String genMak = "";
     private Double fitness;
     private int id;
