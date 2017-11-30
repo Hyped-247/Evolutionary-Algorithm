@@ -74,6 +74,8 @@ class Individual {
         StringBuilder myName = new StringBuilder(this.genMak);
         myName.setCharAt(pos, '1');
         genMak = String.valueOf(myName);
+        fitness = domain.computeFitness(genMak);
+
     }
     Double getFitness(){
         return fitness;

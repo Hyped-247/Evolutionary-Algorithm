@@ -120,8 +120,7 @@ public class Main {
      */
     public ArrayList<Individual> reproduce(Individual father, Individual mother, AbstractDomain domain){
          ArrayList<Integer> allSplits = gitSplits(domain);
-         ArrayList<Individual> kids = sliceAndDice(domain, allSplits, father.getGenMak(), mother.getGenMak());
-        return kids;
+         return sliceAndDice(domain, allSplits, father.getGenMak(), mother.getGenMak());
     }
     /**
      * This method returns the indices of where to make crossover in the genetic make-up between two parents
@@ -204,7 +203,7 @@ public class Main {
     /**
      * This method returns the max fitness in the population
      * @param pop the population; an ArrayList of Individuals
-     * @return the max fithess as a double
+     * @return the max fitness as a double
      */
     public double maxFitness(ArrayList<Individual> pop) {
         Individual maxfit = Collections.max(pop, new IndividualComp());
@@ -258,20 +257,15 @@ public class Main {
         
         return combinedList;
     }
-      private void genData(int gen, ArrayList<Individual> initPop) {
-        // print average fitness , max fitness , worst fitness
-        System.out.println("This is the data for generation num: "+gen);
-        System.out.println("This is the avgFitness "+avgFitness(initPop));
-        System.out.println("This is the maxFitness "+maxFitness(initPop));
-        System.out.println("This is the minFitness "+minFitness(initPop));
-    }
+
     /**
      * This method prints gen, maxFit, and avgFit 
      * @param gen the generation number 
      * @param initPop mutated for the next generation 
      */
     private  void printStats(int gen, ArrayList<Individual> initPop){
-    	System.out.println("gen" + gen + "  maxFit " + maxFitness(initPop) + "  avgFit " + avgFitness(initPop));
+    	System.out.println("gen" + gen + "  maxFit " + maxFitness(initPop)  + "  minFit " + minFitness(initPop) +
+                "  avgFit " + avgFitness(initPop));
     }
     
 
