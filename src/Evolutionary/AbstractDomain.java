@@ -8,7 +8,6 @@ package Evolutionary;
 
 public abstract class AbstractDomain {
 
-
     private int bitLength;
     private int popSize;
     private int crossNum;
@@ -19,11 +18,10 @@ public abstract class AbstractDomain {
 
 
     /*
-     * Takes an Individual object and returns it's fitness score
-     * @param i an Individual object
+     * @param a Bit String
      * @return the double fitness level between 0-1
      */
-    public abstract double computeFitness(Individual i, Domain d);
+    public abstract double computeFitness(String gen);
 
 
 	/*
@@ -31,24 +29,24 @@ public abstract class AbstractDomain {
 	 * @param bitLength 	length of the genetic makeup's string
 	 * @param popSize 		amount of individuals in a population
 	 * @param crossNum 		amount of crosses in the reproduction process
-	 * @param genNum 		amount of generations for the simulation to run
+	 * @param numGen 		amount of generations for the simulation to run
 	 * @param surRatio		the survival rate of a generation between 0-1
 	 * @param mutationRate	the mutation rate for the simulation 0-1
 	 */
 
-    public  void initializeDomain(int bitLength1, int popSize1, int crossNum1, int genNum1, int tSize1,
+    public void initializeDomain(int bitLength1, int popSize1, int crossNum1, int numGen, int tSize1,
                                         double surRatio1, double mutationRate1) throws Exception {
         bitLength = bitLength1;
         popSize = popSize1;
         crossNum = crossNum1;
-        genNum = genNum1;
+        genNum = numGen;
         tSize = tSize1;
         surRatio = surRatio1;
         mutationRate = mutationRate1;
         correctInput(crossNum, bitLength); // check if the num of splits is not greater than the len of GenMak
     }
     private void correctInput(int crossNum, int bitLength) throws Exception{
-        if(crossNum >= bitLength || crossNum <= 0 || bitLength <= 0){
+        if(crossNum >= bitLength || crossNum < 0 || bitLength <= 0){
             // throw an error iff the num of number of splits is greater than the bit length
             throw new Exception("crossNum cannot be larger than bitLength or less than 1");
         }
