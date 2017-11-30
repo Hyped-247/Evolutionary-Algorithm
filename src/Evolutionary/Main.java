@@ -257,7 +257,29 @@ public class Main {
     	System.out.println("gen" + gen + "  maxFit " + maxFitness(initPop) + "  avgFit " + avgFitness(initPop));
     }
     
-
+    public static void proccessComandLineArgs(String[] args) {
+        System.out.print("");
+        
+        HashMap<String,Number> arguments = new HashMap<String,Number>();
+        arguments.put("bitLength",8);
+        arguments.put("popSize",100);
+        arguments.put("crossNum",3);
+        arguments.put("genNum",100);
+        arguments.put("tSize",5);
+        arguments.put("surRatio",.2);
+        arguments.put("mutationRate",.01);
+        
+        if (args.length > 0) {
+            int i = 0;
+            while (i < args.length-1) {
+               arguments.put(args[i],Double.parseDouble(args[i+1])); 
+               i += 2;
+            }
+        }
+   }
+    
+    
+    
     public static void main(String[] args) throws Exception {
         Domain domain = new Domain();
         Main main = new Main();
