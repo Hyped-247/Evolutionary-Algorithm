@@ -59,7 +59,12 @@ class Individual {
     void flipBit(Domain domain){
         int pos = rand.nextInt(domain.getBitLength());
         StringBuilder myName = new StringBuilder(this.genMak);
-        myName.setCharAt(pos, '1');
+        if(myName.charAt(pos) == '0'){
+            myName.setCharAt(pos, '1');
+        }
+        else{
+            myName.setCharAt(pos, '0');
+        }
         genMak = String.valueOf(myName);
         fitness = domain.computeFitness(genMak);
 

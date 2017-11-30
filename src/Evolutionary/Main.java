@@ -3,7 +3,6 @@ package Evolutionary;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.lang.Math;
-import java.util.Random;
 
 public class Main {
     private Random rand = new Random();
@@ -23,7 +22,6 @@ public class Main {
         int tempEnd = population.size(); //full list, to be shrunk
         while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())){
             
-        	
         	// Randomly select participants for the tournament
             ArrayList<Individual> participants = selectParticipants(population.subList(0, tempEnd), domain);
             
@@ -94,11 +92,13 @@ public class Main {
      * @return ArrayList<Individual> - the new population after mutations have occurred
      */
     public ArrayList<Individual> mutate(ArrayList<Individual> population, Domain domain){
-        for (int i = 0; i < population.size() - 1 ; i++){
-            double y = rand.nextDouble();
-            if (y <= domain.getMutationRate()) {
-                population.get(i).flipBit(domain);
-            }
+        int y = (int) (population.size() * domain.getMutationRate());
+        Set<Integer> indices = new TreeSet<Integer>();
+        while(indices.size() < y){
+            indices.add(rand.nextInt(population.size()));
+        }
+        for(int index : indices){
+            population.get(index).flipBit(domain);
         }
         return population;
     }
@@ -180,7 +180,7 @@ public class Main {
         for(int i = 0; i < pop.size(); i++) {
             sum += pop.get(i).getFitness();
         }
-        return Double.parseDouble(new DecimalFormat("0.00").format(sum / pop.size()));
+        return Double.parseDouble(new DecimalFormat("0.000").format(sum / pop.size()));
     }
 
     /**
@@ -214,19 +214,18 @@ public class Main {
 
         while (nextGenSize < domain.getPopSize()) {
             ArrayList<Individual> randGroup;
-
     		randGroup = selectParticipants(population, domain); //form a random group from the WHOLE population
     		Individual p1 = selectWinner(randGroup); //select  a winner from the random group
     		Individual tempInd = p1;
     		randGroup.set(randGroup.indexOf(p1), randGroup.get(randGroup.size()-1));
     		randGroup.set(randGroup.size()-1, tempInd);
     		Individual p2 = selectWinner(randGroup.subList(0, randGroup.size()-1)); //choose from the list except last element(p1)
-      
-             kidList.addAll(reproduce(p1, p2, domain));
-             nextGenSize+= 2;
-
+    		//kidList.add(reproduce(p1,p2,domain).get(0));
+            kidList.addAll(reproduce(p1, p2, domain));
+            nextGenSize+= 2;
          }
     }
+    
     /**
      * This method combines two lists of Individuals
      * @param list1 list of Individuals
@@ -256,35 +255,28 @@ public class Main {
         Domain domain = new Domain();
         Main main = new Main();
         // The greater tha bitLength the more interesting the results are.
-        domain.initializeDomain(100,10000,5,15,20,
-                0.8,0.9);
+        domain.initializeDomain(50,100,5,20,5,
+                0.2,0.01);
         ArrayList<Individual> initPop = main.createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
-        ArrayList<Individual> kids = new ArrayList<>();
-        ArrayList<Individual> adults;
-
         int count = 0;
+        main.printStats(count, initPop);
+        ArrayList<Individual> kids = new ArrayList<>();
+        ArrayList<Individual> adults = new ArrayList<>();
+        count++;
+        
         int gen = domain.getGenNum();
         while (count < gen) {
             adults = main.whoLives(initPop, domain);
+            kids = new ArrayList<>();
             main.runGeneration(initPop, adults, kids, domain);
             int aSize = adults.size();
 
-//            while (aSize < domain.getPopSize()) {
-//                int p1 = rand.nextInt((initPop.size())); // chose random father.
-//                int p2 = rand.nextInt((initPop.size()));// chose random mother.
-//
-//                kids.addAll(main.reproduce(initPop.get(p1), initPop.get(p2), domain));
-//                aSize += 2;
-//            }
             // make sure that it is even.
-            if (kids.size() - adults.size() != domain.getPopSize()) {
+            if (kids.size() + adults.size() != domain.getPopSize()) {
                 kids.remove((kids.size() - 1)); // remove the last kid.
             }
-//            ArrayList<Individual> newGen = new ArrayList<>();
-//            newGen.addAll(adults);
-//            newGen.addAll(kids);
-
-            initPop = main.mutate(main.combineLists(adults, kids), domain);
+            initPop = main.combineLists(adults, kids);
+            initPop = main.mutate(initPop, domain);
             main.printStats(count, initPop);
             count++;
         }
