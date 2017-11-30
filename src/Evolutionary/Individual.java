@@ -18,13 +18,20 @@ class Individual {
      * This constructor is going to call all the methods that will create:
      * 1) id
      * 2) genMak,
+     * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
+     *               for example you could input a KingRookKing object type
+     * @param s a String object to set the genetic makeup of the individual
      **/
-    Individual(Domain domain, String s) {
+    Individual(AbstractDomain domain, String s) {
         setId();
         genMak = s;
         setFitness(domain);
     }
-    Individual(Domain domain) {
+    /**
+     * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
+     *               for example you could input a KingRookKing object type
+     */
+    Individual(AbstractDomain domain) {
         setId();
         setGenMak(domain);
         setFitness(domain);
@@ -37,15 +44,19 @@ class Individual {
     }
     /**
      * create Fitness
+     * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
+     *               for example you could input a KingRookKing object type
      **/
-    private void setFitness(Domain domain) {
+    private void setFitness(AbstractDomain domain) {
         fitness =  domain.computeFitness(genMak);
     }
     /**
      * create genMak
+     * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
+     *               for example you could input a KingRookKing object type
      **/
 
-    private void setGenMak(Domain domain) {
+    private void setGenMak(AbstractDomain domain) {
         int bitLen = domain.getBitLength();
         while (bitLen != 0) {
             genMak+=rand.nextInt(2);
@@ -55,8 +66,10 @@ class Individual {
     }
     /**
      *  This is going to randomly flip one bit if it is chosen to be mutated
+     *  @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
+     *               for example you could input a KingRookKing object type
      **/
-    void flipBit(Domain domain){
+    void flipBit(AbstractDomain domain){
         int pos = rand.nextInt(domain.getBitLength());
         StringBuilder myName = new StringBuilder(this.genMak);
         if(myName.charAt(pos) == '0'){

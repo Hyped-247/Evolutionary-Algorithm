@@ -13,10 +13,11 @@ public class Main {
     /**
      * The method whoLives calculates the survivors based on a tournament selection algorithm
      * @param population - an array of individuals, representing the population
-     * @param domain
+     * @param domain the domain object particular to the application of this algorithm 
+     *               for example, you could pass in a KingRookKingDomain object
      * @return Array<Individual> - the individuals that have been chosen to survive
      */
-    public  ArrayList<Individual> whoLives(List<Individual> population, Domain domain){
+    public  ArrayList<Individual> whoLives(List<Individual> population, AbstractDomain domain){
         ArrayList<Individual> tempList = new ArrayList<>();
         
         int tempEnd = population.size(); //full list, to be shrunk
@@ -42,9 +43,11 @@ public class Main {
     /**
      * selectParticipants randomly chooses participants from a population to compete in a tournament
      * @param list the population from which the participants are being chosen
+     * @param domain the domain object particular to the application of this algorithm 
+     *               for example, you could pass in a KingRookKingDomain object
      * @return ArrayList<Individual> the participants selected for the tournament
      */
-    public  ArrayList<Individual> selectParticipants(List<Individual> list,  Domain domain){
+    public  ArrayList<Individual> selectParticipants(List<Individual> list,  AbstractDomain domain){
         ArrayList<Individual> tParticipants = new ArrayList<Individual>();
         Random x = new  Random();
         for(int i = 0 ; i < domain.getTSize() ; i++){
@@ -76,9 +79,11 @@ public class Main {
      * The method createInitPop creates an ArrayList<Individual> that represents the population. These individuals
      * are created randomly.
      * @param popSize - the population size, as set in the Domain.java class
+     * @param domain the domain object particular to the application of this algorithm 
+     *               for example, you could pass in a KingRookKingDomain object
      * @return Array<Individual> - the initial population representing the first generation of the test
      */
-    public ArrayList<Individual>  createInitPop(int popSize, Domain domain){
+    public ArrayList<Individual>  createInitPop(int popSize, AbstractDomain domain){
         ArrayList<Individual> population = new ArrayList<>();
         for (int i = 0 ; i < popSize ; i++) {
             population.add(new Individual(domain));
@@ -89,8 +94,11 @@ public class Main {
     /**
      * This method will take a population as an ArrayList<Individual> and will return the new population after mutations
      * @param population - an ArrayList<Individual> representing the entire population
+     * @param domain the domain object particular to the application of this algorithm 
+     *               for example, you could pass in a KingRookKingDomain object
      * @return ArrayList<Individual> - the new population after mutations have occurred
      */
+
     public ArrayList<Individual> mutate(ArrayList<Individual> population, Domain domain){
         int y = (int) (population.size() * domain.getMutationRate());
         Set<Integer> indices = new TreeSet<Integer>();
@@ -107,14 +115,21 @@ public class Main {
      * This method is going to create a list of all the indexes of the spliets.
      * @param father: first parent
      * @param mother: second parent
+     * @param domain the domain object particular to the application of this algorithm 
+     *               for example, you could pass in a KingRookKingDomain object
      * @return an ArrayList that has two new children.
      */
-    public ArrayList<Individual> reproduce(Individual father, Individual mother, Domain domain){
+    public ArrayList<Individual> reproduce(Individual father, Individual mother, AbstractDomain domain){
          ArrayList<Integer> allSplits = gitSplits(domain);
          return sliceAndDice(domain, allSplits, father.getGenMak(), mother.getGenMak());
     }
-
-    public ArrayList<Integer> gitSplits(Domain domain){
+    /**
+     * This method returns the indices of where to make crossover in the genetic make-up between two parents
+     * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
+     *        for example you could input a KingRookKing object type
+     * @return an ArrayList of Integers that gives all of the indices of where to crossover the genetic code
+     */
+    public ArrayList<Integer> gitSplits(AbstractDomain domain){
         ArrayList<Integer> splitsIndexes = new ArrayList<>(); // all the splits indexes.
         int splitNum = domain.getCrossNum();
         while (splitNum != 0){
@@ -133,12 +148,14 @@ public class Main {
 
     /**
      * This method is going to create the a kid basted on the input.
+     * @param domain the domain object particular to the application of this algorithm 
+     *               for example, you could pass in a KingRookKingDomain object
      * @param allIndexes : where all the slplits will take place.
      * @param father : father indeviual object
      * @param mother : mother indeviual object
      * @return
      */
-     ArrayList<Individual> sliceAndDice(Domain domain, ArrayList<Integer> allIndexes, String father, String mother){
+     ArrayList<Individual> sliceAndDice(AbstractDomain domain, ArrayList<Integer> allIndexes, String father, String mother){
         String kid1 = "";
         String kid2 = "";
          int sub = 0;
@@ -158,12 +175,13 @@ public class Main {
         return twoKids(domain, kid1, kid2);
     }
     /**
-     * @param domain
+     * @param domain the domain object particular to the application of this algorithm 
+     *               for example, you could pass in a KingRookKingDomain object
      * @param firstKid
      * @param secondKid
      * @return @return an ArrayList of two new born kids.
      */
-    private ArrayList<Individual> twoKids(Domain domain, String firstKid, String secondKid) {
+    private ArrayList<Individual> twoKids(AbstractDomain domain, String firstKid, String secondKid) {
         ArrayList<Individual> newKids = new ArrayList<>();
         newKids.add(new Individual(domain, firstKid));
         newKids.add(new Individual(domain, secondKid));
