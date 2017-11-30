@@ -18,12 +18,19 @@ class Individual {
      * This constructor is going to call all the methods that will create:
      * 1) id
      * 2) genMak,
+     * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
+     *               for example you could input a KingRookKing object type
+     * @param s a String object to set the genetic makeup of the individual
      **/
     Individual(AbstractDomain domain, String s) {
         setId();
         genMak = s;
         setFitness(domain);
     }
+    /**
+     * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
+     *               for example you could input a KingRookKing object type
+     */
     Individual(AbstractDomain domain) {
         setId();
         setGenMak(domain);
@@ -37,12 +44,16 @@ class Individual {
     }
     /**
      * create Fitness
+     * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
+     *               for example you could input a KingRookKing object type
      **/
     private void setFitness(AbstractDomain domain) {
         fitness =  domain.computeFitness(genMak);
     }
     /**
      * create genMak
+     * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
+     *               for example you could input a KingRookKing object type
      **/
 
     private void setGenMak(AbstractDomain domain) {
@@ -55,6 +66,8 @@ class Individual {
     }
     /**
      *  This is going to randomly flip one bit if it is chosen to be mutated
+     *  @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
+     *               for example you could input a KingRookKing object type
      **/
     void flipBit(AbstractDomain domain){
         int pos = rand.nextInt(domain.getBitLength());
