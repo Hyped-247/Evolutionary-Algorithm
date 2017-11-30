@@ -123,8 +123,13 @@ public class Main {
          ArrayList<Individual> kids = sliceAndDice(domain, allSplits, father.getGenMak(), mother.getGenMak());
         return kids;
     }
-
-    public ArrayList<Integer> gitSplits(Domain domain){
+    /**
+     * This method returns the indices of where to make crossover in the genetic make-up between two parents
+     * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
+     *        for example you could input a KingRookKing object type
+     * @return an ArrayList of Integers that gives all of the indices of where to crossover the genetic code
+     */
+    public ArrayList<Integer> gitSplits(AbstractDomain domain){
         ArrayList<Integer> splitsIndexes = new ArrayList<>(); // all the splits indexes.
         int splitNum = domain.getCrossNum();
         while (splitNum != 0){
