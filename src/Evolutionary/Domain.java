@@ -1,5 +1,4 @@
 package Evolutionary;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author 
@@ -15,6 +14,9 @@ class Domain extends AbstractDomain {
      * @return double - a number between 0 and 1, representing the fitness of the individual
     **/
     public double computeFitness(String gen){
-        return (double) StringUtils.countMatches(gen, "1") / gen.length();
+        int ones = gen.length() - gen.replaceAll("1", "").length();
+        return ((double)ones) / gen.length();
+
+
     }
 }

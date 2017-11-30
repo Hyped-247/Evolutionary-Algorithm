@@ -22,6 +22,8 @@ public class IndividualTest {
     public void flipBit() throws Exception {
 
 
+
+
     }
 
     @Test
