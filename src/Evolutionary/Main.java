@@ -77,10 +77,10 @@ public class Main {
     /**
      * The method createInitPop creates an ArrayList<Individual> that represents the population. These individuals
      * are created randomly.
-     * @param popSize - the population size, as set in the Domain.java class
+     * @param popSize - the population size, as set in the AllOnesDomain.java class
      * @return Array<Individual> - the initial population representing the first generation of the test
      */
-    public ArrayList<Individual>  createInitPop(int popSize, Domain domain){
+    public ArrayList<Individual>  createInitPop(int popSize, AbstractDomain domain){
         ArrayList<Individual> population = new ArrayList<>();
         for (int i = 0 ; i < popSize ; i++) {
             population.add(new Individual(domain));
@@ -93,7 +93,7 @@ public class Main {
      * @param population - an ArrayList<Individual> representing the entire population
      * @return ArrayList<Individual> - the new population after mutations have occurred
      */
-    public ArrayList<Individual> mutate(ArrayList<Individual> population, Domain domain){
+    public ArrayList<Individual> mutate(ArrayList<Individual> population, AbstractDomain domain){
         for (int i = 0; i < population.size() - 1 ; i++){
             double y = rand.nextDouble();
             if (y <= domain.getMutationRate()) {
@@ -109,12 +109,12 @@ public class Main {
      * @param mother: second parent
      * @return an ArrayList that has two new children.
      */
-    public ArrayList<Individual> reproduce(Individual father, Individual mother, Domain domain){
+    public ArrayList<Individual> reproduce(Individual father, Individual mother, AbstractDomain domain){
          ArrayList<Integer> allSplits = gitSplits(domain);
          return sliceAndDice(domain, allSplits, father.getGenMak(), mother.getGenMak());
     }
 
-    public ArrayList<Integer> gitSplits(Domain domain){
+    public ArrayList<Integer> gitSplits(AbstractDomain domain){
         ArrayList<Integer> splitsIndexes = new ArrayList<>(); // all the splits indexes.
         int splitNum = domain.getCrossNum();
         while (splitNum != 0){
@@ -138,7 +138,7 @@ public class Main {
      * @param mother : mother indeviual object
      * @return
      */
-     ArrayList<Individual> sliceAndDice(Domain domain, ArrayList<Integer> allIndexes, String father, String mother){
+     ArrayList<Individual> sliceAndDice(AbstractDomain domain, ArrayList<Integer> allIndexes, String father, String mother){
         String kid1 = "";
         String kid2 = "";
          int sub = 0;
@@ -163,7 +163,7 @@ public class Main {
      * @param secondKid
      * @return @return an ArrayList of two new born kids.
      */
-    private ArrayList<Individual> twoKids(Domain domain, String firstKid, String secondKid) {
+    private ArrayList<Individual> twoKids(AbstractDomain domain, String firstKid, String secondKid) {
         ArrayList<Individual> newKids = new ArrayList<>();
         newKids.add(new Individual(domain, firstKid));
         newKids.add(new Individual(domain, secondKid));
@@ -209,7 +209,7 @@ public class Main {
      * @param kidList list of kids, to be added to
      * @param domain the domain
      */
-    private void runGeneration(ArrayList<Individual> population, ArrayList<Individual> adultList, ArrayList<Individual> kidList, Domain domain){
+    private void runGeneration(ArrayList<Individual> population, ArrayList<Individual> adultList, ArrayList<Individual> kidList, AbstractDomain domain){
     	int nextGenSize = adultList.size(); //starts at the size of the adults, increases as children added
 
         while (nextGenSize < domain.getPopSize()) {
@@ -253,7 +253,7 @@ public class Main {
     
 
     public static void main(String[] args) throws Exception {
-        Domain domain = new Domain();
+        AbstractDomain domain = new Domain();
         Main main = new Main();
         // The greater tha bitLength the more interesting the results are.
         domain.initializeDomain(100,10000,5,15,20,

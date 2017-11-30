@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 
 public class DomainTest {
-    private Domain domain = new Domain();
+    private AbstractDomain domain = new AbstractDomain();
     private Main main = new Main();
 
     @Before

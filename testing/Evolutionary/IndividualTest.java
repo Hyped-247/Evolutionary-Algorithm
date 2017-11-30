@@ -8,7 +8,7 @@
 //import static org.junit.Assert.*;
 //
 //public class IndividualTest {
-//    private Domain domain = new Domain();
+//    private AbstractDomain domain = new AbstractDomain();
 //    private Individual individual;
 //    private String genMek = "010101";
 //
