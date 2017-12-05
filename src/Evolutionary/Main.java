@@ -291,6 +291,7 @@ public class Main {
                i += 2;
             }
         }
+        System.out.println(arguments.size());
         return arguments; 
     }
     
@@ -304,9 +305,10 @@ public class Main {
         // Reads command line arguments 
         HashMap<String,Number> per = new HashMap<String,Number>();
         per = proccessComandLineArgs(args);
+        System.out.println(per.size());
         // Uses command line arguments or set defaults to fill domain parameters
-        domain.initializeDomain(per.get("bitlength").intValue(),per.get("popSize").intValue(),
-                per.get("crossNum").intValue(),per.get("genNum").intValue(),per.get("tsize").intValue(),
+        domain.initializeDomain(per.get("bitLength").intValue(),per.get("popSize").intValue(),
+                per.get("crossNum").intValue(),per.get("genNum").intValue(),per.get("tSize").intValue(),
                 per.get("surRatio").doubleValue(),per.get("mutationRate").doubleValue());
         // The greater the bitLength the more interesting the results are.
         ArrayList<Individual> initPop = main.createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
