@@ -74,8 +74,7 @@ public class Main {
         }
         return winner;
     }
-    
-    /**
+  /**
      * The method createInitPop creates an ArrayList<Individual> that represents the population. These individuals
      * are created randomly.
      * @param popSize - the population size, as set in the Domain.java class
@@ -98,15 +97,12 @@ public class Main {
      *               for example, you could pass in a KingRookKingDomain object
      * @return ArrayList<Individual> - the new population after mutations have occurred
      */
-
-    public ArrayList<Individual> mutate(ArrayList<Individual> population, Domain domain){
-        int y = (int) (population.size() * domain.getMutationRate());
-        Set<Integer> indices = new TreeSet<Integer>();
-        while(indices.size() < y){
-            indices.add(rand.nextInt(population.size()));
-        }
-        for(int index : indices){
-            population.get(index).flipBit(domain);
+    public ArrayList<Individual> mutate(ArrayList<Individual> population, AbstractDomain domain){
+        for (int i = 0; i < population.size() - 1 ; i++){
+            double y = rand.nextDouble();
+            if (y <= domain.getMutationRate()) {
+                population.get(i).flipBit(domain);
+            }
         }
         return population;
     }
@@ -123,7 +119,7 @@ public class Main {
          ArrayList<Integer> allSplits = gitSplits(domain);
          return sliceAndDice(domain, allSplits, father.getGenMak(), mother.getGenMak());
     }
-    /**
+/**
      * This method returns the indices of where to make crossover in the genetic make-up between two parents
      * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
      *        for example you could input a KingRookKing object type
@@ -227,7 +223,7 @@ public class Main {
      * @param kidList list of kids, to be added to
      * @param domain the domain
      */
-    private void runGeneration(ArrayList<Individual> population, ArrayList<Individual> adultList, ArrayList<Individual> kidList, Domain domain){
+    private void runGeneration(ArrayList<Individual> population, ArrayList<Individual> adultList, ArrayList<Individual> kidList, AbstractDomain domain){
     	int nextGenSize = adultList.size(); //starts at the size of the adults, increases as children added
 
         while (nextGenSize < domain.getPopSize()) {
@@ -298,7 +294,7 @@ public class Main {
     
     
     public static void main(String[] args) throws Exception {
-        Domain domain = new Domain();
+        AbstractDomain domain = new Domain();
         Main main = new Main();
 
         // The greater than bitLength the more interesting the results are.

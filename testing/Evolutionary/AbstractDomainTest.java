@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class AbstractDomainTest {
-    private Domain domain = new Domain();
+    private AbstractDomain domain = new Domain();
 
     @Before
     public void initializeDomain() throws Exception {
