@@ -5,10 +5,8 @@ import java.util.*;
 import java.lang.Math;
 
 public class Main {
+    // global random variable
     private Random rand = new Random();
-
-
-    // Make an init method that instantiates a domain object
     
     /**
      * The method whoLives calculates the survivors based on a tournament selection algorithm
@@ -36,6 +34,7 @@ public class Main {
             Collections.swap(population, population.indexOf(winner), (tempEnd-1));
             tempEnd--;
         }
+        // array of winners
         return tempList;
     }
     
@@ -49,22 +48,23 @@ public class Main {
      */
     public  ArrayList<Individual> selectParticipants(List<Individual> list,  AbstractDomain domain){
         ArrayList<Individual> tParticipants = new ArrayList<Individual>();
-        Random x = new  Random();
         for(int i = 0 ; i < domain.getTSize() ; i++){
-            int y = x.nextInt(list.size());
+            int y = rand.nextInt(list.size());
             tParticipants.add(list.get(y));
         }
+        // arrayList of individuals chosen
         return tParticipants;
     }
     
     /**
-     * selectWinner chooses a winner based on highest fitness out of a tournament of Individuals
+     * selectWinner chooses a winner based on highest fitness out of a ArrayList of Individuals (chosen above)
      * @param participants <Individual> the participants in the tournament
      * @return Individual - the winner of the tournament
      */
     public Individual selectWinner(List<Individual> participants){
         Individual winner = participants.get(0);
         double winnerFitness = winner.getFitness();
+        // Compare fitness of current most fit person with next person in the list
         for(int i = 1 ; i < participants.size() ; i++){
             double nextFitness = participants.get(i).getFitness();
             if(nextFitness > winnerFitness){
@@ -72,6 +72,7 @@ public class Main {
                 winnerFitness = nextFitness;
             }
         }
+        // Individual
         return winner;
     }
     
@@ -81,13 +82,14 @@ public class Main {
      * @param popSize - the population size, as set in the Domain.java class
      * @param domain the domain object particular to the application of this algorithm 
      *               for example, you could pass in a KingRookKingDomain object
-     * @return Array<Individual> - the initial population representing the first generation of the test
+     * @return Array<Individual> - the initial population representing the first generation
      */
     public ArrayList<Individual>  createInitPop(int popSize, AbstractDomain domain){
         ArrayList<Individual> population = new ArrayList<>();
         for (int i = 0 ; i < popSize ; i++) {
             population.add(new Individual(domain));
         }
+        // Array
         return population;
     }
     
@@ -99,28 +101,32 @@ public class Main {
      * @return ArrayList<Individual> - the new population after mutations have occurred
      */
 
-    public ArrayList<Individual> mutate(ArrayList<Individual> population, Domain domain){
+    public ArrayList<Individual> mutate(ArrayList<Individual> population, AbstractDomain domain){
         int y = (int) (population.size() * domain.getMutationRate());
         Set<Integer> indices = new TreeSet<Integer>();
+        // Randomly selecting percentage of population to mutate based on mutation rate
         while(indices.size() < y){
             indices.add(rand.nextInt(population.size()));
         }
+        // Calling flipBit and doing the actual mutation
         for(int index : indices){
             population.get(index).flipBit(domain);
         }
+        // ArrayList
         return population;
     }
 
     /**
-     * This method is going to create a list of all the indexes of the spliets.
-     * @param father: first parent
-     * @param mother: second parent
+     * This method is going to create a list of all the split locations.
+     * @param father: first parent (Individual)
+     * @param mother: second parent (Individual)
      * @param domain the domain object particular to the application of this algorithm 
      *               for example, you could pass in a KingRookKingDomain object
      * @return an ArrayList that has two new children.
      */
     public ArrayList<Individual> reproduce(Individual father, Individual mother, AbstractDomain domain){
-         ArrayList<Integer> allSplits = gitSplits(domain);
+         ArrayList<Integer> allSplits = getSplits(domain);
+         // Does the work of splicing and constructing new individuals
          return sliceAndDice(domain, allSplits, father.getGenMak(), mother.getGenMak());
     }
     /**
@@ -129,30 +135,31 @@ public class Main {
      *        for example you could input a KingRookKing object type
      * @return an ArrayList of Integers that gives all of the indices of where to crossover the genetic code
      */
-    public ArrayList<Integer> gitSplits(AbstractDomain domain){
-        ArrayList<Integer> splitsIndexes = new ArrayList<>(); // all the splits indexes.
+    public ArrayList<Integer> getSplits(AbstractDomain domain){
+        ArrayList<Integer> splitsIndices = new ArrayList<>(); // all the splits indexes.
         int splitNum = domain.getCrossNum();
         while (splitNum != 0){
             // generate a number from 1 to len of the father or the mother - 1
             int randomSplit = rand.nextInt( domain.getBitLength() - 1) + 1;
-            if (!splitsIndexes.contains(randomSplit)){
-                splitsIndexes.add(randomSplit);
+            if (!splitsIndices.contains(randomSplit)){
+                splitsIndices.add(randomSplit);
                 splitNum--;
             }
         }
-        splitsIndexes.add(0, 0);
-        splitsIndexes.add(domain.getBitLength());
-        Collections.sort(splitsIndexes);
-        return splitsIndexes;
+        splitsIndices.add(0, 0);
+        splitsIndices.add(domain.getBitLength());
+        Collections.sort(splitsIndices);
+        // ArrayList
+        return splitsIndices;
     }
 
     /**
      * This method is going to create the a kid basted on the input.
      * @param domain the domain object particular to the application of this algorithm 
      *               for example, you could pass in a KingRookKingDomain object
-     * @param allIndexes : where all the slplits will take place.
-     * @param father : father indeviual object
-     * @param mother : mother indeviual object
+     * @param allIndexes : where all the splits will take place. (ArrayList)
+     * @param father : father genMakUp from Individual object (String)
+     * @param mother : mother genMakUp from Individual object (String)
      * @return
      */
      ArrayList<Individual> sliceAndDice(AbstractDomain domain, ArrayList<Integer> allIndexes, String father, String mother){
@@ -172,19 +179,21 @@ public class Main {
              }
              sub+=2;
          }
+         // passes two strings and domain to twoKids method
         return twoKids(domain, kid1, kid2);
     }
     /**
      * @param domain the domain object particular to the application of this algorithm 
      *               for example, you could pass in a KingRookKingDomain object
-     * @param firstKid
-     * @param secondKid
+     * @param firstKid String
+     * @param secondKid String
      * @return @return an ArrayList of two new born kids.
      */
     private ArrayList<Individual> twoKids(AbstractDomain domain, String firstKid, String secondKid) {
         ArrayList<Individual> newKids = new ArrayList<>();
         newKids.add(new Individual(domain, firstKid));
         newKids.add(new Individual(domain, secondKid));
+        // ArrayList
         return newKids;
     }
 
@@ -198,36 +207,40 @@ public class Main {
         for(int i = 0; i < pop.size(); i++) {
             sum += pop.get(i).getFitness();
         }
+        // Double
         return Double.parseDouble(new DecimalFormat("0.000").format(sum / pop.size()));
     }
 
     /**
      * This method returns the max fitness in the population
      * @param pop the population; an ArrayList of Individuals
-     * @return the max fitness as a double
+     * @return the max fitness as a double (fitness of an Individual)
      */
     public double maxFitness(ArrayList<Individual> pop) {
         Individual maxfit = Collections.max(pop, new IndividualComp());
+        // Double (fitness of an Individual)
         return maxfit.getFitness();
     }
 
     /**
      * This method returns the min fitness in the population
      * @param pop the population; an ArrayList of Individuals
-     * @return the min fithess as a double
+     * @return the min fitness as a double (fitness of an Individual)
      */
     public double minFitness(ArrayList<Individual> pop) {
         Individual minfit = Collections.min(pop, new IndividualComp());
+        // Double (fitness of an Individual)
         return minfit.getFitness();
     }
 
     /**
      * This method runs a generation, used to shorten main method
-     * @param adultList list of surviving adults
-     * @param kidList list of kids, to be added to
+     * @param population ArrayList of initial population
+     * @param adultList ArrayList of surviving adults
+     * @param kidList ArrayList of kids, to be added to
      * @param domain the domain
      */
-    private void runGeneration(ArrayList<Individual> population, ArrayList<Individual> adultList, ArrayList<Individual> kidList, Domain domain){
+    private void runGeneration(ArrayList<Individual> population, ArrayList<Individual> adultList, ArrayList<Individual> kidList, AbstractDomain domain){
     	int nextGenSize = adultList.size(); //starts at the size of the adults, increases as children added
 
         while (nextGenSize < domain.getPopSize()) {
@@ -246,36 +259,43 @@ public class Main {
     
     /**
      * This method combines two lists of Individuals
-     * @param list1 list of Individuals
-     * @param list2 another list of Individuals
-     * @return list combining list1 and list2
+     * @param list1 ArrayList of Individuals
+     * @param list2 another ArrayList of Individuals
+     * @return ArrayList combining list1 and list2
      */
     private ArrayList<Individual> combineLists(ArrayList<Individual> list1, ArrayList<Individual> list2){
     	ArrayList<Individual> combinedList = new ArrayList<>();
     	combinedList.addAll(list1);
     	combinedList.addAll(list2);
-        
+        // ArrayList
         return combinedList;
     }
 
     /**
      * This method prints gen, maxFit, and avgFit 
-     * @param gen the generation number 
-     * @param initPop mutated for the next generation 
+     * @param gen the generation number (int)
+     * @param initPop mutated for the next generation (ArrayList)
      */
     private  void printStats(int gen, ArrayList<Individual> initPop){
     	System.out.println("gen" + gen + "  maxFit " + maxFitness(initPop)  + "  minFit " + minFitness(initPop) +
                 "  avgFit " + avgFitness(initPop));
     }
-    
 
+
+    /**
+     * This is the main method, this does the work of running through each generation
+     * and doing the appropriate tasks in order.
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
+        // Change this line of code to match your domain
         Domain domain = new Domain();
         Main main = new Main();
         // The greater tha bitLength the more interesting the results are.
         domain.initializeDomain(50,100,5,20,5,
                 0.2,0.01);
-        ArrayList<Individual> initPop = main.createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
+        ArrayList<Individual> initPop = main.createInitPop(domain.getPopSize(), domain);
         int count = 0;
         main.printStats(count, initPop);
         ArrayList<Individual> kids = new ArrayList<>();
