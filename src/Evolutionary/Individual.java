@@ -31,7 +31,8 @@ class Individual {
      * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
      *               for example you could input a KingRookKing object type
      */
-    Individual(AbstractDomain domain) {
+
+      Individual(AbstractDomain domain) {
         setId();
         setGenMak(domain);
         setFitness(domain);
