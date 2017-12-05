@@ -270,10 +270,10 @@ public class Main {
     
 
     public static void main(String[] args) throws Exception {
-        Domain domain = new Domain();
+        AbstractDomain domain = new LinearDomain(2,5);
         Main main = new Main();
-        // The greater tha bitLength the more interesting the results are.
-        domain.initializeDomain(50,100,5,20,5,
+        // The bitLength for LinearDomain must conform to the length of representing 
+        domain.initializeDomain(16,100,5,20,5,
                 0.2,0.01);
         ArrayList<Individual> initPop = main.createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
         int count = 0;

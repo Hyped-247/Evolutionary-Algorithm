@@ -1,3 +1,5 @@
+*.class
+
 /bin/
 .idea
 Evolutionary-Algorithm.iml
