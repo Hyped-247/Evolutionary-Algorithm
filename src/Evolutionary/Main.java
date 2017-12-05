@@ -264,13 +264,49 @@ public class Main {
                 "  avgFit " + avgFitness(initPop));
     }
     
-
+    /**
+     * This method reads command line arguments and fills them into a 
+     * hash map:"arguments" and sets default values of domain parameters. 
+     * @param args String[] of command line arguments
+     * @return Hash Map of (domain parameter, value)
+     */
+    public static HashMap<String,Number> proccessComandLineArgs(String[] args) { 
+        HashMap<String,Number> arguments = new HashMap<String,Number>();
+        arguments.put("bitLength",8);
+        arguments.put("popSize",100);
+        arguments.put("crossNum",3);
+        arguments.put("genNum",100);
+        arguments.put("tSize",5);
+        arguments.put("surRatio",.2);
+        arguments.put("mutationRate",.01);
+        // Updates "arguments" with new values from command line
+        if (args.length > 0) {
+            int i = 0;
+            while (i < args.length-1) {
+               arguments.put(args[i],Double.parseDouble((args[i+1]))); 
+               i += 2;
+            }
+        }
+        System.out.println(arguments.size());
+        return arguments; 
+    }
+    
+    
+    
     public static void main(String[] args) throws Exception {
         AbstractDomain domain = new Domain();
         Main main = new Main();
-        // The greater tha bitLength the more interesting the results are.
-        domain.initializeDomain(50,100,5,20,5,
-                0.2,0.01);
+
+        // The greater than bitLength the more interesting the results are.
+        // Reads command line arguments 
+        HashMap<String,Number> per = new HashMap<String,Number>();
+        per = proccessComandLineArgs(args);
+        System.out.println(per.size());
+        // Uses command line arguments or set defaults to fill domain parameters
+        domain.initializeDomain(per.get("bitLength").intValue(),per.get("popSize").intValue(),
+                per.get("crossNum").intValue(),per.get("genNum").intValue(),per.get("tSize").intValue(),
+                per.get("surRatio").doubleValue(),per.get("mutationRate").doubleValue());
+        // The greater the bitLength the more interesting the results are.
         ArrayList<Individual> initPop = main.createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
         int count = 0;
         main.printStats(count, initPop);
