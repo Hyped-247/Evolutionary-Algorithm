@@ -1,12 +1,12 @@
 package Evolutionary;
 
+import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class AbstractDomainTest {
-    private Domain domain = new Domain();
+    private AbstractDomain domain = new Domain();
 
     @Before
     public void initializeDomain() throws Exception {

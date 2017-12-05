@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 public class MainTest {
     private ArrayList<Integer> splits = new ArrayList<>();
-    private Domain domain = new Domain();
+    private AbstractDomain domain = new AbstractDomain();
     private Main main = new Main();
     private ArrayList<Individual> initPop;
     private String father = "";
