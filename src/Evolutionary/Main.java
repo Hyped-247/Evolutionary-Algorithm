@@ -267,6 +267,10 @@ public class Main {
     /**
      * This method reads command line arguments and fills them into a 
      * hash map:"arguments" and sets default values of domain parameters. 
+     * Command Line Syntax:
+     * javac Evolutionary/Main.java
+     * java Evolutionary/Main key value key value...
+     * Keys (bitLength popSize crossNum genNum tSize surRatio mutationRate)
      * @param args String[] of command line arguments
      * @return Hash Map of (domain parameter, value)
      */
