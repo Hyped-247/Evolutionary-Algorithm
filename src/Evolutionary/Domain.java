@@ -5,7 +5,7 @@ package Evolutionary;
  * @see Individual : in the Individual class is where everything is created.
  *
  **/
-class AllOnesDomain extends AbstractDomain {
+class Domain extends AbstractDomain {
 
     /**
     * The method computeFitness will compute the fitness of an individual based on the number of ones in the
