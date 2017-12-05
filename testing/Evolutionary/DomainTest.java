@@ -9,7 +9,7 @@ import static org.junit.Assert.fail;
 
 
 public class DomainTest {
-    private AbstractDomain domain = new AbstractDomain();
+    private AbstractDomain domain = new Domain();
     private Main main = new Main();
 
     @Before

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class IndividualCompTest {
-    private AbstractDomain domain = new AbstractDomain();
+    private AbstractDomain domain = new Domain();
     private Main main = new Main();
     private ArrayList<Individual> initPop = main.createInitPop(domain.getPopSize(), domain);
 

@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 public class MainTest {
     private ArrayList<Integer> splits = new ArrayList<>();
-    private AbstractDomain domain = new AbstractDomain();
+    private AbstractDomain domain = new Domain();
     private Main main = new Main();
     private ArrayList<Individual> initPop;
     private String father = "";
@@ -67,7 +67,7 @@ public class MainTest {
     @Test
     public void gitSplits() throws Exception {
         // the +2 is there because the gitSplits method is going to also add the index of 0, and the last index.
-        assertEquals(domain.getCrossNum()+2, main.gitSplits(domain).size());
+        assertEquals(domain.getCrossNum()+2, main.getSplits(domain).size());
     }
 
     @Test
