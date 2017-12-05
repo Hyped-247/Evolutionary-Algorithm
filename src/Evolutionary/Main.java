@@ -257,9 +257,13 @@ public class Main {
     	System.out.println("gen" + gen + "  maxFit " + maxFitness(initPop) + "  avgFit " + avgFitness(initPop));
     }
     
-    public static void proccessComandLineArgs(String[] args) {
-        System.out.print("");
-        
+    /**
+     * This method reads command line arguments and fills them into a 
+     * hash map:"arguments" and sets default values of domain parameters. 
+     * @param args String[] of command line arguments
+     * @return Hash Map of (domain parameter, value)
+     */
+    public static HashMap<String,Number> proccessComandLineArgs(String[] args) { 
         HashMap<String,Number> arguments = new HashMap<String,Number>();
         arguments.put("bitLength",8);
         arguments.put("popSize",100);
@@ -268,14 +272,15 @@ public class Main {
         arguments.put("tSize",5);
         arguments.put("surRatio",.2);
         arguments.put("mutationRate",.01);
-        
+        // Updates "arguments" with new values from command line
         if (args.length > 0) {
             int i = 0;
             while (i < args.length-1) {
-               arguments.put(args[i],Double.parseDouble(args[i+1])); 
+               arguments.put(args[i],Double.parseDouble((args[i+1]))); 
                i += 2;
             }
         }
+        return arguments; 
    }
     
     
@@ -283,9 +288,15 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Domain domain = new Domain();
         Main main = new Main();
-        // The greater tha bitLength the more interesting the results are.
-        domain.initializeDomain(100,10000,5,15,20,
-                0.8,0.9);
+        // The greater than bitLength the more interesting the results are.
+        // Reads command line arguments 
+        HashMap<String,Number> per = new HashMap<String,Number>();
+        per = proccessComandLineArgs(args);
+        // Uses command line arguments or set defaults to fill domain parameters
+        domain.initializeDomain(per.get("bitlength").intValue(),per.get("popSize").intValue(),
+                per.get("crossNum").intValue(),per.get("genNum").intValue(),per.get("tsize").intValue(),
+                per.get("surRatio").doubleValue(),per.get("mutationRate").doubleValue());
+        
         main.runGeneration(domain);
       /*
       ArrayList<Individual> initPop = createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
