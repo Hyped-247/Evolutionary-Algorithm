@@ -35,7 +35,7 @@ class Individual {
         genMak = s;
         setFitness(domain);
     }
-    
+
     /**
      * create an id
      **/
