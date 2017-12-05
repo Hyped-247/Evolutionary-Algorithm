@@ -50,62 +50,63 @@
 //    public void getGenMak() throws Exception {
 //        assertEquals(genMek, individual.getGenMak());
 //    }
-//    /*
-//      public void getGenetic_makeup_string() throws Exception {
-//      Random rand = new Random();
-//      for (int i=0; i<100; i++) {
-//        String bitString = (String.valueOf(rand.nextInt(2))) +
-//				(String.valueOf(rand.nextInt(2))) +
-//				(String.valueOf(rand.nextInt(2))) +
-//				(String.valueOf(rand.nextInt(2))) +
-//				(String.valueOf(rand.nextInt(2))) +
-//				(String.valueOf(rand.nextInt(2))) +
-//				(String.valueOf(rand.nextInt(2))) +
-//				(String.valueOf(rand.nextInt(2)));
-//        Individual indi = new Individual(bitString);
-//        assertEquals(indi.getGenMak(), bitString);
-//      }
-//
-//
-//		@Test
-//		public void testSetGenMak() {
-//			for (int i=0; i<100; i++) {
-//	      String bitString = (String.valueOf(rand.nextInt(2))) +
-//				(String.valueOf(rand.nextInt(2))) +
-//				(String.valueOf(rand.nextInt(2))) +
-//				(String.valueOf(rand.nextInt(2))) +
-//				(String.valueOf(rand.nextInt(2))) +
-//				(String.valueOf(rand.nextInt(2))) +
-//				(String.valueOf(rand.nextInt(2))) +
-//				(String.valueOf(rand.nextInt(2)));
-//	      Individual indi = new Individual(bitString);
-//	      indi.setGenMak(d);
-//				assertTrue(indi.getGenMak().length() == d.getBitLength()); //check length of genMak
-//				assertTrue(indi.getGenMak() != bitString); //check that genMak has actually changed
-//	    }
-//		}
-//    @Test
-//		public void testFlipBit() {
-//			Individual unflipped = new Individual(d);
-//			Individual flipped = new Individual(unflipped.getGenMak());
-//			flipped.flipBit(d);
-//			assertTrue(flipped.getGenMak() != unflipped.getGenMak());
-//		}
-//        */
-//	/*
-//     * Tests getID() by making sure that it returns the correct int for ID num
-//     * @throws Exception
-//     */
-//      /*
-//  	 @Test
-//     public void testGetId() {
-//	    	ArrayList<Individual> iList = new ArrayList<Individual>();
-//	    	for(int i = 0; i < 500; i++){
-//	    		iList.add(new Individual(d));
-//	    		assertEquals(i, iList.get(i).getId());
-//	    	}
-//	}
-//
 //}
-//
-//*/
+    /*
+      public void getGenetic_makeup_string() throws Exception {
+      Random rand = new Random();
+      for (int i=0; i<100; i++) {
+        String bitString = (String.valueOf(rand.nextInt(2))) +
+				(String.valueOf(rand.nextInt(2))) +
+				(String.valueOf(rand.nextInt(2))) +
+				(String.valueOf(rand.nextInt(2))) +
+				(String.valueOf(rand.nextInt(2))) +
+				(String.valueOf(rand.nextInt(2))) +
+				(String.valueOf(rand.nextInt(2))) +
+				(String.valueOf(rand.nextInt(2)));
+        Individual indi = new Individual(bitString);
+        assertEquals(indi.getGenMak(), bitString);
+      }
+
+
+		@Test
+		public void testSetGenMak() {
+			for (int i=0; i<100; i++) {
+	      String bitString = (String.valueOf(rand.nextInt(2))) +
+				(String.valueOf(rand.nextInt(2))) +
+				(String.valueOf(rand.nextInt(2))) +
+				(String.valueOf(rand.nextInt(2))) +
+				(String.valueOf(rand.nextInt(2))) +
+				(String.valueOf(rand.nextInt(2))) +
+				(String.valueOf(rand.nextInt(2))) +
+				(String.valueOf(rand.nextInt(2)));
+	      Individual indi = new Individual(bitString);
+	      indi.setGenMak(d);
+				assertTrue(indi.getGenMak().length() == d.getBitLength()); //check length of genMak
+				assertTrue(indi.getGenMak() != bitString); //check that genMak has actually changed
+	    }
+		}
+    @Test
+		public void testFlipBit() {
+			Individual unflipped = new Individual(d);
+			Individual flipped = new Individual(unflipped.getGenMak());
+			flipped.flipBit(d);
+			assertTrue(flipped.getGenMak() != unflipped.getGenMak());
+		}
+        */
+	/*
+     * Tests getID() by making sure that it returns the correct int for ID num
+     * @throws Exception
+     */
+      /*
+  	 @Test
+     public void testGetId() {
+	    	ArrayList<Individual> iList = new ArrayList<Individual>();
+	    	for(int i = 0; i < 500; i++){
+	    		iList.add(new Individual(d));
+	    		assertEquals(i, iList.get(i).getId());
+	    	}
+	}
+
+}
+
+*/
