@@ -106,9 +106,6 @@ public class Main {
         }
         return population;
     }
-        }
-        return population;
-    }
 
     /**
      * This method is going to create a list of all the indexes of the spliets.
