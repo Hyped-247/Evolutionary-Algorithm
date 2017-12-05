@@ -3,7 +3,6 @@ package Evolutionary;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.lang.Math;
-import java.util.Random;
 
 public class Main {
     private Random rand = new Random();
@@ -14,16 +13,16 @@ public class Main {
     /**
      * The method whoLives calculates the survivors based on a tournament selection algorithm
      * @param population - an array of individuals, representing the population
-     * @param domain
+     * @param domain the domain object particular to the application of this algorithm 
+     *               for example, you could pass in a KingRookKingDomain object
      * @return Array<Individual> - the individuals that have been chosen to survive
      */
-    public  ArrayList<Individual> whoLives(List<Individual> population, Domain domain){
+    public  ArrayList<Individual> whoLives(List<Individual> population, AbstractDomain domain){
         ArrayList<Individual> tempList = new ArrayList<>();
         
         int tempEnd = population.size(); //full list, to be shrunk
         while(tempList.size() < Math.floor(domain.getSurRatio() * population.size())){
             
-        	
         	// Randomly select participants for the tournament
             ArrayList<Individual> participants = selectParticipants(population.subList(0, tempEnd), domain);
             
@@ -44,9 +43,11 @@ public class Main {
     /**
      * selectParticipants randomly chooses participants from a population to compete in a tournament
      * @param list the population from which the participants are being chosen
+     * @param domain the domain object particular to the application of this algorithm 
+     *               for example, you could pass in a KingRookKingDomain object
      * @return ArrayList<Individual> the participants selected for the tournament
      */
-    public  ArrayList<Individual> selectParticipants(List<Individual> list,  Domain domain){
+    public  ArrayList<Individual> selectParticipants(List<Individual> list,  AbstractDomain domain){
         ArrayList<Individual> tParticipants = new ArrayList<Individual>();
         Random x = new  Random();
         for(int i = 0 ; i < domain.getTSize() ; i++){
@@ -73,11 +74,12 @@ public class Main {
         }
         return winner;
     }
-    
-    /**
+  /**
      * The method createInitPop creates an ArrayList<Individual> that represents the population. These individuals
      * are created randomly.
-     * @param popSize - the population size, as set in the AllOnesDomain.java class
+     * @param popSize - the population size, as set in the Domain.java class
+     * @param domain the domain object particular to the application of this algorithm 
+     *               for example, you could pass in a KingRookKingDomain object
      * @return Array<Individual> - the initial population representing the first generation of the test
      */
     public ArrayList<Individual>  createInitPop(int popSize, AbstractDomain domain){
@@ -91,6 +93,8 @@ public class Main {
     /**
      * This method will take a population as an ArrayList<Individual> and will return the new population after mutations
      * @param population - an ArrayList<Individual> representing the entire population
+     * @param domain the domain object particular to the application of this algorithm 
+     *               for example, you could pass in a KingRookKingDomain object
      * @return ArrayList<Individual> - the new population after mutations have occurred
      */
     public ArrayList<Individual> mutate(ArrayList<Individual> population, AbstractDomain domain){
@@ -102,18 +106,28 @@ public class Main {
         }
         return population;
     }
+        }
+        return population;
+    }
 
     /**
      * This method is going to create a list of all the indexes of the spliets.
      * @param father: first parent
      * @param mother: second parent
+     * @param domain the domain object particular to the application of this algorithm 
+     *               for example, you could pass in a KingRookKingDomain object
      * @return an ArrayList that has two new children.
      */
     public ArrayList<Individual> reproduce(Individual father, Individual mother, AbstractDomain domain){
          ArrayList<Integer> allSplits = gitSplits(domain);
          return sliceAndDice(domain, allSplits, father.getGenMak(), mother.getGenMak());
     }
-
+/**
+     * This method returns the indices of where to make crossover in the genetic make-up between two parents
+     * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
+     *        for example you could input a KingRookKing object type
+     * @return an ArrayList of Integers that gives all of the indices of where to crossover the genetic code
+     */
     public ArrayList<Integer> gitSplits(AbstractDomain domain){
         ArrayList<Integer> splitsIndexes = new ArrayList<>(); // all the splits indexes.
         int splitNum = domain.getCrossNum();
@@ -133,6 +147,8 @@ public class Main {
 
     /**
      * This method is going to create the a kid basted on the input.
+     * @param domain the domain object particular to the application of this algorithm 
+     *               for example, you could pass in a KingRookKingDomain object
      * @param allIndexes : where all the slplits will take place.
      * @param father : father indeviual object
      * @param mother : mother indeviual object
@@ -158,7 +174,8 @@ public class Main {
         return twoKids(domain, kid1, kid2);
     }
     /**
-     * @param domain
+     * @param domain the domain object particular to the application of this algorithm 
+     *               for example, you could pass in a KingRookKingDomain object
      * @param firstKid
      * @param secondKid
      * @return @return an ArrayList of two new born kids.
@@ -180,7 +197,7 @@ public class Main {
         for(int i = 0; i < pop.size(); i++) {
             sum += pop.get(i).getFitness();
         }
-        return Double.parseDouble(new DecimalFormat("0.00").format(sum / pop.size()));
+        return Double.parseDouble(new DecimalFormat("0.000").format(sum / pop.size()));
     }
 
     /**
@@ -214,19 +231,18 @@ public class Main {
 
         while (nextGenSize < domain.getPopSize()) {
             ArrayList<Individual> randGroup;
-
     		randGroup = selectParticipants(population, domain); //form a random group from the WHOLE population
     		Individual p1 = selectWinner(randGroup); //select  a winner from the random group
     		Individual tempInd = p1;
     		randGroup.set(randGroup.indexOf(p1), randGroup.get(randGroup.size()-1));
     		randGroup.set(randGroup.size()-1, tempInd);
     		Individual p2 = selectWinner(randGroup.subList(0, randGroup.size()-1)); //choose from the list except last element(p1)
-      
-             kidList.addAll(reproduce(p1, p2, domain));
-             nextGenSize+= 2;
-
+    		//kidList.add(reproduce(p1,p2,domain).get(0));
+            kidList.addAll(reproduce(p1, p2, domain));
+            nextGenSize+= 2;
          }
     }
+    
     /**
      * This method combines two lists of Individuals
      * @param list1 list of Individuals
@@ -256,35 +272,28 @@ public class Main {
         AbstractDomain domain = new Domain();
         Main main = new Main();
         // The greater tha bitLength the more interesting the results are.
-        domain.initializeDomain(100,10000,5,15,20,
-                0.8,0.9);
+        domain.initializeDomain(50,100,5,20,5,
+                0.2,0.01);
         ArrayList<Individual> initPop = main.createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
-        ArrayList<Individual> kids = new ArrayList<>();
-        ArrayList<Individual> adults;
-
         int count = 0;
+        main.printStats(count, initPop);
+        ArrayList<Individual> kids = new ArrayList<>();
+        ArrayList<Individual> adults = new ArrayList<>();
+        count++;
+        
         int gen = domain.getGenNum();
         while (count < gen) {
             adults = main.whoLives(initPop, domain);
+            kids = new ArrayList<>();
             main.runGeneration(initPop, adults, kids, domain);
             int aSize = adults.size();
 
-//            while (aSize < domain.getPopSize()) {
-//                int p1 = rand.nextInt((initPop.size())); // chose random father.
-//                int p2 = rand.nextInt((initPop.size()));// chose random mother.
-//
-//                kids.addAll(main.reproduce(initPop.get(p1), initPop.get(p2), domain));
-//                aSize += 2;
-//            }
             // make sure that it is even.
-            if (kids.size() - adults.size() != domain.getPopSize()) {
+            if (kids.size() + adults.size() != domain.getPopSize()) {
                 kids.remove((kids.size() - 1)); // remove the last kid.
             }
-//            ArrayList<Individual> newGen = new ArrayList<>();
-//            newGen.addAll(adults);
-//            newGen.addAll(kids);
-
-            initPop = main.mutate(main.combineLists(adults, kids), domain);
+            initPop = main.combineLists(adults, kids);
+            initPop = main.mutate(initPop, domain);
             main.printStats(count, initPop);
             count++;
         }
