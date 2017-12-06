@@ -21,7 +21,7 @@ public abstract class AbstractDomain {
      * @param a Bit String
      * @return the double fitness level between 0-1
      */
-    public abstract double computeFitness(String gen);
+    public abstract double computeFitness(String gen) throws Exception;
 
 
 	/*

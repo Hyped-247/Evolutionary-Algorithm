@@ -18,7 +18,7 @@ class Individual {
      * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
      *               for example you could input a KingRookKing object type
      */
-    Individual(AbstractDomain domain) {
+    Individual(AbstractDomain domain) throws Exception {
         this(domain , createBitString(domain));
     }
     
@@ -30,7 +30,7 @@ class Individual {
      *               for example you could input a KingRookKing object type
      * @param s a String object to set the genetic makeup of the individual
      **/
-    Individual(AbstractDomain domain, String s) {
+    Individual(AbstractDomain domain, String s) throws Exception {
         setId();
         genMak = s;
         setFitness(domain);
@@ -48,7 +48,7 @@ class Individual {
      * @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
      *               for example you could input a KingRookKing object type
      **/
-    private void setFitness(AbstractDomain domain) {
+    private void setFitness(AbstractDomain domain) throws Exception {
         fitness =  domain.computeFitness(genMak);
     }
     
@@ -73,7 +73,7 @@ class Individual {
      *  @param domain an object that extends AbstractDomain and is particular to the application of this algorithm
      *               for example you could input a KingRookKing object type
      **/
-    void flipBit(AbstractDomain domain){
+    void flipBit(AbstractDomain domain) throws Exception {
         int pos = random.nextInt(domain.getBitLength());
         StringBuilder myName = new StringBuilder(this.genMak);
         if(myName.charAt(pos) == '0'){
@@ -119,8 +119,8 @@ class IndividualComp implements Comparator<Individual> {
     /**
      * The compare() method will take two individuals and compare their two fitnesses, returning a value that
      * represents how the fitness of the first individual is related to the fitness of the second individual
-     * @param Individual the first individual to be compared
-     * @param Individual the second individual to be compared
+     * @param e1 the first individual to be compared
+     * @param e2 the second individual to be compared
      * @return -1, 0, or 1, where -1 represents "less than", 0 represents "equal to" and 1 represents "greater than"
      */
     @Override

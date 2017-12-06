@@ -30,8 +30,12 @@ public class DomainTest {
     }
     @Test
     public void SecondComputeFitnessTest() throws Exception {
+        try {
             domain.computeFitness(null);
+        } catch (Exception e) {
+            System.out.println("The string can only be 0's and 1's");
         }
+    }
     @Test
     public void ThirdComputeFitnessTest() throws Exception {
         try{

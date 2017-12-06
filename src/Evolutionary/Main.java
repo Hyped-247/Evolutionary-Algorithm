@@ -84,7 +84,7 @@ public class Main {
      *               for example, you could pass in a KingRookKingDomain object
      * @return Array<Individual> - the initial population representing the first generation
      */
-    public ArrayList<Individual>  createInitPop(int popSize, AbstractDomain domain){
+    public ArrayList<Individual>  createInitPop(int popSize, AbstractDomain domain) throws Exception {
         ArrayList<Individual> population = new ArrayList<>();
         for (int i = 0 ; i < popSize ; i++) {
             population.add(new Individual(domain));
@@ -101,7 +101,7 @@ public class Main {
      * @return ArrayList<Individual> - the new population after mutations have occurred
      */
 
-    public ArrayList<Individual> mutate(ArrayList<Individual> population, AbstractDomain domain){
+    public ArrayList<Individual> mutate(ArrayList<Individual> population, AbstractDomain domain) throws Exception {
         int y = (int) (population.size() * domain.getMutationRate());
         Set<Integer> indices = new TreeSet<Integer>();
         // Randomly selecting percentage of population to mutate based on mutation rate
@@ -124,7 +124,7 @@ public class Main {
      *               for example, you could pass in a KingRookKingDomain object
      * @return an ArrayList that has two new children.
      */
-    public ArrayList<Individual> reproduce(Individual father, Individual mother, AbstractDomain domain){
+    public ArrayList<Individual> reproduce(Individual father, Individual mother, AbstractDomain domain) throws Exception {
          ArrayList<Integer> allSplits = getSplits(domain);
          // Does the work of splicing and constructing new individuals
          return sliceAndDice(domain, allSplits, father.getGenMak(), mother.getGenMak());
@@ -162,7 +162,7 @@ public class Main {
      * @param mother : mother genMakUp from Individual object (String)
      * @return
      */
-     ArrayList<Individual> sliceAndDice(AbstractDomain domain, ArrayList<Integer> allIndexes, String father, String mother){
+     ArrayList<Individual> sliceAndDice(AbstractDomain domain, ArrayList<Integer> allIndexes, String father, String mother) throws Exception {
         String kid1 = "";
         String kid2 = "";
          int sub = 0;
@@ -189,7 +189,7 @@ public class Main {
      * @param secondKid String
      * @return @return an ArrayList of two new born kids.
      */
-    private ArrayList<Individual> twoKids(AbstractDomain domain, String firstKid, String secondKid) {
+    private ArrayList<Individual> twoKids(AbstractDomain domain, String firstKid, String secondKid) throws Exception {
         ArrayList<Individual> newKids = new ArrayList<>();
         newKids.add(new Individual(domain, firstKid));
         newKids.add(new Individual(domain, secondKid));
@@ -240,7 +240,7 @@ public class Main {
      * @param kidList ArrayList of kids, to be added to
      * @param domain the domain
      */
-    private void runGeneration(ArrayList<Individual> population, ArrayList<Individual> adultList, ArrayList<Individual> kidList, AbstractDomain domain){
+    private void runGeneration(ArrayList<Individual> population, ArrayList<Individual> adultList, ArrayList<Individual> kidList, AbstractDomain domain) throws Exception {
     	int nextGenSize = adultList.size(); //starts at the size of the adults, increases as children added
 
         while (nextGenSize < domain.getPopSize()) {

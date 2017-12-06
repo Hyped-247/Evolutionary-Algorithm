@@ -12,6 +12,9 @@ public class IndividualCompTest {
     private Main main = new Main();
     private ArrayList<Individual> initPop = main.createInitPop(domain.getPopSize(), domain);
 
+    public IndividualCompTest() throws Exception {
+    }
+
     @Before
     public void initialize() throws Exception {
         domain.initializeDomain(100,10000,5,15,20,
