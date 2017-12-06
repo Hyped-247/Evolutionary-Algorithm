@@ -298,8 +298,8 @@ public class Main {
         ArrayList<Individual> initPop = main.createInitPop(domain.getPopSize(), domain);
         int count = 0;
         main.printStats(count, initPop);
-        ArrayList<Individual> kids = new ArrayList<>();
-        ArrayList<Individual> adults = new ArrayList<>();
+        ArrayList<Individual> kids;
+        ArrayList<Individual> adults;
         count++;
         
         int gen = domain.getGenNum();
