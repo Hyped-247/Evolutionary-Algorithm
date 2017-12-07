@@ -99,7 +99,7 @@ public class Main {
      * @return ArrayList<Individual> - the new population after mutations have occurred
      */
 
-    public ArrayList<Individual> mutate(ArrayList<Individual> population, Domain domain){
+    public ArrayList<Individual> mutate(ArrayList<Individual> population, AbstractDomain domain){
         int y = (int) (population.size() * domain.getMutationRate());
         Set<Integer> indices = new TreeSet<Integer>();
         while(indices.size() < y){
@@ -227,7 +227,7 @@ public class Main {
      * @param kidList list of kids, to be added to
      * @param domain the domain
      */
-    private void runGeneration(ArrayList<Individual> population, ArrayList<Individual> adultList, ArrayList<Individual> kidList, Domain domain){
+    private void runGeneration(ArrayList<Individual> population, ArrayList<Individual> adultList, ArrayList<Individual> kidList, AbstractDomain domain){
     	int nextGenSize = adultList.size(); //starts at the size of the adults, increases as children added
 
         while (nextGenSize < domain.getPopSize()) {
@@ -270,10 +270,10 @@ public class Main {
     
 
     public static void main(String[] args) throws Exception {
-        AbstractDomain domain = new LinearDomain(2,5);
+        AbstractDomain domain = new LinearDomain(1,5);
         Main main = new Main();
         // The bitLength for LinearDomain must conform to the length of representing 
-        domain.initializeDomain(16,100,5,20,5,
+        domain.initializeDomain(16,100,5,100,5,
                 0.2,0.01);
         ArrayList<Individual> initPop = main.createInitPop(domain.getPopSize(), domain); // todo: this shouldn't be here.
         int count = 0;
